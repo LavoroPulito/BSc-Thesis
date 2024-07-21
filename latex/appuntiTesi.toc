@@ -1,0 +1,25 @@
+\contentsline {chapter}{\numberline {1}Preliminary notions}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Network e flow}{3}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Distance based}{9}{section.1.2}%
+\contentsline {chapter}{\numberline {2}Past Algorithm}{11}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Dinic's Algorithm}{11}{section.2.1}%
+\contentsline {paragraph}{Altri link utili}{12}{tcb@cnt@obs.4}%
+\contentsline {section}{\numberline {2.2}Goldberg-Rao}{13}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Idea}{13}{subsection.2.2.1}%
+\contentsline {subparagraph}{}{13}{subsection.2.2.1}%
+\contentsline {subparagraph}{}{13}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Il parametro $\Delta $}{13}{subsection.2.2.2}%
+\contentsline {subparagraph}{}{13}{subsection.2.2.2}%
+\contentsline {subparagraph}{}{13}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Stopping condition}{13}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Scheletro dell'algoritmo}{14}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}Stimare il residual flow}{14}{subsection.2.2.5}%
+\contentsline {subsection}{\numberline {2.2.6}Binary length function}{15}{subsection.2.2.6}%
+\contentsline {subsection}{\numberline {2.2.7}Costo computazionale}{19}{subsection.2.2.7}%
+\contentsline {subsubsection}{Costo di una fase}{19}{subsection.2.2.7}%
+\contentsline {chapter}{\numberline {3}Prim Algorithm}{22}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Idea}{22}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Passaggi}{22}{section.3.2}%
+\contentsline {section}{\numberline {3.3}da s-compact a $\Delta $-compact}{23}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Dubbi}{24}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Sostituzioni}{24}{section.3.5}%
