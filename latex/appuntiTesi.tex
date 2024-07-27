@@ -291,12 +291,14 @@ Il lemma riporta che il problema di trovare il flusso massimo su un Network è \
     \[\sum_{(i,j)\in E'(j)}r_{ij} - \sum_{(j,i)\in E'(j)}r_{ji} = \sum_{(i,j)\in E'(j)}u_{ij} - \sum_{(j,i)\in E'(j)}u_{ji} \]
 \end{lemma}
 \begin{proof}
-    
-    \[\sum_{(i,j)\in E'(j)}(u_{ij}-r_{ij}) - \sum_{(j,i)\in E'(j)}(u_{ji}-r_{ji}) = \]
+    \[\sum_{(i,j)\in E'(j)}r_{ij} - \sum_{(j,i)\in E'(j)}r_{ji} -\sum_{(i,j)\in E'(j)}u_{ij} + \sum_{(j,i)\in E'(j)}u_{ji}= 0 \implies\]
+    \[\sum_{(i,j)\in E'(j)}(u_{ij}-r_{ij}) + \sum_{(j,i)\in E'(j)}(u_{ji}-r_{ji}) = 0 \]
     dato che $r_{ij} = u_{ij} - f_{ji} + f_{ij} \implies u_{ij} -r_{ij} = f_{ji}- f_{ij}$ 
-    \[\sum_{(i,j)\in E'(j)}(f_{ji}-f_{ij}) - \sum_{(j,i)\in E'(j)}(f_{ij}-f_{ji}) = \sum_{(i,j)\in A(j)}(x_{ji}-x_{ij}) = 0\]
+    \[\sum_{(i,j)\in E'(j)}(f_{ji}-f_{ij}) + \sum_{(j,i)\in E'(j)}(f_{ij}-f_{ji}) = \sum_{(i,j)\in e(j)}(f_{ji}-f_{ij}) = 0\]
+    ovvero il vincolo di \textit{conservazione del flow}
     \QED
 \end{proof}
+
 \begin{definition}{Flow decomposiiton}{}
     Dato $f$ un $s-t$ flow su $N$, definiamo  \textit{flow-decomposition}, una collezione di $s-t$ path diretti
     \[P_1, ..., P_s\quad \phi_1,..., \phi_s\]
