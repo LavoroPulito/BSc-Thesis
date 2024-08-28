@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.25)  27 JUL 2024 12:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.25)  28 AUG 2024 19:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -752,7 +752,7 @@ File: tikzlibrarycalc.code.tex 2023-01-15 v3.1.10 (3.1.10)
 
 
 Writing index file appuntiTesi.idx
-Package hyperref Info: Option `colorlinks' set `true' on input line 24.
+Package hyperref Info: Option `colorlinks' set `true' on input line 25.
 \c@tcb@cnt@theo=\count356
 \c@tcb@cnt@corollary=\count357
 \c@tcb@cnt@definition=\count358
@@ -762,30 +762,30 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 24.
 \c@tcb@cnt@algo=\count362
 \c@tcb@cnt@remark=\count363
 \c@tcb@cnt@example=\count364
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 88.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 89.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) (./appuntiTesi.aux)
 \openout1 = `appuntiTesi.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
  (/usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count365
@@ -813,40 +813,40 @@ Package: inputenc 2024/02/08 v1.3d Input encoding file
 )
 
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable tick labels; missing features). Consider writing \pgfplotsset{compat=1.18} into your preamble.
- on input line 88.
+ on input line 89.
 
-Package hyperref Info: Link coloring ON on input line 88.
+Package hyperref Info: Link coloring ON on input line 89.
 (./appuntiTesi.out) (./appuntiTesi.out)
 \@outlinefile=\write5
 \openout5 = `appuntiTesi.out'.
 
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 90.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 91.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 90.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 91.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 90.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 91.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 90.
+(Font)              <12> on input line 91.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 90.
+(Font)              <8> on input line 91.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 90.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 90.
+(Font)              <6> on input line 91.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 91.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 90.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 91.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+stmry on input line 90.
+LaTeX Font Info:    Trying to load font information for U+stmry on input line 91.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
 
 [1
@@ -864,28 +864,27 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.92 \newpage
+l.93 \newpage
               [1
 
 ]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 102.
- (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ts1lmr.fd
+
+[2]
+Chapter 1.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 104.
+(/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 
-[2{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]
-Chapter 1.
-
-
 [3
 
-{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
-Overfull \hbox (1.17297pt too wide) in paragraph at lines 182--189
+{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
+Overfull \hbox (1.17297pt too wide) in paragraph at lines 175--182
 \OT1/lmr/bx/n/10.95 Internal Arcs \OT1/lmr/m/n/10.95 := $\OMS/lmsy/m/n/10.95 f\OT1/lmr/m/n/10.95 (\OML/lmm/m/it/10.95 x; y\OT1/lmr/m/n/10.95 )\OMS/lmsy/m/n/10.95 j\OT1/lmr/m/n/10.95 (\OML/lmm/m/it/10.95 x; y\OT1/lmr/m/n/10.95 ) \OMS/lmsy/m/n/10.95 2 \OML/lmm/m/it/10.95 E \OMS/lmsy/m/n/10.95 ^ \OML/lmm/m/it/10.95 x \OMS/lmsy/m/n/10.95 6\OT1/lmr/m/n/10.95 = \OML/lmm/m/it/10.95 s \OMS/lmsy/m/n/10.95 ^ \OML/lmm/m/it/10.95 y \OMS/lmsy/m/n/10.95 6\OT1/lmr/m/n/10.95 = \OML/lmm/m/it/10.95 t\OMS/lmsy/m/n/10.95 g$ \OT1/lmr/m/n/10.95 ovvero $\OML/lmm/m/it/10.95 E \OMS/lmsy/m/n/10.95 n \OML/lmm/m/it/10.95 External Arcs$ 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 182--189
+Underfull \hbox (badness 10000) in paragraph at lines 175--182
 
  []
 
@@ -894,19 +893,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 182--189
 [4{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 238--239
+Underfull \hbox (badness 10000) in paragraph at lines 231--232
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 293--294
+Underfull \hbox (badness 10000) in paragraph at lines 286--287
 
  []
 
 
 
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 313--314
+Underfull \hbox (badness 10000) in paragraph at lines 307--308
 
  []
 
@@ -921,14 +920,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 313--314
 [10]
 Chapter 2.
 
-Underfull \hbox (badness 10000) in paragraph at lines 473--478
+Underfull \hbox (badness 10000) in paragraph at lines 535--540
 
  []
 
-<images/levelGraph.png, id=232, 1128.215pt x 623.32875pt>
+<images/levelGraph.png, id=247, 1128.215pt x 623.32875pt>
 File: images/levelGraph.png Graphic file (type png)
 <use images/levelGraph.png>
-Package pdftex.def Info: images/levelGraph.png  used on input line 484.
+Package pdftex.def Info: images/levelGraph.png  used on input line 546.
 (pdftex.def)             Requested size: 270.36397pt x 149.37697pt.
 
 
@@ -939,15 +938,15 @@ Package pdftex.def Info: images/levelGraph.png  used on input line 484.
 [12]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 513.
+(hyperref)                removing `math shift' on input line 575.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Delta' on input line 513.
+(hyperref)                removing `\Delta' on input line 575.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 513.
+(hyperref)                removing `math shift' on input line 575.
 
 
 
@@ -956,32 +955,32 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 [14]
 
 [15]
-Underfull \hbox (badness 10000) in paragraph at lines 599--599
+Underfull \hbox (badness 10000) in paragraph at lines 661--661
 
  []
 
 
 
 [16]
-Overfull \hbox (23.73213pt too wide) in paragraph at lines 657--659
+Overfull \hbox (23.73213pt too wide) in paragraph at lines 719--721
 \OT1/lmr/m/n/10.95 Quindi il per-corso all'iterazione $\OML/lmm/m/it/10.95 j$ \OT1/lmr/m/n/10.95 ^^Re mag-giore o uguale a quello dell'iterazione
  []
 
 
 
 [17]
-Overfull \hbox (18.79295pt too wide) in paragraph at lines 687--758
+Overfull \hbox (18.79295pt too wide) in paragraph at lines 749--820
 [][] 
  []
 
 
 
 [18]
-Overfull \hbox (10.6562pt too wide) in paragraph at lines 787--788
+Overfull \hbox (10.6562pt too wide) in paragraph at lines 849--850
 \OT1/lmr/m/n/10.95 Prima di ad-den-trarci nel costo di una fase, rive-di-amo la strut-tura dell'algoritmo
  []
 
-LaTeX Font Info:    Trying to load font information for OT1+lmtt on input line 788.
+LaTeX Font Info:    Trying to load font information for OT1+lmtt on input line 850.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ot1lmtt.fd
 File: ot1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -993,41 +992,55 @@ File: ot1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 [21]
 Chapter 3.
 
-Underfull \hbox (badness 10000) in paragraph at lines 891--903
-
- []
-
-
 
 [22
 
 ]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 910.
+(Font)              <14.4> on input line 974.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 910.
+(Font)              <10> on input line 974.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 910.
+(Font)              <7> on input line 974.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 910.
+(hyperref)                removing `math shift' on input line 974.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Delta' on input line 910.
+(hyperref)                removing `\Delta' on input line 974.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 910.
+(hyperref)                removing `math shift' on input line 974.
 
 
 
 [23]
+Underfull \hbox (badness 10000) in paragraph at lines 992--1004
+
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1011.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\Delta' on input line 1011.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1011.
+
+
 
 [24]
 
-[25
+[25]
+
+[26
 
 ] (./appuntiTesi.aux)
  ***********
@@ -1035,21 +1048,21 @@ LaTeX2e <2024-06-01> patch level 1
 L3 programming layer <2024-05-27>
  ***********
 Package rerunfilecheck Info: File `appuntiTesi.out' has not changed.
-(rerunfilecheck)             Checksum: C43746F54512D5B36313909AE24E78B6;2517.
+(rerunfilecheck)             Checksum: 30E2DAC0435031929893167B0D924731;3137.
  ) 
 Here is how much of TeX's memory you used:
- 39472 strings out of 473600
- 930324 string characters out of 5728702
+ 39531 strings out of 473600
+ 931341 string characters out of 5728702
  1947905 words of memory out of 5000000
- 61577 multiletter control sequences out of 15000+600000
+ 61624 multiletter control sequences out of 15000+600000
  607760 words of font info for 88 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  86i,15n,98p,785b,1105s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on appuntiTesi.pdf (26 pages, 1161523 bytes).
+Output written on appuntiTesi.pdf (27 pages, 1169567 bytes).
 PDF statistics:
- 463 PDF objects out of 1000 (max. 8388607)
- 370 compressed objects within 4 object streams
- 122 named destinations out of 1000 (max. 500000)
- 314 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 492 PDF objects out of 1000 (max. 8388607)
+ 398 compressed objects within 4 object streams
+ 134 named destinations out of 1000 (max. 500000)
+ 338 words of extra memory for PDF output out of 10000 (max. 10000000)
 

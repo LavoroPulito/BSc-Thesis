@@ -12,6 +12,7 @@
 \usepackage{hyperref}
 \usepackage{titlesec}
 \usepackage{enumitem}
+
 \usetikzlibrary{calc}
 \makeindex[columns=3, title=Alphabetical Index, intoc]
 \hypersetup{
@@ -95,14 +96,6 @@ Ciò che segue è una relazione che ha lo scopo di analizzare la soluzione propo
 Dato che per comprendere a pieno il suo funzionamento è necessario conoscere anche alcuni algoritmi precedenti, anche questi vengono spiegati nella relazione. 
 Gli algoritmi sono presentati in ordine cronologico a partire dall'algoritmo di Dinics, continuando con Goldberg-Rao e giungendo alla soluzione più recente e efficace di Prim.
 Prima di iniziare con le soluzioni però, è presente un capitolo che spiega alcune nozioni preliminari sulla teoria dei grafi necessarie per comprendere il funzionamento delle soluzioni.
-
-\paragraph*{Nota}
-La relazione è in fase di sviluppo:
-\begin{itemize}
-    \item Quanto segue ha l'utilità di presentare e far comprendere il funzionamento dell'algoritmo di Goldberg-Rao fino alle dimostrazioni di correttezza.
-    \item Manca tuttavia la dimostrazione del costo computazionale.
-\end{itemize}
-Per quanto riguarda l'algoritmo di Prim, sono presenti solo alcuni passaggi.
 
 \chapter{Preliminary notions}
 \section{Network e flow}
@@ -294,10 +287,11 @@ Il lemma riporta che il problema di trovare il flusso massimo su un Network è \
     \[\sum_{(i,j)\in E'(j)}r_{ij} - \sum_{(j,i)\in E'(j)}r_{ji} -\sum_{(i,j)\in E'(j)}u_{ij} + \sum_{(j,i)\in E'(j)}u_{ji}= 0 \implies\]
     \[\sum_{(i,j)\in E'(j)}(u_{ij}-r_{ij}) + \sum_{(j,i)\in E'(j)}(u_{ji}-r_{ji}) = 0 \]
     dato che $r_{ij} = u_{ij} - f_{ji} + f_{ij} \implies u_{ij} -r_{ij} = f_{ji}- f_{ij}$ 
-    \[\sum_{(i,j)\in E'(j)}(f_{ji}-f_{ij}) + \sum_{(j,i)\in E'(j)}(f_{ij}-f_{ji}) = \sum_{(i,j)\in e(j)}(f_{ji}-f_{ij}) = 0\]
+    \[\sum_{(i,j)\in E'(j)}(f_{ji}-f_{ij}) + \sum_{(j,i)\in E'(j)}(f_{ij}-f_{ji}) = \sum_{(i,j)\in E(j)}(f_{ji}-f_{ij}) = 0\]
     ovvero il vincolo di \textit{conservazione del flow}
     \QED
 \end{proof}
+\section{Decomposition e transfering del flow}
 
 \begin{definition}{Flow decomposiiton}{}
     Dato $f$ un $s-t$ flow su $N$, definiamo  \textit{flow-decomposition}, una collezione di $s-t$ path diretti
@@ -344,21 +338,89 @@ Un \textbf{osservazione} intuitiva è che il massimo numero di decomposizioni di
 \end{tikzpicture} \\
 Esempio di flow decomposto
 \end{center}
-Da questo grafo possiamo notare che (capacità permettendo ovviamente), un feasible flow da $s \rightarrow t$ può essere decomposto come il percorsi con almeno un arco 
-differente che lo compongono. In particolare notiamo nel grafo:
+Da questo grafo possiamo notare che (capacità permettendo ovviamente), un feasible flow da $s \rightarrow t$ può essere decomposto come il percorsi con \textbf{almeno un arco 
+differente} che lo compongono. In particolare notiamo nel grafo:
 \begin{itemize}
     \item  in \textbf{nero} il grafo del network
     \item in \textbf{\color{red}{rosso}}, \textbf{\color{green!70!black}{verde}} e \textbf{\color{blue}{blu}} tre differenti $paths$ da $s\rightarrow t$
 \end{itemize}
-
+\newpage
 Un'altro passaggio fondamentale da comprendere per la risoluzione del problema il trasferimento di capacità.
 \begin{definition}{Tranfer}{}
     Dato un arco $(i,j) \in E$ e un $path\ P\ i\rightarrow j$ con $|P|\ge 2$, \textbf{trasferire} $\delta$ unita di capacità da $P$ a $(i,j)$
     significa ridurre $\forall (k,l) \in P$ $u_{kl}$ di $\delta$ unità e aggiungere $\delta$ unità a $u_{ij}$ 
 \end{definition}
 \begin{lemma}{capacity tranfer lemma}{}
-    \textit{to do}
+    Sia $P$ un $path$ in $G$ da $i$ a $j$ e sia $(S,T)$ un taglio. Sia $u'$ la capacità dell'arco $(i,j)$ ottenuta trasferendo $\delta$ capacità dal path $P$. Allora è vero che
+    \[u'(S,T) \le u(S,T)\] 
 \end{lemma}
+\begin{proof}
+    La dimostrazione è banale se $i,j \in S \lor i,j \in T$ dato che $u'(P) \le u(P) \implies u'(S,T)\le u(S,T)$.\\
+    Mentre invece se $i\in S \land j \in T$, se consideriamo $k \in P$ il primo nodo di $P$ in $T$ e $l \in P$ il nodo subito precedente a $k$, possiamo stimare 
+    \[u'(S,T)-u(S,T)\le (u'_{kl}+u'_{ij})- (u_{kl}+u_{ij}) = -\delta + \delta = 0\]\QED
+\end{proof}
+
+
+\[\begin{tabular}{c|c}
+    \begin{tikzpicture}[node distance={15mm}, thick , main/.style = {draw, circle}] 
+    % Disegna i nodi del grafo
+    
+    \node[main] (1) {i};
+    \node[main] (0) [above left of = 1] {$s$};
+    \node[main] (2) [above right of=1] {$2$};
+    \node[main] (3) [below right of=1] {$j$};
+    \node[main] (4) [right of=2] {$4$};
+    \node[main] (6) [below right of=4] {$6$};
+    \node[main] (5) [below of=4] {$5$};
+    % Disegna gli archi orientati
+    \draw[->] (0) to (1);
+    \draw[->,line width=1.5 pt] (1)[red, bend left] to (2);
+    \draw[->,line width=1.5 pt] (1)[green!80!black, bend right] to (3);
+    \draw[->,line width=1.5 pt] (2)[red, bend left] to (4);
+    \draw[->,line width=1.5 pt] (4)[red,bend left] to (5);
+    \draw[->] (4)[bend left] to (6);
+    \draw[->] (3)[bend right = 50] to (6);
+    \draw[->,line width=1.5 pt] (5)[red,bend left] to (3);
+
+    % Aggiungi una linea tratteggiata per dividere il grafo in due
+    \draw[dashed] (1.7,-2) -- (1.7,2);
+    \node at (1.7,2.2) {s-t\ cut};
+
+\end{tikzpicture}& 
+\begin{tikzpicture}[node distance={15mm}, thick , main/.style = {draw, circle}] 
+    % Disegna i nodi del grafo
+    
+    
+    \node[main] (0) {$s$};
+    \node[main] (1) [below right of = 0] {i};
+    \node[main] (2) [above right of=0] {$2$};
+    \node[main] (4) [right of=2] {$4$};
+    \node[main] (6) [below right of=4] {$6$};
+    \node[main] (3) [below left of=6] {$j$};
+    % Disegna gli archi orientati
+    \draw[->] (0)[bend right] to (1);
+    \draw[->,line width=1.5 pt] (1)[red, bend left] to (2);
+    \draw[->,line width=1.5 pt] (1)[green!80!black, bend right] to (3);
+    \draw[->,line width=1.5 pt] (2)[red, bend left] to (4);
+    \draw[->,line width=1.5 pt] (4)[red, bend left] to (3);
+    
+    \draw[->] (4)[bend left] to (6);
+    \draw[->] (3)[bend right] to (6);
+
+
+    % Aggiungi una linea tratteggiata per dividere il grafo in due
+    \draw[dashed] (1.7,-2) -- (1.7,2);
+    \node at (1.7,2.2) {s-t\ cut};
+
+\end{tikzpicture}\\
+    \multicolumn{2}{c}{in {\color{red}{rosso}} il path P, in {\color{green!80!black}{verde}} l'arco (i,j)}
+ 
+
+
+\end{tabular}\]
+
+Possiamo dire in generale quindi che trasferire capacità non aumenta il max flow instradabile in un network.
+
 \newpage
 \section{Distance based}
 \begin{definition}[label = VDL]{Valid distance labeling}{}
@@ -881,12 +943,51 @@ Di seguito la lista dei passaggi che il programma svolge per risolvere il proble
 \begin{enumerate}
     \item scegliere un cut $(S,T)$
     \item calcolo del residual graph
-    \item calcolo del abundant graph (+ chiusura transitiva)
-    \item riduzione del residual graph a strongly compact
-    \item riduzione dello strongly compact a $\Delta$-compact
+    \item calcolo del \textit{abundant graph} (+ chiusura transitiva)
+    \item riduzione del residual graph a \textit{strongly compact}
+    \item riduzione dello \textit{strongly compact} a \textit{$\Delta$-compact}
 \end{enumerate}
 
-La particolarità di questo algorirmo sta nella scelta della modalità di incremento del flusso.
+La particolarità di questo algoritmo sta nella scelta della modalità di incremento del flusso.
+\newpage
+\section{Fase di incremento}
+Il max-flow flow problem viene risolto attraverso una serie di \textit{fasi di incremento}, vediamo quindi quali sono gli input e gli output di ogni fase:
+\begin{itemize}[itemsep=0.5ex]
+    \item \textbf{input}
+    \begin{enumerate}
+        \item un \textit{Flow} $f$
+        \item un \textit{Residual Graph} $G_f$, rappresentabile anche come $r: E \rightarrow \mathbb{R}$ la funzione che associa a ogni arco la sua capacità residua
+        \item un s-t cut $(S,T)$
+    \end{enumerate}
+    Possiamo rappresentare l'input con la tripla $(r,S,T)$
+    \item \textbf{output}
+    \begin{enumerate}
+        \item un \textit{Flow} $f'$
+        \item un \textit{Residual Graph} $G_f'$
+        \item un s-t cut $(S',T')$ tale che $r'(S',T') \le \frac{r(S,T)}{4m}$
+    \end{enumerate}
+\end{itemize}
+Questa fase prende il nome di $\Delta\text{-}improvment\ phase$ dove $\Delta = r(S,T)$.
+
+Questo tipo di incremento viene eseguito, a seconda delle condizioni, o sul network $G$ oppure sul \textit{compact network} $G^c$
+
+\section{$\Delta$-abundant e grafo di abbondanza}
+In questa sezione viene presentato il concetto di \textbf{Abbondanza} che in un certo senso sostituisce quello di \textbf{lunghezza} di Goldberg-Rao, che infatti non è sfruttato per la soluzione di Prim.
+\begin{definition}{$\Delta$-abundant arc}{}
+    Sia $\Delta = r(S,T)$ un arco $(i,j)$ si dice $\Delta$-abbondante se $r_{ij} \ge 2\Delta$ 
+     
+\end{definition}
+\begin{lemma}{}{}
+    Sia $(r,S,T)$ l'input di una $\Delta\text{-}improvment\ phase$. Se l'arco $(i,j)$ è abbondate prima dell'incremento allora rimmarrà abbondante per tutti gli incrementi successivi.
+\end{lemma}
+\begin{proof}
+    Dato che 
+    $\Delta' \le \frac{\Delta}{4m} $ e ricordando che $r_{ij} \ge 2\Delta $ si deduce che 
+    allora \[r'_{ij} \ge r_{ij}-\Delta \ge\Delta\ge  2\Delta'\]\QED
+\end{proof}
+
+
+\newpage
 \begin{algo}{improve-approx-2}{}
     $01.\quad \Delta := r(S,T)$\\
     $02.\quad$ let c be the number of $\Delta$-critical nodes\\
