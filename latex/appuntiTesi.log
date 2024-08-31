@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.25)  28 AUG 2024 19:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.25)  30 AUG 2024 17:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -924,7 +924,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 535--540
 
  []
 
-<images/levelGraph.png, id=247, 1128.215pt x 623.32875pt>
+<images/levelGraph.png, id=252, 1128.215pt x 623.32875pt>
 File: images/levelGraph.png Graphic file (type png)
 <use images/levelGraph.png>
 Package pdftex.def Info: images/levelGraph.png  used on input line 546.
@@ -1018,29 +1018,38 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 
 [23]
-Underfull \hbox (badness 10000) in paragraph at lines 992--1004
+
+[24]
+Underfull \hbox (badness 10000) in paragraph at lines 1013--1016
+
+ []
+
+
+
+[25]
+Underfull \hbox (badness 10000) in paragraph at lines 1201--1213
 
  []
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1011.
+(hyperref)                removing `math shift' on input line 1220.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Delta' on input line 1011.
+(hyperref)                removing `\Delta' on input line 1220.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1011.
+(hyperref)                removing `math shift' on input line 1220.
 
 
 
-[24]
+[26]
 
-[25]
+[27]
 
-[26
+[28
 
 ] (./appuntiTesi.aux)
  ***********
@@ -1048,21 +1057,21 @@ LaTeX2e <2024-06-01> patch level 1
 L3 programming layer <2024-05-27>
  ***********
 Package rerunfilecheck Info: File `appuntiTesi.out' has not changed.
-(rerunfilecheck)             Checksum: 30E2DAC0435031929893167B0D924731;3137.
+(rerunfilecheck)             Checksum: BE9963B4BB4A1D05B43917ED62A0A820;3351.
  ) 
 Here is how much of TeX's memory you used:
- 39531 strings out of 473600
- 931341 string characters out of 5728702
- 1947905 words of memory out of 5000000
- 61624 multiletter control sequences out of 15000+600000
+ 39631 strings out of 473600
+ 933201 string characters out of 5728702
+ 1955905 words of memory out of 5000000
+ 61717 multiletter control sequences out of 15000+600000
  607760 words of font info for 88 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  86i,15n,98p,785b,1105s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on appuntiTesi.pdf (27 pages, 1169567 bytes).
+Output written on appuntiTesi.pdf (29 pages, 1179581 bytes).
 PDF statistics:
- 492 PDF objects out of 1000 (max. 8388607)
- 398 compressed objects within 4 object streams
- 134 named destinations out of 1000 (max. 500000)
- 338 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 512 PDF objects out of 1000 (max. 8388607)
+ 415 compressed objects within 5 object streams
+ 141 named destinations out of 1000 (max. 500000)
+ 346 words of extra memory for PDF output out of 10000 (max. 10000000)
 
