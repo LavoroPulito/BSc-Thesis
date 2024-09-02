@@ -653,7 +653,8 @@ Nella sezione 2.2 useremo la segue notazione:
     \end{array} \right .\]
 \textit{NOTA: Introdurre gli specialArc non modifica la distance labeling: $d_l = d_{\bar{l}}$}
 
-    \begin{lemma}{Da contratto a originale}{}
+    \begin{lemma}[label = fixCont]{Da contratto a originale}{}
+        
         Supponiamo di avere contratto il Network originale come descritto fin'ora, e di aver instradato un flusso $f$ attraverso il grafo contratto.
         \paragraph*{}
         Il costo computazionale di adattare questo flusso attraverso il grafo originale è $O(m)$
@@ -1154,13 +1155,17 @@ E dunque tutti i cicli abbondanti
     \draw[->] (0) [bend left] to (5);
     \draw[->] (0) [bend right] to (6);
     \draw[->] (0)  to (1);
-    \draw[->] (1)  to (2);
-    \draw[->] (2)  to (3);
-    \draw[->] (3)  to (1);
+    \draw[->] (1)[red]  to (2);
+    \draw[->] (2)[red]  to (3);
+    \draw[->] (3)[red]  to (1);
     \draw[->] (2)  to (4);
     \draw[->] (3)  to (4);
     \draw[->] (5) [bend left = 45] to (4);
     \draw[->] (6) [bend right = 45] to (4);
+
+    \node at (3.1,0) {$2\Delta$};
+    \node at (1.7,0.577*1.4) {$2\Delta$};
+    \node at (1.7,-0.577*1.4) {$2\Delta$};
     
 
 \end{tikzpicture}&\begin{tikzpicture}
@@ -1182,17 +1187,141 @@ E dunque tutti i cicli abbondanti
     \draw[->] (6) [bend right] to (4);
 
     \draw[->] (0) to (1);
-    \draw[->] (1) to (4);
+    \draw[->] (1) [bend left= 15] to (4);
+    \draw[->] (1) [bend right = 15] to (4);
+
+\end{tikzpicture}
+\end{tabular}\]
+\begin{obs}{Violazioni della conservazione del flusso}{}
+    È possibile che quando il grafo contratto verrà riespanso venga violata la legge di conservazione del flusso. 
     
-  
+    Tuttavia si tratta di una violazione minore di $2\Delta$ unità dunque, come mostrato da \hyperref[fixCont]{Goldberg e Rao} la contrazione, l'espansione e l'adattamento per la conservazione del flusso possono essere eseguiti in tempo $O(m)$. 
+\end{obs}
+\section{The compact network}
+Oltre alla contrazione del grafo è necessario eseguire un'altra trasformazione, la \textit{compattazione}.
+Per ottenere un grafo compatto mostriamo prima come ottenere una versione intermedia ovvero lo \textbf{strongly compact network}.
+
+\noindentÈ importante comprendere la differenza tra contrarre e compattare:
+
+Se nella contrazione viene creato un nodo unico che rappresenta il ciclo abbondate e vengono preservati gli archi originali non appartenenti al ciclo, 
+quando si compatta un grafo viene \underline{eliminato} un nodo che ha tutti gli archi adiacenti abbondanti e gli archi eliminanti di conseguenza vengono sostituiti da pseudo archi.
+
+\[\begin{tabular}{ccc}
+    \begin{tikzpicture}[node distance={18mm}, thick , main/.style = {draw, circle}] 
+    % Disegna i nodi del grafo
     
+    \node[main] (0) {$s$};
+    \node[main] (1) at (1, 1.6) {1};
+    \node[main] (2) at (1, -1.6) {2};
+    \node[main] (3) at (3.5, 1.6) {3};
+    \node[main] (4) at (3.5, -1.6) {4};
+    \node[main] (6) at (2.25,0) {5};
+    \node[main] (5) at (4.5, 0) {$t$};
+
+    \draw[->] (0)[bend left] to (1);
+    \draw[->] (0)[bend right] to (2);
+    \draw[->] (1)[bend left] to (3);
+    \draw[->] (2)[bend right] to (4);
+    \draw[->] (4)[bend right] to (5);
+    \draw[->] (3)[bend left] to (5);
+
+    \draw[->] (1)[red, bend right] to (6);
+    \draw[->] (6)[red, bend right] to (4);
+    \draw[->] (6)[red, bend left] to (3);
+    \draw[->] (2)[red, bend left] to (6);
+    \draw[->] (6) [red] to (5);
+
+    \node at (3.3,0.2) {$2\Delta$};
+    \node at (2.3,1.2) {$2\Delta$};
+    \node at (2.3,-1.2) {$2\Delta$};
+
+    \node at (1,.7) {$2\Delta$};
+    \node at (1,-.7) {$2\Delta$};
+    
+
+\end{tikzpicture}&\begin{tikzpicture}
+    \node {$\implies$};% Freccia verso destra
+    \node at (0,1.4) {};
+    \node at (0,-1.95) {};
+\end{tikzpicture}  &
+\begin{tikzpicture}[node distance={19mm}, thick , main/.style = {draw, circle}] 
+    % Disegna i nodi del grafo
+    \node[main] (0) {$s$};
+    \node[main] (1) at (1, 1.6) {1};
+    \node[main] (2) at (1, -1.6) {2};
+    \node[main] (3) at (3.5, 1.6) {3};
+    \node[main] (4) at (3.5, -1.6) {4};
+    \node[main] (5) at (4.5, 0) {$t$};
+
+    \draw[->] (0)[bend left] to (1);
+    \draw[->] (0)[bend right] to (2);
+    \draw[->] (1)[bend left] to (3);
+    \draw[->] (2)[bend right] to (4);
+    \draw[->] (4)[bend right] to (5);
+    \draw[->] (3)[bend left] to (5);
+
+    \draw[->] (1)[red, bend right] to (3);
+    \draw[->] (2)[red, bend left] to (4);
+    \draw[->] (2)[red, bend left = 23] to (5);
+    \draw[->] (1)[red, bend right = 23] to (5);
+
 
 \end{tikzpicture}
 \end{tabular}\]
 
+\begin{algo}{strongly compact network}{}
+    Definiamo lo \textbf{Strongly compact} come $G^{sc} =(N^{sc}, E^{sc})$ originato dal network $G$:
+    \begin{enumerate}
+        \item Contrarre il grafo di tutti gli abundant cycles e degli archi esterni abbondanti.\\
+        Sia $(r,S,T)$ l'input dopo la contrazione.
+        \item Sia $N^{sc}\subseteq N(G)$ l'insieme dei nodi che sono adiacenti ad almeno un arco non abbondante.\\
+        Ci riferiremo a $N(G)\setminus N^{sc}$ come l'insieme dei nodi \textit{strongly compactible}.
+        \item Definiamo gli archi come $E^{sc} = E^1 \cup E^2$ dove:\\
+        $E^1 = \{(i,j): i\in N^{sc}\land j\in N^{sc}\land (i,j)\in E(G)\}$\\
+        $E^2 = \{(i,j): i\in N^{sc}\land j\in N^{sc}\land i\implies j\}$\\
+        Dunque abbiamo archi originali in $E^1$ e pseudo archi che derivano dagli abundant path.
+        
+    \end{enumerate}
+    
+\end{algo}
+    Il seguente algoritmo ha tempo $O(m + |E^{sc}|)$ in quanto si possono costruire gli pseudo archi in tempo $O(1)$ dato che viene dinamicamente preservata la chiusura transitiva. 
+\begin{theo}{$f_{max} = f_{max}^{sc}$}{}
+    Sia $f_{max}$ il flusso massimo nel network $G$ e sia $f_{max}^{sc}$ il flusso massimo in $G^{sc}$ allora 
+    \[f_{max} = f_{max}^{sc}\]
+\end{theo}
+\begin{proof}
+    Abbiamo già mostrato che qualsiasi flow in $G^{sc}$ può essere reindirizzato in $G$.
+    Se invece prendiamo un flow in $G$, è possibile instradarlo in $G^{sc}$ usando la \textbf{flow decomposition} per ottenere da $f$ un insieme di path diversi almeno per un arco,
+    \[f := \{P^0, P^1, ..., P^k\}\]
+    Possiamo suddividere ancora ogni $P^a\in f$ in subpath \[P^{a}_{i\rightarrow j}| i\in N^{sc}\land j\in N^{sc}\land \forall q \in P^a_{i\rightarrow j}, q\not = i \land q\not = j \implies q\in N\setminus N^{sc}\] 
+    A questo punto sostituiamo ogni $P^{a}_{i\rightarrow j}$ in $G$ non  interamente contenuto in $G^{sc}$ con lo pseudo arco corrispettivo $(i,j)$.
+    \QED
+\end{proof}
 
 
 
+\section{Da sc-compact a $\Delta$-compact}
+Il tempo $O(nm)$ si basa sul fatto che calcolare un max flow \textit{approssimato} su un grafo $\Delta$-compact sia di molto inferiore a calcolarlo sul grafo originale.
+
+Prima di proseguire è importante distinguere diversi tipo di archi.
+\begin{definition}{Classificazioni di capacità}{}
+    Un arco $(i,j)$ rispetto a $\Delta$ ha:
+    \begin{enumerate}
+        \item \textbf{small capacity} se $r_{ij}+r_{ji} < \Delta/(64m^2)$
+        \item \textbf{medium capacity} se $r_{ij} \ge \Delta/(64m^2) \land r_{ij}+r_{ji} < 4\Delta$
+        \item \begin{enumerate}
+            \item \textbf{internal anti-abundant} se $r_{ij} \le 2\Delta \land r_{ji} \ge 2\Delta$
+            \item \textbf{external anti-abundant} se non abundant 
+        \end{enumerate}
+        \item \textbf{abundant} se $r_{ij} \ge 2\Delta$
+    \end{enumerate}
+    
+\end{definition}
+Le Differenze tra strongly compact e $\Delta$-compact sono che:
+\begin{enumerate}
+    \item Nel $\Delta$-compact viene trasferita della capacità residua da alcuni archi ad altri o a pseudo archi creati appositamente per semplificare il grafo;
+    \item Nel $\Delta$-compact i nodi adiacenti a archi con capacità residua troppo esigua vengono compattati.
+\end{enumerate}
 
 
 
@@ -1215,23 +1344,6 @@ E dunque tutti i cicli abbondanti
     
     
 \end{algo}
-
-
-\section{da s-compact a $\Delta$-compact}
-Il tempo $O(nm)$ si basa sul fatto che calcolare un max flow \textit{approssimato} su un grafo $\Delta$-compact sia di molto inferiore a calcolarlo sul grafo originale.
-\begin{definition}{Classificazioni di capacità}{}
-    un arco $(i,j)$ rispetto a $\Delta$ ha:
-    \begin{enumerate}
-        \item \textbf{small capacity} se $r_{ij}+r_{ji} < \Delta/(64m^2)$
-        \item \textbf{medium capacity} se $r_{ij} \ge \Delta/(64m^2) \land r_{ij}+r_{ji} < 4\Delta$
-        \item \begin{enumerate}
-            \item \textbf{internal anti-abundant} se $r_{ij} \le 2\Delta \land r_{ji} \ge 2\Delta$
-            \item \textbf{external anti-abundant} se non abundant 
-        \end{enumerate}
-        \item \textbf{abundant} se $r_{ij} \ge 2\Delta$
-    \end{enumerate}
-    
-\end{definition}
 
 
 \newpage

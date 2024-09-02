@@ -24,6 +24,7 @@
 \contentsline {section}{\numberline {3.3}Fase di incremento}{23}{section.3.3}%
 \contentsline {section}{\numberline {3.4}$\Delta $-abundant e grafo di abbondanza}{23}{section.3.4}%
 \contentsline {section}{\numberline {3.5}Contractions of abundant graph}{25}{section.3.5}%
-\contentsline {section}{\numberline {3.6}da s-compact a $\Delta $-compact}{26}{section.3.6}%
-\contentsline {section}{\numberline {3.7}Dubbi}{27}{section.3.7}%
-\contentsline {section}{\numberline {3.8}Sostituzioni}{27}{section.3.8}%
+\contentsline {section}{\numberline {3.6}The compact network}{26}{section.3.6}%
+\contentsline {section}{\numberline {3.7}Da sc-compact a $\Delta $-compact}{28}{section.3.7}%
+\contentsline {section}{\numberline {3.8}Dubbi}{30}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Sostituzioni}{30}{section.3.9}%

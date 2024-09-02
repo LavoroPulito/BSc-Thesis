@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.25)  30 AUG 2024 17:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.25)  2 SEP 2024 17:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -924,7 +924,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 535--540
 
  []
 
-<images/levelGraph.png, id=252, 1128.215pt x 623.32875pt>
+<images/levelGraph.png, id=257, 1128.215pt x 623.32875pt>
 File: images/levelGraph.png Graphic file (type png)
 <use images/levelGraph.png>
 Package pdftex.def Info: images/levelGraph.png  used on input line 546.
@@ -955,32 +955,32 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 [14]
 
 [15]
-Underfull \hbox (badness 10000) in paragraph at lines 661--661
+Underfull \hbox (badness 10000) in paragraph at lines 662--662
 
  []
 
 
 
 [16]
-Overfull \hbox (23.73213pt too wide) in paragraph at lines 719--721
+Overfull \hbox (23.73213pt too wide) in paragraph at lines 720--722
 \OT1/lmr/m/n/10.95 Quindi il per-corso all'iterazione $\OML/lmm/m/it/10.95 j$ \OT1/lmr/m/n/10.95 ^^Re mag-giore o uguale a quello dell'iterazione
  []
 
 
 
 [17]
-Overfull \hbox (18.79295pt too wide) in paragraph at lines 749--820
+Overfull \hbox (18.79295pt too wide) in paragraph at lines 750--821
 [][] 
  []
 
 
 
 [18]
-Overfull \hbox (10.6562pt too wide) in paragraph at lines 849--850
+Overfull \hbox (10.6562pt too wide) in paragraph at lines 850--851
 \OT1/lmr/m/n/10.95 Prima di ad-den-trarci nel costo di una fase, rive-di-amo la strut-tura dell'algoritmo
  []
 
-LaTeX Font Info:    Trying to load font information for OT1+lmtt on input line 850.
+LaTeX Font Info:    Trying to load font information for OT1+lmtt on input line 851.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/ot1lmtt.fd
 File: ot1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -997,59 +997,66 @@ Chapter 3.
 
 ]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 974.
+(Font)              <14.4> on input line 975.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 974.
+(Font)              <10> on input line 975.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 974.
+(Font)              <7> on input line 975.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 974.
+(hyperref)                removing `math shift' on input line 975.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Delta' on input line 974.
+(hyperref)                removing `\Delta' on input line 975.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 974.
+(hyperref)                removing `math shift' on input line 975.
 
 
 
 [23]
 
 [24]
-Underfull \hbox (badness 10000) in paragraph at lines 1013--1016
+Underfull \hbox (badness 10000) in paragraph at lines 1014--1017
 
  []
 
 
 
 [25]
-Underfull \hbox (badness 10000) in paragraph at lines 1201--1213
+
+[26]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1303.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\Delta' on input line 1303.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1303.
+
+
+
+[27]
+
+[28]
+Underfull \hbox (badness 10000) in paragraph at lines 1330--1342
 
  []
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1220.
 
+[29]
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Delta' on input line 1220.
+[30]
 
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1220.
-
-
-
-[26]
-
-[27]
-
-[28
+[31
 
 ] (./appuntiTesi.aux)
  ***********
@@ -1057,21 +1064,21 @@ LaTeX2e <2024-06-01> patch level 1
 L3 programming layer <2024-05-27>
  ***********
 Package rerunfilecheck Info: File `appuntiTesi.out' has not changed.
-(rerunfilecheck)             Checksum: BE9963B4BB4A1D05B43917ED62A0A820;3351.
+(rerunfilecheck)             Checksum: 9B8716B6AC1B6DBA27AB15620335E5F5;3512.
  ) 
 Here is how much of TeX's memory you used:
- 39631 strings out of 473600
- 933201 string characters out of 5728702
- 1955905 words of memory out of 5000000
- 61717 multiletter control sequences out of 15000+600000
+ 39672 strings out of 473600
+ 933845 string characters out of 5728702
+ 1958905 words of memory out of 5000000
+ 61746 multiletter control sequences out of 15000+600000
  607760 words of font info for 88 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  86i,15n,98p,785b,1105s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on appuntiTesi.pdf (29 pages, 1179581 bytes).
+Output written on appuntiTesi.pdf (32 pages, 1188330 bytes).
 PDF statistics:
- 512 PDF objects out of 1000 (max. 8388607)
- 415 compressed objects within 5 object streams
- 141 named destinations out of 1000 (max. 500000)
- 346 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 542 PDF objects out of 1000 (max. 8388607)
+ 442 compressed objects within 5 object streams
+ 153 named destinations out of 1000 (max. 500000)
+ 354 words of extra memory for PDF output out of 10000 (max. 10000000)
 
