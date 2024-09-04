@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.25)  2 SEP 2024 17:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.25)  3 SEP 2024 15:15
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1046,7 +1046,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 [27]
 
 [28]
-Underfull \hbox (badness 10000) in paragraph at lines 1330--1342
+Underfull \hbox (badness 10000) in paragraph at lines 1344--1346
 
  []
 
@@ -1055,8 +1055,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 1330--1342
 [29]
 
 [30]
+Underfull \hbox (badness 10000) in paragraph at lines 1421--1433
 
-[31
+ []
+
+
+
+[31]
+
+[32]
+
+[33
 
 ] (./appuntiTesi.aux)
  ***********
@@ -1067,18 +1076,18 @@ Package rerunfilecheck Info: File `appuntiTesi.out' has not changed.
 (rerunfilecheck)             Checksum: 9B8716B6AC1B6DBA27AB15620335E5F5;3512.
  ) 
 Here is how much of TeX's memory you used:
- 39672 strings out of 473600
- 933845 string characters out of 5728702
+ 39712 strings out of 473600
+ 934487 string characters out of 5728702
  1958905 words of memory out of 5000000
- 61746 multiletter control sequences out of 15000+600000
+ 61772 multiletter control sequences out of 15000+600000
  607760 words of font info for 88 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  86i,15n,98p,785b,1105s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on appuntiTesi.pdf (32 pages, 1188330 bytes).
+Output written on appuntiTesi.pdf (34 pages, 1197326 bytes).
 PDF statistics:
- 542 PDF objects out of 1000 (max. 8388607)
- 442 compressed objects within 5 object streams
- 153 named destinations out of 1000 (max. 500000)
+ 565 PDF objects out of 1000 (max. 8388607)
+ 463 compressed objects within 5 object streams
+ 167 named destinations out of 1000 (max. 500000)
  354 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1308,7 +1308,7 @@ Prima di proseguire è importante distinguere diversi tipo di archi.
     Un arco $(i,j)$ rispetto a $\Delta$ ha:
     \begin{enumerate}
         \item \textbf{small capacity} se $r_{ij}+r_{ji} < \Delta/(64m^2)$
-        \item \textbf{medium capacity} se $r_{ij} \ge \Delta/(64m^2) \land r_{ij}+r_{ji} < 4\Delta$
+        \item \label{media}\textbf{medium capacity} se $r_{ij} \ge \Delta/(64m^2) \land r_{ij}+r_{ji} < 4\Delta$
         \item \begin{enumerate}
             \item \textbf{internal anti-abundant} se $r_{ij} \le 2\Delta \land r_{ji} \ge 2\Delta$
             \item \textbf{external anti-abundant} se non abundant 
@@ -1322,6 +1322,97 @@ Le Differenze tra strongly compact e $\Delta$-compact sono che:
     \item Nel $\Delta$-compact viene trasferita della capacità residua da alcuni archi ad altri o a pseudo archi creati appositamente per semplificare il grafo;
     \item Nel $\Delta$-compact i nodi adiacenti a archi con capacità residua troppo esigua vengono compattati.
 \end{enumerate}
+
+Un altro strumento necessario per decidere quali nodi compattare è la funzione \textit{potenziale}
+\begin{definition}{Potential function}{}
+    Dato un nodo $j\in N$ una funzione di capacità residua $r$ e un sottoinsieme di archi adiacenti a $j$ $\tilde{E}$  possiamo definire la funzione potenziale come: 
+    \[\Phi (j, r, \tilde{E}) = \sum_{(i,j)\in \tilde{E}} r_{ij}-\sum_{(j,i)\in \tilde{E}} r_{ji}\] 
+\end{definition}
+
+Definiamo il set di archi \textbf{anti-abbondanti}, in un Network $G$, rispetto al parametro $\Delta$ come $A'(\Delta)$.
+Nel seguente lemma utilizzeremo la funzione potenziale dove $\tilde{E} = A'(\Delta)$.
+\begin{lemma}
+    {}{}
+    Sia $(S,T)$ un s-t cut in $G$ con $r(S,T)\le \Delta$, e sia $A' = A'(\Delta).$\\
+    Supponiamo che esista $P\subseteq A'$ un path da $i\rightarrow j$ e che $(i,j)\in A'$. \\
+    Se $r'$ è la nuova funzione di capacità residua ottenuta spostando $\delta$ unità di capacità residua da $P$ a $(i,j)$, allora possiamo affermare che:
+    \begin{enumerate}
+        \item $\forall k\in N(G),\ \Phi(k,r',A') = \Phi(k,r,A') $
+        \item $r'(S,T) = r(S,T)$
+    \end{enumerate}
+\end{lemma}
+    \begin{proof}
+        \begin{enumerate}
+            \item Il primo punto è intuitivo in quanto per ogni nodo in $P$ diverso da $i$ e $j$ sto sottraendo la stessa capacità residua sia in entrata che in uscita, mentre nei nodi $i$ e $j$ le sommatorie di $\Phi$ rimangono identiche.
+            \item Il secondo punto è banale se $|P|= 1$ dunque consideriamo $|P|\ge 2$. Definiamo $P = p_1, ..., p_k$, $p_1 \in S$ e almeno un $p_q\in T$.\\
+                Dato che abbiamo stabilito che $r(S,T) \le \Delta$ e che $P\subseteq A'$ ci troviamo sicuramente in una situazione di questo tipo:
+                \[\begin{tikzpicture}[node distance={15mm}, thick , main/.style = {draw, circle}] 
+                    % Disegna i nodi del grafo
+                    \node[main] (0) {$i$};
+                    \node[main] (1) [above right of = 0] {1};
+                    \node[main] (2) [right of = 1] {2};
+                    \node[main] (3) [below right of = 2] {j};
+                    \node at (0,1.7) {S};
+                    \node at (3.6,1.7) {T};
+
+                    \draw[->] (0) [red, bend left] to (1);
+                    \draw[->] (1) [red, bend left] to (2);
+                    \draw[->] (2) [red, bend left] to (3);
+                    \draw[->] (0) [green, bend right] to (3);
+
+                    \draw[dashed] (1.8,-1) -- (1.8,1.7);
+                \end{tikzpicture}\]
+                In quanto se un arco di $P$ passasse da T a S violerebbe $r(S,T)\le \Delta$ dato che $\forall (a,b)\in A'(\Delta),\ r_{ab} > 2\Delta \land r_{ba}\ge 2\Delta$, avremmo che
+                \[\begin{tikzpicture}[node distance={15mm}, thick , main/.style = {draw, circle}] 
+                    % Disegna i nodi del grafo
+                    \node[main] (0) {$i$};
+                    \node[main] (1) [above right of = 0] {1};
+                    \node[main] (2) at (3.8,0) {2};
+                    \node[main] (3) [below right of = 0] {j};
+                    \node at (0,1.7) {S};
+                    \node at (3.6,1.7) {T};
+
+                    \draw[->] (0) [red,bend left] to (1);
+                    \draw[->] (1) [red,bend left] to (2);
+                    \draw[->] (2) [red,bend left] to (3);
+                    \draw[->] (3) [thick = 1.5, darktangerine, bend left] to (2);
+                    \draw[->] (0) [green, bend right] to (3);
+
+                    \draw[dashed] (1.8,-1.7) -- (1.8,1.7);
+                    \node at (2.4, -.4) {\text{\color{darktangerine}{$2\Delta$}}};
+                \end{tikzpicture}\]
+            Una volta appurato ciò risulta evidente che il trasferimento di capacità residua non influenza la capacità residua del taglio. \QED
+        \end{enumerate}
+    \end{proof}
+    \begin{definition}{$\Delta$-compactible}{}
+        Un nodo j si dice $\Delta$-compactible se $|\Phi (j, r, A')| <\Delta/(16nm)$ e non ha archi adiacenti di \hyperref[media]{media capacità}.
+
+        In oltre un nodo j si dice \textit{very $\Delta$-compactible} se ogni arco anti-abbondante incidete $j$ ha capacità residua $< \Delta/(16nm)$
+    
+    \end{definition}
+    Per costruire il $\Delta$-compact network vengono iterativamente trasferite unità di capacità residue di vari path a pseudo archi. Abbiamo già visto che
+    questi trasferimenti non influenzano il max-flow. I trasferimenti continuano finché tutti i nodi $\Delta$-compactible non diventano very $\Delta$-compactible.
+    \begin{definition}
+        {Transferrable residual capacity}{}
+        Per poter trasferire $\delta$ capacità da un path $P$ da $i\rightarrow j$ all'arco $(i,j)$ è necessario che:
+        \begin{enumerate}
+            \item $|P|\ge 2$
+            \item $r(P) > 0$
+            \item $P\subseteq A'$
+        \end{enumerate}
+    \end{definition} 
+    La capacità che viene trasferita da è $\delta = r(P) = \min_{(a,b)\in P} r(a,b)$, dunque ogni volta almeno un arco anti-abbondante viene saturato. 
+    Se esiste un path $P\subseteq A'\ da\ i\rightarrow j $ ma $(i,j)\not \in E(G)$ allora viene creato come pseudo arco. 
+
+    Alla fine tutti i nodi che non vengono compattati formeranno il $\Delta$-compact network.
+    \begin{definition}{$\Delta$-critical}{}
+        Se un nodo $j$ non è $\Delta$-compactible $\implies$ $j$ è $\Delta$-critical.
+    \end{definition}
+    Il $\Delta$-compact network è formato dai tutti e soli i nodi $\Delta$-critical.
+
+
+
+
 
 
 

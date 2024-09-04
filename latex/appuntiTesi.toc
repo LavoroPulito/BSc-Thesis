@@ -26,5 +26,5 @@
 \contentsline {section}{\numberline {3.5}Contractions of abundant graph}{25}{section.3.5}%
 \contentsline {section}{\numberline {3.6}The compact network}{26}{section.3.6}%
 \contentsline {section}{\numberline {3.7}Da sc-compact a $\Delta $-compact}{28}{section.3.7}%
-\contentsline {section}{\numberline {3.8}Dubbi}{30}{section.3.8}%
-\contentsline {section}{\numberline {3.9}Sostituzioni}{30}{section.3.9}%
+\contentsline {section}{\numberline {3.8}Dubbi}{32}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Sostituzioni}{32}{section.3.9}%
