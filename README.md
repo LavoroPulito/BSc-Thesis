@@ -8,4 +8,14 @@ I miei [appunti](latex/appuntiTesi.pdf) sul problema del max flow in un network
     - [x] dimostrazione della correttezza 
     - [x] dimostrazione del tempo computazionale
 - [ ] Algoritmo di Prim 
-    - [ ] presentazione nozioni    
+    - [x] presentazione nozioni    
+    - [x] $\Gamma$-compact network
+    - [ ] dimostrazioni di correttezza e costo
+
+- [ ] Dynamics Trees
+    - [x] definizione BST
+    - [x] slplay tree / tango tree
+    - [ ] link cut tree 
+
+    
+## Dubbi

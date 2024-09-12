@@ -8,10 +8,14 @@
 \usepackage{tabularx}
 \usepackage{stmaryrd}
 \usepackage{tikz} 
+\usetikzlibrary{shapes.geometric}
 \usepackage{imakeidx}
 \usepackage{hyperref}
 \usepackage{titlesec}
 \usepackage{enumitem}
+\usepackage{cleveref}
+\usepackage{listings}
+
 
 \usetikzlibrary{calc}
 \makeindex[columns=3, title=Alphabetical Index, intoc]
@@ -28,6 +32,8 @@
 \newcommand*{\proof}{\textit{proof}:\\}
 \newcommand*{\mb}[1]{\mathbb{#1}}
 \newcommand*{\mc}[1]{\mathcal{#1}}
+\newcommand{\dlt}{$\Delta$}
+\newcommand{\gmm}{$\Gamma$}
 
 \definecolor{bananamania}{rgb}{0.98, 0.91, 0.71}
 \definecolor{amaranth}{rgb}{0.9, 0.17, 0.31}
@@ -36,6 +42,36 @@
 \definecolor{cerise}{rgb}{0.87, 0.19, 0.39}
 \definecolor{babyblue}{rgb}{0.54, 0.81, 0.94}
 \definecolor{brightgreen}{rgb}{0.4, 1.0, 0.0}
+\definecolor{comment}{rgb}{0.5, 0.5, 0.5}
+\definecolor{string}{rgb}{0.3, 0.6, 0.3}
+\definecolor{keyword}{rgb}{0.7, 0, 0.4}
+\definecolor{identifier}{rgb}{0.2, 0.2, 1}
+\definecolor{background}{rgb}{0.99, 0.99, 0.99}
+
+
+\lstdefinestyle{customcpp}{
+    language=C++,
+    basicstyle=\ttfamily\footnotesize,
+    backgroundcolor=\color{background},
+    keywordstyle=\color{keyword},
+    identifierstyle=\color{identifier},
+    commentstyle=\color{comment}\itshape,
+    stringstyle=\color{string},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=10pt,
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false,
+    breaklines=true,
+    breakatwhitespace=true,
+    escapeinside={\%*}{*)},
+    frame=single,
+    rulecolor=\color{black},
+    captionpos=b,
+    morekeywords={override, nullptr},
+}
 
 \newtcbtheorem[auto counter]{theo}%
   {Theorem}{fonttitle=\bfseries,
@@ -92,9 +128,9 @@
 \tableofcontents
 \newpage
 \section*{Introduzione}
-Ciò che segue è una relazione che ha lo scopo di analizzare la soluzione proposta nell'algoritmo di Prim per il calcolo del \textbf{max flow in un Network}.
+Ciò che segue è una relazione che ha lo scopo di analizzare la soluzione proposta nell'algoritmo di Orlin per il calcolo del \textbf{max flow in un Network}.
 Dato che per comprendere a pieno il suo funzionamento è necessario conoscere anche alcuni algoritmi precedenti, anche questi vengono spiegati nella relazione. 
-Gli algoritmi sono presentati in ordine cronologico a partire dall'algoritmo di Dinics, continuando con Goldberg-Rao e giungendo alla soluzione più recente e efficace di Prim.
+Gli algoritmi sono presentati in ordine cronologico a partire dall'algoritmo di Dinics, continuando con Goldberg-Rao e giungendo alla soluzione più recente e efficace di Orlin.
 Prima di iniziare con le soluzioni però, è presente un capitolo che spiega alcune nozioni preliminari sulla teoria dei grafi necessarie per comprendere il funzionamento delle soluzioni.
 
 \chapter{Preliminary notions}
@@ -439,7 +475,7 @@ una funzione di lunghezza diversa.
     Una valid distance label, $d$, preserva le seguenti proprietà:
     \begin{enumerate}
         \item $d(i)$ rappresenta il \textit{lower bound} della lunghezza dello shortest directed path da $i \rightarrow t$
-        nel resiudual graph
+        nel residual graph
         \item $d(s) \ge n \implies \nexists p\ path \in G(f) | p = s \rightarrow t $ %va spegato meglio la notazione di grafo residuo e di path
     \end{enumerate}
     
@@ -457,7 +493,7 @@ proprio per definizione di shortest path.
     \[d(v) > d(w) \lor (d(v) = d(w) \land l(v,w) = 0)\]
     
     $A(f,l,d)$ rappresenta l'\textbf{Admissible graph}, ovvero il grafo formato da tutti gli Admissible arc, rispetto alla distanza $d$ con lunghezze $l$ 
-    sul resiudual graph dato dal flow $f$.
+    sul residual graph dato dal flow $f$.
 \end{definition}
 
 
@@ -527,6 +563,135 @@ Ora che sono state definite le valid distance label, possiamo richiamare gli $s-
     Dato un Network $\mc{N}$, e una distance label $d$ su $\mc{N}$, si definisce taglio canonico una partizione dei nodi del grafo 
     \[(S_k, T_k) =  (S_k:=\{v\in V(\mc{N}) | d(v) \ge k\},\ T_k := V(\mc{N})\setminus S_k)\]
 \end{definition}
+
+\section{Dynamics Trees}
+    Questa sezione è necessaria per la comprensione della dimostrazione del costo computazionale dell'algoritmo di Orlin per il max flow in $O(nm)$.
+    \subsection*{Binary search tree}
+    \begin{definition}{Binary search tree}{}
+        Sia $T$ un albero binario di ricerca.
+        Allora T è un albero binario con la seguente proprietà
+        \[\forall t \in T,\]\[ (t.key() \ge t.left().key() \lor t.left() == null)\land \]\[ (t.key() < t.right().key()\lor t.right() == null) \]
+    \end{definition}
+    così definite le operazioni di ricerca, minimo e massimo sono banali e in $O(\log(n))$
+    
+    \textbf{Succ(t)} 
+    \begin{lstlisting}[style=customcpp]
+    Node* Successor(x){ 
+        if (x->right!=NULL) 
+            return min(x->right); 
+        Node* y=x->parent; 
+        while (y!=NULL && x==y->right){ 
+            x=y; 
+            y=x->parent; 
+        } 
+        return y; 
+    }
+    \end{lstlisting}
+    Se esiste un figlio destro di $t$ allora restituisco il suo min, altrimenti cerco iterativamente un padre di cui sia figlio sinistro e ritorno lui, se non esiste ritorno NULL.
+    \subsection*{Splay tree}
+    Una versione particolare di un BST è lo splay tree che ha la particolarità di \textit{ruotare} l'albero in modo che l'ultimo nodo visitato venga posto come radice dell'albero.
+    Ovviamente la rotazione preserva l'ordinamento dell'albero che quindi è ancora interrogabili con le stesse operazioni del BST.
+    In questo modo accessi multipli ad un nodo in particolare, o successivamente al suo subtree, vengono velocizzati. Il costo ammortizzato per questa struttura è di $log(n)$, la struttura è definita online, dunque una sequenza di istruzioni $m > n$ hanno costo $m\log n$.
+    Lo splay avviene tramite la composizione di 3 rotazioni base (e le relative specchiate).
+    \subsubsection*{Zig}
+    La rotazione base:
+    \[
+    \begin{array}{ccc}
+        splay(x)&&splay(z)\\
+        \\
+        
+\begin{tikzpicture}[node distance={12mm}, thick , main/.style = {draw, circle, yshift=-0.8cm}, trg/.style = {draw, regular polygon, regular polygon sides=3, yshift=-0.8cm, inner sep=0pt, minimum size=1.4cm}] 
+    
+
+    \node[main] (0) {$z$}; 
+    \node[main] (1) [below left of=0] {$x$};
+    \node[trg] (2) [below left of=1] {$a$};
+    \node[trg] (3) [below right of=1] {$b$};
+    \node[trg] (4) [below right of=0 ] {$c$};
+    
+    %Admissible
+    \draw[->] (0) to (1);
+    \draw[->] (0) to (4);
+    \draw[->] (1) to (3);
+    \draw[->] (1) to (2);
+\end{tikzpicture} &
+\begin{tikzpicture}[node distance={12mm}, thick , main/.style = {draw, circle, yshift=-0.8cm}, trg/.style = {draw, regular polygon, regular polygon sides=3, yshift=-0.8cm, inner sep=0pt, minimum size=1.4cm}] 
+    
+
+    \node (0) {$\rightleftarrows$};
+    \node (1) at (0,-2) {};
+\end{tikzpicture} &
+\begin{tikzpicture}[node distance={12mm}, thick , main/.style = {draw, circle, yshift=-0.8cm}, trg/.style = {draw, regular polygon, regular polygon sides=3, yshift=-0.8cm, inner sep=0pt, minimum size=1.4cm}] 
+    \node[main] (0) {$x$}; 
+    \node[main] (1) [below right of=0] {$z$};
+    \node[trg] (2) [below left of=0] {$a$};
+    \node[trg] (3) [below left of=1] {$b$};
+    \node[trg] (4) [below right of=1 ] {$c$};
+    
+    %Admissible
+    \draw[->] (0) to (1);
+    \draw[->] (0) to (2);
+    \draw[->] (1) to (3);
+    \draw[->] (1) to (4);
+\end{tikzpicture}
+\end{array} 
+\]
+    
+\subsubsection*{Zig-Zig}
+Il caso in cui il nodo è figlio destro di un nodo figlio destro o figlio sinistro di un nodo figlio sinistro:
+\[
+    \begin{array}{ccc}
+        splay(x)&&splay(z)\\
+        \\
+        
+\begin{tikzpicture}[node distance={12mm}, thick , main/.style = {draw, circle, yshift=-0.8cm}, trg/.style = {draw, regular polygon, regular polygon sides=3, yshift=-0.8cm, inner sep=0pt, minimum size=1.4cm}] 
+    
+
+    \node[main] (0) {$x$}; 
+    \node[main] (1) [below left of=0] {$y$};
+    \node[main] (2) [below left of=1] {$z$};
+    \node[trg] (3) [below right of=1] {$c$};
+    \node[trg] (4) [below right of=0 ] {$d$};
+    \node[trg] (5) [below right of=2 ] {$b$};
+    \node[trg] (6) [below left of = 2] {$a$};
+    
+    
+    %Admissible
+    \draw[->] (0) to (1);
+    \draw[->] (0) to (4);
+    \draw[->] (1) to (3);
+    \draw[->] (1) to (2);
+    \draw[->] (2) to (5);
+    \draw[->] (2) to (6);
+    
+\end{tikzpicture} &
+\begin{tikzpicture}[node distance={12mm}, thick , main/.style = {draw, circle, yshift=-0.8cm}, trg/.style = {draw, regular polygon, regular polygon sides=3, yshift=-0.8cm, inner sep=0pt, minimum size=1.4cm}] 
+    
+
+    \node (0) {$\rightleftarrows$};
+    \node (1) at (0,-2) {};
+\end{tikzpicture} &
+\begin{tikzpicture}[node distance={12mm}, thick , main/.style = {draw, circle, yshift=-0.8cm}, trg/.style = {draw, regular polygon, regular polygon sides=3, yshift=-0.8cm, inner sep=0pt, minimum size=1.4cm}] 
+    \node[main] (0) {$z$}; 
+    \node[main] (1) [below right of=0] {$y$};
+    \node[main] (2) [below right of=1] {$x$};
+    \node[trg] (3) [below left of=1] {$b$};
+    \node[trg] (4) [below left of=2 ] {$c$};
+    \node[trg] (5) [below right of=2 ] {$d$};
+    \node[trg] (6) [below left of = 0] {$a$};
+    
+    
+    %Admissible
+    \draw[->] (0) to (6);
+    \draw[->] (0) to (1);
+    \draw[->] (1) to (3);
+    \draw[->] (1) to (2);
+    \draw[->] (2) to (4);
+    \draw[->] (2) to (5);
+\end{tikzpicture}
+\end{array} 
+\]
+
 \newpage
 
 \chapter{Past Algorithm}
@@ -687,7 +852,7 @@ Nella sezione 2.2 useremo la segue notazione:
             dobbiamo quindi dimostrare che  $d_l(v) \le d_l(w) + l'(v,w)$.\\
             Questo ciò è banalmente vero se $d_l(v) \le d_l(w)$.\\
             Se $d_l(v) > d_l(w)$ ovvero $d_{\bar{l}}(v) > d_{\bar{l}}(w)$ allora $(w,v)$ non è ammissibile rispetto a $\bar{l}$.\\
-            Ciò ci assicura che $u_{f'}(v,w)\le u_{f}(v,w)$ il che implica che \colorbox{yellow!40!white}{$l'(v,w)\ge \bar{l}(v,w)$} da cui segue lo statement.
+            Dunque se $(v,w)$ è ammissibile sappiamo che $u_{f'}(v,w)\le u_{f}(v,w)$ il che implica che \colorbox{yellow!40!white}{$l'(v,w)\ge \bar{l}(v,w)$} da cui segue lo statement.
 
             \paragraph*{\underline{2. $d_{l'}(s) \ge d_l(s)$}}
 
@@ -835,7 +1000,7 @@ Nella sezione 2.2 useremo la segue notazione:
     \begin{itemize}
         \item Durante gli incrementi di flusso abbiamo immesso un flow (di valore al massimo $\Delta$) attraverso l'arco $(w,v)$
         \item $u_f(w,v) \ge 3\Delta$ perché $l(w,v) = 0$
-        \item Dopo questo incremento abbiamo: $r_{f'}(v,w) \ge 0$ perché  $l'(v,w) = 0$
+        \item Dopo questo incremento abbiamo: $u_{f'}(v,w) \ge 3\Delta$ perché  $l'(v,w) = 0$
         \item Quindi $u_f(v,w) \ge 2\Delta$
         \item Ma allora l'arco $(v,w)$ era un \textit{arco speciale} già prima dell'incremento, in quanto $d_l(v) = d_l(w) \land u_f(w,v) \ge 3\Delta \land u_f(v,w) \ge 2\Delta$
     \end{itemize}
@@ -929,7 +1094,7 @@ Nella sezione 2.2 useremo la segue notazione:
 
 
 
-    \chapter{Prim Algorithm}
+    \chapter{Orlin Algorithm}
 Fino ad ora gli algoritmi hanno minimizzato il costo computazionale fino ad arrivare ad un costo $O(nm)$ solo quando il valore di $m$ o $n$ assumeva determinate proporzioni.
 Il seguente algoritmo attinge dall'algoritmo \textbf{Goldberg and Rao} modificandone dei passaggi e preservando alcuni concetti per dimostrare però che si può risolvere il problema del max flows in $O(nm)$ per qualunque valore di $n$ e $m$.
 \section{Idea}
@@ -965,15 +1130,16 @@ Il max-flow flow problem viene risolto attraverso una serie di \textit{fasi di i
     \begin{enumerate}
         \item un \textit{Flow} $f'$
         \item un \textit{Residual Graph} $G_f'$
-        \item un s-t cut $(S',T')$ tale che $r'(S',T') \le \frac{r(S,T)}{4m}$
+        \item un s-t cut $(S',T')$ tale che $r'(S',T') \le \frac{r(S,T)}{8m}$
     \end{enumerate}
 \end{itemize}
 Questa fase prende il nome di $\Delta\text{-}improvment\ phase$ dove $\Delta = r(S,T)$.
+Affianco al parametro $\Delta$ verrà posto un parametro $\Gamma$ , dove $\Gamma \le \Delta$ che verrà utilizzato per creare il $\Gamma$-compact network. 
 
-Questo tipo di incremento viene eseguito, a seconda delle condizioni, o sul network $G$ oppure sul \textit{compact network} $G^c$
+A seconda delle condizioni, il \dlt improvment verrà eseguito o sul network $G$ originale oppure sul \gmm-\textit{compact network} $G^c$ che presenteremo più avanti.
 
 \section{$\Delta$-abundant e grafo di abbondanza}
-In questa sezione viene presentato il concetto di \textbf{Abbondanza} che in un certo senso sostituisce quello di \textbf{lunghezza} di Goldberg-Rao, che infatti non è sfruttato per la soluzione di Prim.
+In questa sezione viene presentato il concetto di \textbf{Abbondanza} che in un certo senso sostituisce quello di \textbf{lunghezza} di Goldberg-Rao, che infatti non è sfruttato per la soluzione di Orlin.
 \begin{definition}{$\Delta$-abundant arc}{}
     Sia $\Delta = r(S,T)$ un arco $(i,j)$ si dice $\Delta$-abbondante se $r_{ij} \ge 2\Delta$ 
      
@@ -984,7 +1150,7 @@ In questa sezione viene presentato il concetto di \textbf{Abbondanza} che in un 
 \end{lemma}
 \begin{proof}
     Dato che 
-    $\Delta' \le \frac{\Delta}{4m} $ e ricordando che $r_{ij} \ge 2\Delta $ si deduce che 
+    $\Delta' \le \frac{\Delta}{8m} $ e ricordando che $r_{ij} \ge 2\Delta $ si deduce che 
     allora \[r'_{ij} \ge r_{ij}-\Delta \ge\Delta\ge  2\Delta'\]\QED
 \end{proof}
 
@@ -999,7 +1165,7 @@ In questa sezione viene presentato il concetto di \textbf{Abbondanza} che in un 
 IL grafo di abbondanza è utile in vari modi: 
 \begin{enumerate}
     \item Tutti i cicli formati da archi abbondanti vengono \textit{contratti} in un solo nodo
-    \item Tutti i nodi che adiacenti solo ad archi abbondanti o di capacità troppo piccola, vengono \textit{compattati}
+    \item Tutti i nodi che adiacenti solo ad archi abbondanti (o di capacità troppo piccola), vengono \textit{compattati}
 \end{enumerate}
 L'algoritmo mantiene in oltre la chiusura transitiva di tutti i nodi collegati tra loro da un \textbf{abundant path}, ovvero un cammino composto solo da archi abbondanti. \\
 Se esiste un abundant path tra il nodi $i$ e $j$, ciò si indica con $i\implies j$, e l'informazione viene mantenuta in una matrice \textbf{M}$_{n\times n}$, dove nella posizione 
@@ -1088,7 +1254,7 @@ Possiamo quindi contrarre i due nodi in uno unico che preservi gli archi di entr
 \end{tikzpicture}
 \end{tabular}\]
 
-È possibile contrarre archi esterni  
+Dato che non esistono archi opposti agli archi esterni, è possibile contrarre archi esterni alla sola condizione che essi siano abbondanti:
 
 \[\begin{tabular}{ccc}
     \begin{tikzpicture}[node distance={19mm}, thick , main/.style = {draw, circle}] 
@@ -1197,7 +1363,7 @@ E dunque tutti i cicli abbondanti
     
     Tuttavia si tratta di una violazione minore di $2\Delta$ unità dunque, come mostrato da \hyperref[fixCont]{Goldberg e Rao} la contrazione, l'espansione e l'adattamento per la conservazione del flusso possono essere eseguiti in tempo $O(m)$. 
 \end{obs}
-\section{The compact network}
+\section{Compattare il network}
 Oltre alla contrazione del grafo è necessario eseguire un'altra trasformazione, la \textit{compattazione}.
 Per ottenere un grafo compatto mostriamo prima come ottenere una versione intermedia ovvero lo \textbf{strongly compact network}.
 
@@ -1268,6 +1434,7 @@ quando si compatta un grafo viene \underline{eliminato} un nodo che ha tutti gli
 
 \end{tikzpicture}
 \end{tabular}\]
+ Il seguente algoritmo ha tempo $O(m + |E^{sc}|)$ in quanto si possono costruire gli pseudo archi in tempo $O(1)$ dato che viene dinamicamente preservata la chiusura transitiva. 
 
 \begin{algo}{strongly compact network}{}
     Definiamo lo \textbf{Strongly compact} come $G^{sc} =(N^{sc}, E^{sc})$ originato dal network $G$:
@@ -1284,8 +1451,7 @@ quando si compatta un grafo viene \underline{eliminato} un nodo che ha tutti gli
     \end{enumerate}
     
 \end{algo}
-    Il seguente algoritmo ha tempo $O(m + |E^{sc}|)$ in quanto si possono costruire gli pseudo archi in tempo $O(1)$ dato che viene dinamicamente preservata la chiusura transitiva. 
-\begin{theo}{$f_{max} = f_{max}^{sc}$}{}
+   \begin{theo}[label = fmaxfsc]{$f_{max} = f_{max}^{sc}$}{}
     Sia $f_{max}$ il flusso massimo nel network $G$ e sia $f_{max}^{sc}$ il flusso massimo in $G^{sc}$ allora 
     \[f_{max} = f_{max}^{sc}\]
 \end{theo}
@@ -1300,28 +1466,23 @@ quando si compatta un grafo viene \underline{eliminato} un nodo che ha tutti gli
 
 
 
-\section{Da sc-compact a $\Delta$-compact}
-Il tempo $O(nm)$ si basa sul fatto che calcolare un max flow \textit{approssimato} su un grafo $\Delta$-compact sia di molto inferiore a calcolarlo sul grafo originale.
-
+\section{Da sc-compact a $\Gamma$-compact}
+Il tempo $O(nm)$ si basa sul fatto che calcolare un max flow \textit{approssimato} su un grafo $\Gamma$-compact sia di molto inferiore a calcolarlo sul grafo originale.
+La scelta del parametro \gmm\ verrà mostrata in seguito.
 Prima di proseguire è importante distinguere diversi tipo di archi.
 \begin{definition}{Classificazioni di capacità}{}
-    Un arco $(i,j)$ rispetto a $\Delta$ ha:
+    Un arco $(i,j)$ rispetto a $\Gamma$ ha:
     \begin{enumerate}
-        \item \textbf{small capacity} se $r_{ij}+r_{ji} < \Delta/(64m^2)$
-        \item \label{media}\textbf{medium capacity} se $r_{ij} \ge \Delta/(64m^2) \land r_{ij}+r_{ji} < 4\Delta$
-        \item \begin{enumerate}
-            \item \textbf{internal anti-abundant} se $r_{ij} \le 2\Delta \land r_{ji} \ge 2\Delta$
-            \item \textbf{external anti-abundant} se non abundant 
-        \end{enumerate}
-        \item \textbf{abundant} se $r_{ij} \ge 2\Delta$
+        \item \textbf{small capacity} se $u_{ij}+u_{ji} < \Gamma/(64m^3)$
+        \item \label{media}\textbf{medium capacity} se $\Gamma/(64m^3) \le u_{ij}+u_{ji}\ \land$\\ $r_{ij} < 2\Delta \land r_{ji} < 2\Delta $
+        \item \textbf{abundant capacity} se $r_{ij} \ge 2\Delta$ 
+        \item \textbf{antiabundant capacity} se $(j,i) \in E^{ab} \lor\ (i,j)$ è un arco esterno non abbondante.
     \end{enumerate}
+    Dove $E^{ab}$ e $E^{-ab}$ rappresentano rispettivamente l'insieme degli archi abbondanti e anti abbondanti all'inizio dell'improvment phase.
+
+    \underline{NOTA}: dato che abbiamo contratto i cicli abbondanti se $(i,j)\in E^{ab}\implies (j,i)\not \in E^{ab}$
     
 \end{definition}
-Le Differenze tra strongly compact e $\Delta$-compact sono che:
-\begin{enumerate}
-    \item Nel $\Delta$-compact viene trasferita della capacità residua da alcuni archi ad altri o a pseudo archi creati appositamente per semplificare il grafo;
-    \item Nel $\Delta$-compact i nodi adiacenti a archi con capacità residua troppo esigua vengono compattati.
-\end{enumerate}
 
 Un altro strumento necessario per decidere quali nodi compattare è la funzione \textit{potenziale}
 \begin{definition}{Potential function}{}
@@ -1329,69 +1490,78 @@ Un altro strumento necessario per decidere quali nodi compattare è la funzione 
     \[\Phi (j, r, \tilde{E}) = \sum_{(i,j)\in \tilde{E}} r_{ij}-\sum_{(j,i)\in \tilde{E}} r_{ji}\] 
 \end{definition}
 
-Definiamo il set di archi \textbf{anti-abbondanti}, in un Network $G$, rispetto al parametro $\Delta$ come $A'(\Delta)$.
-Nel seguente lemma utilizzeremo la funzione potenziale dove $\tilde{E} = A'(\Delta)$.
-\begin{lemma}
-    {}{}
-    Sia $(S,T)$ un s-t cut in $G$ con $r(S,T)\le \Delta$, e sia $A' = A'(\Delta).$\\
-    Supponiamo che esista $P\subseteq A'$ un path da $i\rightarrow j$ e che $(i,j)\in A'$. \\
-    Se $r'$ è la nuova funzione di capacità residua ottenuta spostando $\delta$ unità di capacità residua da $P$ a $(i,j)$, allora possiamo affermare che:
-    \begin{enumerate}
-        \item $\forall k\in N(G),\ \Phi(k,r',A') = \Phi(k,r,A') $
-        \item $r'(S,T) = r(S,T)$
-    \end{enumerate}
-\end{lemma}
-    \begin{proof}
-        \begin{enumerate}
-            \item Il primo punto è intuitivo in quanto per ogni nodo in $P$ diverso da $i$ e $j$ sto sottraendo la stessa capacità residua sia in entrata che in uscita, mentre nei nodi $i$ e $j$ le sommatorie di $\Phi$ rimangono identiche.
-            \item Il secondo punto è banale se $|P|= 1$ dunque consideriamo $|P|\ge 2$. Definiamo $P = p_1, ..., p_k$, $p_1 \in S$ e almeno un $p_q\in T$.\\
-                Dato che abbiamo stabilito che $r(S,T) \le \Delta$ e che $P\subseteq A'$ ci troviamo sicuramente in una situazione di questo tipo:
-                \[\begin{tikzpicture}[node distance={15mm}, thick , main/.style = {draw, circle}] 
-                    % Disegna i nodi del grafo
-                    \node[main] (0) {$i$};
-                    \node[main] (1) [above right of = 0] {1};
-                    \node[main] (2) [right of = 1] {2};
-                    \node[main] (3) [below right of = 2] {j};
-                    \node at (0,1.7) {S};
-                    \node at (3.6,1.7) {T};
+    \begin{definition}{$\Gamma$-critical e $\Gamma$-compactible}{}
+        
+        Un nodo j si dice \textbf{$\Gamma$-critical} se è adiacente almeno ad un arco \gmm-medio oppure se $|\Phi (j, r, E^{-ab})| > \Gamma/(16m^2)$.
 
-                    \draw[->] (0) [red, bend left] to (1);
-                    \draw[->] (1) [red, bend left] to (2);
-                    \draw[->] (2) [red, bend left] to (3);
-                    \draw[->] (0) [green, bend right] to (3);
+        \vspace*{7pt}
+        \noindent Se un nodo non è $\Gamma$-critical allora si dice \textbf{$\Gamma$-compactible}.
 
-                    \draw[dashed] (1.8,-1) -- (1.8,1.7);
-                \end{tikzpicture}\]
-                In quanto se un arco di $P$ passasse da T a S violerebbe $r(S,T)\le \Delta$ dato che $\forall (a,b)\in A'(\Delta),\ r_{ab} > 2\Delta \land r_{ba}\ge 2\Delta$, avremmo che
-                \[\begin{tikzpicture}[node distance={15mm}, thick , main/.style = {draw, circle}] 
-                    % Disegna i nodi del grafo
-                    \node[main] (0) {$i$};
-                    \node[main] (1) [above right of = 0] {1};
-                    \node[main] (2) at (3.8,0) {2};
-                    \node[main] (3) [below right of = 0] {j};
-                    \node at (0,1.7) {S};
-                    \node at (3.6,1.7) {T};
-
-                    \draw[->] (0) [red,bend left] to (1);
-                    \draw[->] (1) [red,bend left] to (2);
-                    \draw[->] (2) [red,bend left] to (3);
-                    \draw[->] (3) [thick = 1.5, darktangerine, bend left] to (2);
-                    \draw[->] (0) [green, bend right] to (3);
-
-                    \draw[dashed] (1.8,-1.7) -- (1.8,1.7);
-                    \node at (2.4, -.4) {\text{\color{darktangerine}{$2\Delta$}}};
-                \end{tikzpicture}\]
-            Una volta appurato ciò risulta evidente che il trasferimento di capacità residua non influenza la capacità residua del taglio. \QED
-        \end{enumerate}
-    \end{proof}
-    \begin{definition}{$\Delta$-compactible}{}
-        Un nodo j si dice $\Delta$-compactible se $|\Phi (j, r, A')| <\Delta/(16nm)$ e non ha archi adiacenti di \hyperref[media]{media capacità}.
-
-        In oltre un nodo j si dice \textit{very $\Delta$-compactible} se ogni arco anti-abbondante incidete $j$ ha capacità residua $< \Delta/(16nm)$
-    
+        \vspace*{7pt}
+        \noindent Dato un network $G$ definiamo il \gmm\-compact network di $G$ come \[G^c := (N^c, E^c)\]
+        Dove $N^c$ sono tutti e soli i nodi \gmm-critical mentre $E^c$ l'insieme di archi che definiremo in seguito.
     \end{definition}
-    Per costruire il $\Delta$-compact network vengono iterativamente trasferite unità di capacità residue di vari path a pseudo archi. Abbiamo già visto che
-    questi trasferimenti non influenzano il max-flow. I trasferimenti continuano finché tutti i nodi $\Delta$-compactible non diventano very $\Delta$-compactible.
+    Per costruire il $\Delta$-compact network vengono iterativamente trasferite unità di capacità residue di vari path a pseudo archi. 
+    l'idea è quella di sottrarre capacità a dei percorsi che collegano due nodi $i,j\in N$ per passarla all'arco (o pseudo arco) $(i,j)$ e poter ulteriormente compattare il grafo.
+    Ovviamente però questi pseudo archi sono solo parte di quelli che compongono $E^c$ che potremmo definire come 
+    \[E^c = E^1\cup E^2 \cup E^3\]
+    $E^1 = \{(i,j) | i,j\in N^c \land (i,j) \in E(G)\}$ dunque gli archi originali che collegano due nodi \gmm-critici\\
+    $E^2 = \{(i,j) | i,j\in N^c \land i\implies j\}$ ovvero gli archi abbondanti 
+
+    Il seguente lemma mostra come se scelti secondo un appropriato criterio, il trasferimento di flusso non riduce la capacità di nessun (S,T) cut e dunque preserva il max flow calcolabile.
+    \begin{lemma}[label = {ftsafe}]{Flow transfer safety}{}
+        Sia $(S,T)$ un s-t cut in $G$ con $r(S,T)\le \Delta$, e sia $A' = E^{-ab}.$\\
+        Supponiamo che esista $P\subseteq A'$ un path da $i\rightarrow j$ e che $(i,j)\in A'$. \\
+        Se $r'$ è la nuova funzione di capacità residua ottenuta spostando $\delta$ unità di capacità residua da $P$ a $(i,j)$, allora possiamo affermare che:
+        \begin{enumerate}
+            \item $\forall k\in N(G),\ \Phi(k,r',A') = \Phi(k,r,A') $
+            \item $r'(S,T) = r(S,T)$
+        \end{enumerate}
+        
+    \end{lemma}
+        \begin{proof} \begin{enumerate}
+                \item Il primo punto è intuitivo in quanto per ogni nodo in $P$ diverso da $i$ e $j$ sto sottraendo la stessa capacità residua sia in entrata che in uscita, mentre nei nodi $i$ e $j$ le sommatorie di $\Phi$ rimangono identiche.
+                \item Il secondo punto è banale se $|P|= 1$ dunque consideriamo $|P|\ge 2$. Definiamo $P = p_1, ..., p_k$, $p_1 \in S$ e almeno un $p_q\in T$.\\
+                    Dato che abbiamo stabilito che $r(S,T) \le \Delta$ e che $P\subseteq A'$ ci troviamo sicuramente in una situazione di questo tipo:
+                    \[\begin{tikzpicture}[node distance={15mm}, thick , main/.style = {draw, circle}] 
+                        % Disegna i nodi del grafo
+                        \node[main] (0) {$i$};
+                        \node[main] (1) [above right of = 0] {1};
+                        \node[main] (2) [right of = 1] {2};
+                        \node[main] (3) [below right of = 2] {j};
+                        \node at (0,1.7) {S};
+                        \node at (3.6,1.7) {T};
+    
+                        \draw[->] (0) [red, bend left] to (1);
+                        \draw[->] (1) [red, bend left] to (2);
+                        \draw[->] (2) [red, bend left] to (3);
+                        \draw[->] (0) [green, bend right] to (3);
+    
+                        \draw[dashed] (1.8,-1) -- (1.8,1.7);
+                    \end{tikzpicture}\]
+                    In quanto se un arco di $P$ passasse da T a S violerebbe $r(S,T)\le \Delta$ dato che $\forall (a,b)\in A'(\Delta),\ r_{ab} > 2\Delta \land r_{ba}\ge 2\Delta$, avremmo che
+                    \[\begin{tikzpicture}[node distance={15mm}, thick , main/.style = {draw, circle}] 
+                        % Disegna i nodi del grafo
+                        \node[main] (0) {$i$};
+                        \node[main] (1) [above right of = 0] {1};
+                        \node[main] (2) at (3.8,0) {2};
+                        \node[main] (3) [below right of = 0] {j};
+                        \node at (0,1.7) {S};
+                        \node at (3.6,1.7) {T};
+    
+                        \draw[->] (0) [red,bend left] to (1);
+                        \draw[->] (1) [red,bend left] to (2);
+                        \draw[->] (2) [red,bend left] to (3);
+                        \draw[->] (3) [thick = 1.5, darktangerine, bend left] to (2);
+                        \draw[->] (0) [green, bend right] to (3);
+    
+                        \draw[dashed] (1.8,-1.7) -- (1.8,1.7);
+                        \node at (2.4, -.4) {\text{\color{darktangerine}{$2\Delta$}}};
+                    \end{tikzpicture}\]
+                Una volta appurato ciò risulta evidente che il trasferimento di capacità residua non influenza la capacità residua del taglio. \QED
+            \end{enumerate}
+        \end{proof}
+    Notiamo dunque che:
     \begin{definition}
         {Transferrable residual capacity}{}
         Per poter trasferire $\delta$ capacità da un path $P$ da $i\rightarrow j$ all'arco $(i,j)$ è necessario che:
@@ -1399,21 +1569,65 @@ Nel seguente lemma utilizzeremo la funzione potenziale dove $\tilde{E} = A'(\Del
             \item $|P|\ge 2$
             \item $r(P) > 0$
             \item $P\subseteq A'$
-        \end{enumerate}
+       
+        In oltre quando creeremo il \gmm\ compact network saranno essenziali anche i seguenti requisiti
+        \item $i,j \in N^c$
+        \item $P\setminus \{i,j\} \subseteq N(G) \setminus N^c$
+    \end{enumerate}
     \end{definition} 
     La capacità che viene trasferita da è $\delta = r(P) = \min_{(a,b)\in P} r(a,b)$, dunque ogni volta almeno un arco anti-abbondante viene saturato. 
     Se esiste un path $P\subseteq A'\ da\ i\rightarrow j $ ma $(i,j)\not \in E(G)$ allora viene creato come pseudo arco. 
+    Sono proprio questi Pseudo archi antiabbondanti che formeranno $E^3$
 
-    Alla fine tutti i nodi che non vengono compattati formeranno il $\Delta$-compact network.
-    \begin{definition}{$\Delta$-critical}{}
-        Se un nodo $j$ non è $\Delta$-compactible $\implies$ $j$ è $\Delta$-critical.
-    \end{definition}
-    Il $\Delta$-compact network è formato dai tutti e soli i nodi $\Delta$-critical.
+\begin{algo}{procedura: trasferimenti di capacità $(r, \Gamma)$}{}
+    \begin{enumerate}
+        \item sia $G^c := \{n | n\in N(G)\land \Gamma\text{-critical}(n)\}$
+        \item sia $H := \{(i,j)| (i,j)\in E^{-ab}\land i \not \in G^c \lor j \not \in G^c\}$
+        \item $\forall (i,j)\in H,\ q_{ij} = r_{ij}$
+        \item while H $\not = \varnothing$:
+        \item seleziona $i \in H | \nexists (j,i) \in H$:
+        \item P = $DFS(i, l)$ s.t $l\in N^c \lor \nexists (l,k)\in H$ \# usa la DFS per trovare un path da $i$ a $l$ 
+        \item sia $\delta = \min_{(a,b)\in P}q_{ab}$
+        \item if $i,l \in N^c$ then $A^3 = A^3 \cup {(i,l)}; r^c_{i,l} += \delta$
+        \item $\forall (a,b) \in P,\ q_{ab} -= \delta$
+        \item $H = H- \{(a,b) | q_{ab} = 0\}$ 
+    \end{enumerate}
+\end{algo}
+
+\noindent Possiamo ora mostrare come costruire il $\Delta$-compact network $G^c = (N^c, E^c)$ utilizzando l'algoritmo che segue:
+
+\begin{algo}{procedura per $\Delta$-compact network}{}
+    \begin{enumerate}
+        \item Contrarre iterativamente i gli abundant cycles; \\Contrarre iterativamente gli archi esterni abbondanti;
+        \item Sia $N^c$ il set dei nodi $\Delta$-critici 
+        \item \begin{enumerate}
+            \item finché esistono nodi \dlt-compattabili con un arco anti-abbondanti entrante e uno uscente:\\
+            Trova un path $P$ con Transferrable residual capacity tale che il primo e l'ultimo nodo siano in $N^c$ e tutti gli altri siano in $N \setminus N^c$;\\
+            Trasferisci $r(P)$ dal path allo pseudo-arco;
+            \item Sia $r'$ la capacità residua al termine dello step 3a;\\
+                $A^1 := \{(i,j)| i\in N^c\land j\in N^c\land r'{ij}> 0\}$\\
+                $A^2 := \{(i,j)| i\in N^c\land j\in N^c\land i \implies j\}$\\
+                $A^c := A^1\cup A^2$\\
+                Tutti gli archi $(i,j)\in A^1$ hanno capacità $= r_{ij}$ mentre tutti quelli in $A^2$ hanno sono pseudo archi abbondanti e hanno capacità $= 2\Delta$.
+                
+        \end{enumerate}
+    \end{enumerate}
+\end{algo}
 
 
 
-
-
+Osserviamo ora i risultati di questa procedura nel seguente teorema
+\begin{theo}{Accuratezza dell'\dlt-compact network}{}
+    Sia $f_{max}$ il max flow in $G[r]$ e sia $f'$ il max flow in $G^c$, allora è vero che:
+    \[f'\le f_{max} < f'+\Delta/8m\]
+\end{theo}
+\begin{proof}
+    Abbiamo già mostrato che trasferire flusso e compattare gli archi abbondanti non influenza il flusso massimo calcolabile nel teorema \ref{fmaxfsc} e nel lemma \ref{ftsafe}.
+    Nel \dlt compact però vengono compattati anche gli archi che hanno \textit{small capacity} e gli anti-abundant adiacenti ad un \dlt-compactible.
+    Ricordiamo però che la somma delle capacità degli small è al massimo di $m(\Delta/64m^2) = \Delta/64m$ mentre la capacità totale degli archi anti-abbondanti alla fine dello step 3a è minore di $n\Delta/16nm = 16\Delta/m$.
+    Dunque l'approssimazione rimane tra :
+    \[f'\le f_max\le f' + \Delta/64m + \Delta/16m < \Delta/8m\]
+\end{proof}
 
 
 \newpage
@@ -1457,7 +1671,7 @@ $\begin{array}{lcccl}
 \end{array}$
 
 \chapter*{Bibliografia}
-    Le fonti sull'algoritmo di Goldberg-Rao e su quello di Prim vengono dai seguenti articoli:
+    Le fonti sull'algoritmo di Goldberg-Rao e su quello di Orlin vengono dai seguenti articoli:
    \begin{enumerate}
     \item  Max flows in O(nm) time, or better, Revised: July 25, 2012, James B. Orlin*
     \item The Goldberg-Rao Algorithm for the Maximum Flow Problem, October 18 2006, Dávid Papp
