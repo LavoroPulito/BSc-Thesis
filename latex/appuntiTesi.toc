@@ -27,5 +27,6 @@
 \contentsline {section}{\numberline {3.5}Contractions of abundant graph}{27}{section.3.5}%
 \contentsline {section}{\numberline {3.6}Compattare il network}{28}{section.3.6}%
 \contentsline {section}{\numberline {3.7}Da sc-compact a $\Gamma $-compact}{29}{section.3.7}%
-\contentsline {section}{\numberline {3.8}Dubbi}{36}{section.3.8}%
-\contentsline {section}{\numberline {3.9}Sostituzioni}{36}{section.3.9}%
+\contentsline {section}{\numberline {3.8}Max flow in $O(nm)$ time}{36}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Dubbi}{38}{section.3.9}%
+\contentsline {section}{\numberline {3.10}Sostituzioni}{38}{section.3.10}%

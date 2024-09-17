@@ -19,3 +19,4 @@ I miei [appunti](latex/appuntiTesi.pdf) sul problema del max flow in un network
 
     
 ## Dubbi
+- nell'algoritmo finale nel caso $c < m^{1/3}$ credo che gamma vada calcolato per fare in modo che $c<2m^{1/3}$  

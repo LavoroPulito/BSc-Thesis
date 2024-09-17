@@ -15,7 +15,8 @@
 \usepackage{enumitem}
 \usepackage{cleveref}
 \usepackage{listings}
-
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \usetikzlibrary{calc}
 \makeindex[columns=3, title=Alphabetical Index, intoc]
@@ -1133,10 +1134,10 @@ Il max-flow flow problem viene risolto attraverso una serie di \textit{fasi di i
         \item un s-t cut $(S',T')$ tale che $r'(S',T') \le \frac{r(S,T)}{8m}$
     \end{enumerate}
 \end{itemize}
-Questa fase prende il nome di $\Delta\text{-}improvment\ phase$ dove $\Delta = r(S,T)$.
+Questa fase prende il nome di $\Delta\text{-}improvement\ phase$ dove $\Delta = r(S,T)$.
 Affianco al parametro $\Delta$ verrà posto un parametro $\Gamma$ , dove $\Gamma \le \Delta$ che verrà utilizzato per creare il $\Gamma$-compact network. 
 
-A seconda delle condizioni, il \dlt improvment verrà eseguito o sul network $G$ originale oppure sul \gmm-\textit{compact network} $G^c$ che presenteremo più avanti.
+A seconda delle condizioni, il \dlt improvement verrà eseguito o sul network $G$ originale oppure sul \gmm-\textit{compact network} $G^c$ che presenteremo più avanti.
 
 \section{$\Delta$-abundant e grafo di abbondanza}
 In questa sezione viene presentato il concetto di \textbf{Abbondanza} che in un certo senso sostituisce quello di \textbf{lunghezza} di Goldberg-Rao, che infatti non è sfruttato per la soluzione di Orlin.
@@ -1144,9 +1145,9 @@ In questa sezione viene presentato il concetto di \textbf{Abbondanza} che in un 
     Sia $\Delta = r(S,T)$ un arco $(i,j)$ si dice $\Delta$-abbondante se $r_{ij} \ge 2\Delta$ 
      
 \end{definition}
-\begin{lemma}{}{}
-    \label{ab4ever}
-    Sia $(r,S,T)$ l'input di una $\Delta\text{-}improvment\ phase$. Se l'arco $(i,j)$ è abbondate prima dell'incremento allora rimmarrà abbondante per tutti gli incrementi successivi.
+\begin{lemma}[label = ab4ever]{}{}
+    
+    Sia $(r,S,T)$ l'input di una $\Delta\text{-}improvement\ phase$. Se l'arco $(i,j)$ è abbondate prima dell'incremento allora rimmarrà abbondante per tutti gli incrementi successivi.
 \end{lemma}
 \begin{proof}
     Dato che 
@@ -1159,7 +1160,7 @@ In questa sezione viene presentato il concetto di \textbf{Abbondanza} che in un 
     \[G^{ab} := (N(G), \{(i,j)| (i,j)\in E(G)\land r_{ij}\ge 2\Delta\})\]
 \end{definition}
 \begin{obs}{}{}
-    Per il \hyperref[ab4ever]{lemma 7} proseguendo con le iterazioni il grafo di abbondanza può solo acquisire nuovi archi, mai perderli.
+    Per il lemma \ref{ab4ever} proseguendo con le iterazioni il grafo di abbondanza può solo acquisire nuovi archi, mai perderli.
 \end{obs}
 
 IL grafo di abbondanza è utile in vari modi: 
@@ -1577,9 +1578,11 @@ Un altro strumento necessario per decidere quali nodi compattare è la funzione 
     \end{definition} 
     La capacità che viene trasferita da è $\delta = r(P) = \min_{(a,b)\in P} r(a,b)$, dunque ogni volta almeno un arco anti-abbondante viene saturato. 
     Se esiste un path $P\subseteq A'\ da\ i\rightarrow j $ ma $(i,j)\not \in E(G)$ allora viene creato come pseudo arco. 
-    Sono proprio questi Pseudo archi antiabbondanti che formeranno $E^3$
+    Sono proprio questi Pseudo archi antiabbondanti che formeranno $E^3$. 
+    Analizziamo ora la procedura per trasferire tutte le capacità residue necessarie a formare $E^3$ e restituirne l'insieme di archi
+    con le relative capacità residue $r^c_{ij} \forall (i,j)\in E^3$
 
-\begin{algo}{procedura: trasferimenti di capacità $(r, \Gamma)$}{}
+\begin{algo}[label = algotrans]{Procedura: trasferimenti di capacità $(r, \Gamma)$}{}
     \begin{enumerate}
         \item sia $G^c := \{n | n\in N(G)\land \Gamma\text{-critical}(n)\}$
         \item sia $H := \{(i,j)| (i,j)\in E^{-ab}\land i \not \in G^c \lor j \not \in G^c\}$
@@ -1593,67 +1596,158 @@ Un altro strumento necessario per decidere quali nodi compattare è la funzione 
         \item $H = H- \{(a,b) | q_{ab} = 0\}$ 
     \end{enumerate}
 \end{algo}
+Nel passaggio 6 viene creato, utilizzando una \textit{deep first search} un percorso dal nodo scelto $i$ fino ad uno $l$ che soddisfi certi requisiti.
+Da notare con attenzione che \textbf{non è garantito} che $i$ e $l$ siano \gmm-critical e dunque è possibile che tale percorso (che esiste sempre) venga scartato.
 
-\noindent Possiamo ora mostrare come costruire il $\Delta$-compact network $G^c = (N^c, E^c)$ utilizzando l'algoritmo che segue:
-
-\begin{algo}{procedura per $\Delta$-compact network}{}
-    \begin{enumerate}
-        \item Contrarre iterativamente i gli abundant cycles; \\Contrarre iterativamente gli archi esterni abbondanti;
-        \item Sia $N^c$ il set dei nodi $\Delta$-critici 
-        \item \begin{enumerate}
-            \item finché esistono nodi \dlt-compattabili con un arco anti-abbondanti entrante e uno uscente:\\
-            Trova un path $P$ con Transferrable residual capacity tale che il primo e l'ultimo nodo siano in $N^c$ e tutti gli altri siano in $N \setminus N^c$;\\
-            Trasferisci $r(P)$ dal path allo pseudo-arco;
-            \item Sia $r'$ la capacità residua al termine dello step 3a;\\
-                $A^1 := \{(i,j)| i\in N^c\land j\in N^c\land r'{ij}> 0\}$\\
-                $A^2 := \{(i,j)| i\in N^c\land j\in N^c\land i \implies j\}$\\
-                $A^c := A^1\cup A^2$\\
-                Tutti gli archi $(i,j)\in A^1$ hanno capacità $= r_{ij}$ mentre tutti quelli in $A^2$ hanno sono pseudo archi abbondanti e hanno capacità $= 2\Delta$.
-                
-        \end{enumerate}
-    \end{enumerate}
-\end{algo}
-
-
-
-Osserviamo ora i risultati di questa procedura nel seguente teorema
-\begin{theo}{Accuratezza dell'\dlt-compact network}{}
-    Sia $f_{max}$ il max flow in $G[r]$ e sia $f'$ il max flow in $G^c$, allora è vero che:
-    \[f'\le f_{max} < f'+\Delta/8m\]
-\end{theo}
+Quando un percorso viene scartato si dice che $\delta$ capacità è stata \textbf{persa}. 
+Dunque il max flow nel grafo \gmm-compact è inferiore a quello ottimale, tuttavia il seguente lemma mostra che esiste un bound a questa capacità residua \textit{persa}.
+\begin{lemma}[label = boundlose]{bound to \gmm-compact lose capacity}{}
+    Sia $f_{max}$ il max-flow calcolato in $G$, il network originale, e $f^*$ quello calcolato in $G^c$, il network compattato creato dalla \nameref{algotrans}.
+    Allora si ha che:
+    \[f^*\le f_{max} \le f^* + \Gamma/16m\]
+    ovvero il flusso massimo calcolato in $G^c$ è sottostimato di al più $\Gamma/16m$.
+\end{lemma}
 \begin{proof}
-    Abbiamo già mostrato che trasferire flusso e compattare gli archi abbondanti non influenza il flusso massimo calcolabile nel teorema \ref{fmaxfsc} e nel lemma \ref{ftsafe}.
-    Nel \dlt compact però vengono compattati anche gli archi che hanno \textit{small capacity} e gli anti-abundant adiacenti ad un \dlt-compactible.
-    Ricordiamo però che la somma delle capacità degli small è al massimo di $m(\Delta/64m^2) = \Delta/64m$ mentre la capacità totale degli archi anti-abbondanti alla fine dello step 3a è minore di $n\Delta/16nm = 16\Delta/m$.
-    Dunque l'approssimazione rimane tra :
-    \[f'\le f_max\le f' + \Delta/64m + \Delta/16m < \Delta/8m\]
+    Per essere scartato, un percorso deve iniziare o terminare in un nodo \gmm-compactible ovvero un nodo $j$ non adiacente ad un arco medio tale che:
+    \[|\Phi (j, r, E^{-ab})| =\left | \sum_{(i,j)\in E^{-ab}} r_{ij}-\sum_{(j,i)\in E^{-ab}} r_{ji}\right |\le \Gamma/16m^2\]
+    Tuttavia un nodo non critical per essere scelto deve avere solo archi entranti o solo archi uscenti a seconda di quale estremo del path stiamo parlando.
+    Possiamo quindi stimare che la capacità massima di un certo path $P_s$ scartato sia $r(P_s) \le  \Gamma/16m^2$ ovvero il valore residuo massimo raggiungibile da un arco estremo a $P_s$.
+    Dato quindi che possono esistere al massimo $n$ di questi percorsi allora abbiamo che: 
+    \[n\cdot \Gamma/16m^2 \le m \cdot \Gamma/16m^2 = \Gamma/16m\]
+    Dunque la massima capacità che viene persa nella creazione di $G^c$ è proprio $\Gamma/16m$ \QED.
 \end{proof}
 
+Dobbiamo ora assicurarci che un flow calcolato in $G^c$ che chiameremo $\alpha$-ottimale, sia trasferibile nel Network originale $G$.
 
-\newpage
-\begin{algo}{improve-approx-2}{}
-    $01.\quad \Delta := r(S,T)$\\
-    $02.\quad$ let c be the number of $\Delta$-critical nodes\\
-    $03.\quad$\textbf{if} $c>m^{9/16}$ \textbf{then}: find a $\Delta/(4m)$-optimal flow on $G[r]$\\
-    $04.\quad$\textbf{else, if} $m^{1/3}\le c<m^{9/16}$ \textbf{then}:\\
-    $05.\qquad$ let $G'$ denote $\Delta$-compact network\\
-    $06.\qquad$ find a $\Delta/(8m)$-optimal flow $x'$ on $G'$\\
-    $07.\qquad$ transform the flow $x'$ into a $\Delta/(4m)$-optimal flow $x^*$ on $G[r]$\\
-    $08.\quad$ \textbf{else, if} $c < m^{1/3}$ \textbf{then}: \\
-    $09.\qquad$ choose  $\min \Gamma\ s.t\  |N(G^{(\Delta, \Gamma')})| < 2m^{1/3}$\\
-    $10.\qquad$ let $G'$ denote $(\Delta, \Gamma')$-compact network\\
-    $11.\qquad$ find an optimal flow $x'$ on $G'$\\
-    $12.\qquad$ transform the flow $x'$ into a $\Gamma$-optimal flow $x^*$ on $G[r]$\\
+Sia $f'$ il flow calcolato in $G^c$ e rappresentiamo con $f$ la trasposizione di $f'$ in $G$:\\
+Se $f'_{i,j}> 0\land (i,j) \in E(G)\implies f_{i,j} = f'_{i,j}$ basta riportarlo così com'è.
+se $f'_{i,j}> 0\land i \Rightarrow j \implies$ si tratta del compattamento di un path abbondante e per ripristinare il flusso basta usare la matrice di transitività.
+Il caso più interessante rimane quello che si verifica quando dobbiamo trasporre il flusso da uno pseudo-arco di archi abbondanti ai path che lo hanno generato.
+Infatti è importante ricordare che lo la capacità dello pseudo-arco è la somma delle capacità residue dei path che sono strati trasferiti in precedenza.
+Tenere traccia di tutti i path trasferiti risulterebbe troppo inefficiente, tuttavia utilizzando gli alberi dinamici possiamo potenziare l'algoritmo precedentemente utilizzato per fare in modo di mantenere un record con tutte le operazioni effettuate sull'albero.
+In questo modo è possibile, consultando il record a ritroso, ricostruire in tempo $k\log n$ (dove $k$ è  il numero di operazioni sul link-cut tree) le capacità trasferite dalla procedura in maniera sequenziale, potendo così adattare la giusta porzione di flusso in ogni arco.
 
-            
+Studiamo ora l'adattamento dal punto di vista dell'$(S,T)$-$cut$:\\
+Sia $(S',T')$ un cut in $G[r]$ e supponiamo che non esistano archi abbondanti da $S$ a $T$,
+un taglio $(S^c,T^c)$ in $G^c$ di dice \textbf{indotto da}  $(S',T')$ se: \[(S^c, T^c) := (S'\cap N(G^c), T'\cap N(G^c))\]
+Viceversa un taglio in $G^c$ si dice indotto da uno in $G[r]$ se composto come segue:
+\[\begin{array}{l}
+    S':=\{n | n\in S^c\lor \exists m \in S^c,\ m \implies n\}\\
+    T' = N(G)\setminus S'
+\end{array}\]
+
+\begin{obs}{}{}
+    Osserviamo che se un $(S',T')$ è indotto da  $(S^c,T^c)$ allora  $(S^c,T^c)$ è indotto da $(S',T')$.
+        \[(S',T')\leftarrow(S^c,T^c)\implies (S^c,T^c)\leftarrow(S',T')\]
+
+    Non è vero il contrario in quanto diversi cut su $G[r]$ possono indurre lo stesso $(S^c,T^c)$.
+\end{obs}
+
+\begin{lemma}{}{}
+    Supponiamo che $(S',T')$ sia un cut in $G[r]$ e che non esistano archi abbondanti da $S$ a $T$.
+    Se $(S^c,T^c)$ è indotto da $(S',T')$ allora \[ r(S^c,T^c) \le r(S',T')\le r(S^c,T^c)+\Gamma/16m\]
+\end{lemma}
+\begin{proof}
+    Sappiamo che gli archi originali in $E^1$ contribuiscono in egual misura sia in $(S^c,T^c)$ che in $(S',T')$, quelli abbondanti non sono presenti per ipotesi e dunque rimangono solo quelli in $E^3$.
+    dividiamo path calcolati dalla \nameref{algotrans} come $P\cup Q$ dove $Q$ sono quelli che alla fine vengono scartati.
+    Dal lemma \ref{ftsafe} sappiamo che trasferire la capacità non influenza la capacità del taglio. Quindi gli unici archi che possono influenzare la capacità residua restano quelli in $Q$.
+    Ma sappiamo dal lemma \ref{boundlose} che:
+    \[\sum_{p\in Q}r(p)\le \Gamma/16m\]\QED
+\end{proof}
+Dai precedenti lemmi possiamo quindi giungere all'asserzione del seguente teorema
+\begin{theo}{}{}
+    Sia $y$ un $\alpha$-optimal flow nel \gmm-compact network $G^c$.
+    Sia $(S^c,T^c)$ un taglio in $G^c$ tale che \[r(S^c,T^c)\le val(y)+\alpha\] 
+    Se $(S',T')$ è il taglio indotto da $(S^c,T^c)$ in $G[r]$ e $y'$ il rispettivo flow allora
+    \[val(y') = val(y)\]
+    e $y'$ si dice $\alpha'$-ottimale dove $\alpha' = \alpha + \Gamma/16m$.\\
+    Dunque $r(S',T') \le v+\alpha'$
+\end{theo}
+
+\section{Max flow in $O(nm)$ time}
+
+Mostreremo in questa sezione come è possibile calcolare il max flow in tempo $O(nm)$ anche quando $m < n^{1.06}$.
+Mostreremo anche che il bottleneck di questa procedura è dovuto al mantenimento della chiusura transitiva di $G^{ab}$.
+
+
+\begin{algorithm}
+\caption{\textit{Improve-approx-2(r,S,T)}}
+\begin{algorithmic}[1]
+\State $\Delta := r(S,T)$
+\State $c = |N^c|$
+\If{$c \ge m^{9/16}$}
+    \State $\Gamma = \Delta$
+    \State find a $\Gamma/(8m)$-optimal flow in $G[r]$
+\ElsIf{$m^{1/3}\le c \le m^{9/16}$}
+    \State $\Gamma = \Delta$
+    \State $G^c:= \Gamma$-compact network
+    \State $y=\Gamma/(8m)$-optimal flow in $G^c$
+    \State $y' = induced(y, G[r])$
+    \State $update(r)$
+\ElsIf{$c<m^{1/3}$}
+    $\Gamma = choseGamma(c, \Delta)$
+    \State $G^c:= \Gamma$-compact network
+    \State $y=$ optimal flow in $G^c$
+    \State $y' = induced(y, G[r])$
+    \State $update(r)$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{theo}{max improve in $O(m)$}{}
+    Supponiamo che ogni improvement phase soddisfi i requisiti richiesti allora  i nodi \gmm-critici calcolati durante le iterazioni sono in tutto $O(m)$
+\end{theo}
+\begin{proof}
+    per essere \gmm-critico un nodo $j$ deve essere adiacente ad un arco \gmm medio oppure non avere archi adiacenti \gmm medi ma avere $|\Phi (j, r, E^{-ab})| > \Gamma/(16m^2)$ ovvero essere \gmm-special.
+
+    Consideriamo prima i nodi adiacenti ad un arco \gmm-medio:\\
+    \textbf{Claim:}\\
+    Un arco può avere capacità \gmm-media per al massimo 3 fasi consecutive.
+
+    \textit{proof:}\\
+    Sia (i,j) un arco di \gmm-media capacità allora $u_{ij} + u_{ji} \ge \Gamma/64m^3$ dato che ad ogni fase $\Delta' = \frac{\Delta}{8m}$
+    allora nella fase subito successiva  \[u_{ij} + u_{ji} \ge \Gamma/64m^3 \ge \Delta'/8m^2 =\Delta''/m = 8\Delta''' \]
+    Ottenendo dunque che dopo 3 fasi $u_ij+u_ji \ge 8\Delta$ dunque o $(i,j)$ o $(j,i)$ sono diventati abbondanti e l'arco non è più \gmm-medio.
+
+    Per quanto riguarda gli altri archi \gmm-special invece:\\
+    \textbf{Claim:}
+    Sia \gmm il parametro di compattezza di una certa \dlt-improvement phase e sia $j$ un nodo \gmm-special.
+    Se $\Delta^*$ è il bound 4 fasi dopo \dlt allora esiste un nodo $k$ tale che 
+    \[r_{jk}\ge 2\Delta^*\land r_{kj}\ge 2\Delta^* \] 
+    ovvero $(j,k)$(ma anche $(k,j)$) è \textit{doubly-abundant}, e dunque verrà contratto.
+    \textit{proof:}\\
+    Per prima cosa definiamo $v^*$ il flusso nella fase $\Delta^*$ tale che $r^* = r_{ij}-v_{ij}+v_{ji}$.
+    Dal lemma \ref{ab4ever} sappiamo che ogni arco \dlt-abbondante sarà anche $\Delta^*$-abbondante e in oltre
+    \[r_{ij}^* > \Gamma/64m^3 \implies r_{ij}^*> 8\Delta^*\]
+
+    Supponiamo che esista un arco abbondante $(j,k)$ con valore di $v_{jk}^*>\Gamma/64m^3$ allora per l'arco opposto $(k,j)$ vale
+    \[r^*_{k,j}= r_{kj}-v^*_{kj}+r^*_{jk}> 8\Delta^*\]
+    Dunque anche l'opposto è $\Delta^*$-abbondante e i nodi $j$ e $k$ vengono contratti.
+
+    Rimane dunque da verificare il caso in cui un nodo $j$ sia \gmm-special senza avere archi $\Delta$-abbondanti con flow maggiore di $\Gamma/64m^3$.\\
+    Sappiamo che:
+    \[|\Phi (j, r, E^{-ab})| = |\hat{r}_{out}(j)-\hat{r_{in}}(j)|> \Gamma/(16m^2) \]
+    consideriamo il caso in cui $\hat{r}_{out}(j)-\hat{r_{in}}(j)> \Gamma/(16m^2)$(l'altro è speculare)
+    Abbiamo che:
+    \[\sum_{j:(j,k)\in E^{-ab}}y^*_{jk} \le \sum_{j:(j,k)\in E}y^*_{jk} = \sum_{j:(i,j)\in E}y^*_{ij}\]
+    per conservazione del flusso, in oltre 
+    \[\sum_{j:(i,j)\in E}y^*_{ij} < \sum_{j:(i,j)\in E^{-ab}}y^*_{ij} + \sum_{j:(i,j)\in E^{ab}}y^*_{ij}+ m\Gamma/64m^3\]
+    ma dato che abbiamo assunto che nessun arco abbondante ha flow maggiore di $\Gamma/64m^3$
+    \[< \hat{r}_{in}(j) + 2m\Gamma/64m^3\]
+    \[< (\hat{r}_{out}(j) - \Gamma/16m^2) + \Gamma/32m^2\]
+    \[< \hat{r}_{out}(j) - \Gamma/32m^2\]
+    \[< \sum_{j:(j,k)\in E^{-ab}}r_{jk} - \Gamma/32m^2\]
+    Deve esistere dunque qualche arco per cui 
+    \[y^*_{jk}<r_{jk}-\Gamma/32m^3\implies r^*_{jk}\ge r_{jk}-y^*_{jk}>\Gamma/32m^3>16\Delta^*\]
+    Dunque esiste qualche $(j,k)$ arco antiabbondante nella fase \dlt che diventa abbondante nella fase $\Delta^*$ e dunque, dato che anche $(k,j)$ è abbondante il ciclo viene contratto.\QED
+
     
-    
-\end{algo}
 
 
+\end{proof}
 \newpage
 \section{Dubbi}
-    
+
 \section{Sostituzioni}
 Di seguito tutta la terinologia che fa riferimento all'articolo
 \begin{center}
