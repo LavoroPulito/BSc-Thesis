@@ -1,0 +1,6 @@
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{\numberline {1}Preliminary notions}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Network and flow}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Flow decomposition and transferring}{4}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Distance based}{6}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Max flow}{7}{section.1.4}%

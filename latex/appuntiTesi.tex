@@ -43,6 +43,7 @@
 \definecolor{cerise}{rgb}{0.87, 0.19, 0.39}
 \definecolor{babyblue}{rgb}{0.54, 0.81, 0.94}
 \definecolor{brightgreen}{rgb}{0.4, 1.0, 0.0}
+
 \definecolor{comment}{rgb}{0.5, 0.5, 0.5}
 \definecolor{string}{rgb}{0.3, 0.6, 0.3}
 \definecolor{keyword}{rgb}{0.7, 0, 0.4}
@@ -470,7 +471,7 @@ Possiamo dire in generale quindi che trasferire capacità non aumenta il max flo
     \end{enumerate}
 \end{definition}
 \textbf{Nota:} Se non diversamente specificato, una funzione $l((u,v))$ associa ad ogni arco del grafo la lunghezza $1$,
- tuttavia può anche essere specificata, come nel caso dell'algorimo di \textbf{Goldberg-Rao}(che segue),
+ tuttavia può anche essere specificata, come nel caso dell'algoritmo di \textbf{Goldberg-Rao}(che segue),
 una funzione di lunghezza diversa. 
 \begin{obs}{Valid distance label property}{}
     Una valid distance label, $d$, preserva le seguenti proprietà:
@@ -564,7 +565,6 @@ Ora che sono state definite le valid distance label, possiamo richiamare gli $s-
     Dato un Network $\mc{N}$, e una distance label $d$ su $\mc{N}$, si definisce taglio canonico una partizione dei nodi del grafo 
     \[(S_k, T_k) =  (S_k:=\{v\in V(\mc{N}) | d(v) \ge k\},\ T_k := V(\mc{N})\setminus S_k)\]
 \end{definition}
-
 \section{Dynamics Trees}
     Questa sezione è necessaria per la comprensione della dimostrazione del costo computazionale dell'algoritmo di Orlin per il max flow in $O(nm)$.
     \subsection*{Binary search tree}
@@ -712,7 +712,7 @@ per \textbf{level graph} si intende l'albero di copertura dato da una BFS che ri
     \includegraphics[height=5.25cm]{images/levelGraph.png}\\
     \textit{source: \href{https://www.youtube.com/watch?v=M6cm8UeeziI&t=2s}{Dinic's Algorithm by WilliamFriset}}
 \end{center}
-In questo modo si riduce il costo dell'algorimo da $O(n^2m)$ per Edmonds Karp a $O(nm^2)$
+In questo modo si riduce il costo dell'algoritmo da $O(n^2m)$ per Edmonds Karp a $O(nm^2)$
 \paragraph{Altri link utili}\begin{enumerate}
     \item \href{http://courses.csail.mit.edu/6.854/16/Notes/n10-blocking_flows.html}{Lecture from MIT}
     \item \href{https://en.wikipedia.org/wiki/Dinic%27s_algorithm}{Wikipedia}
@@ -721,12 +721,12 @@ In questo modo si riduce il costo dell'algorimo da $O(n^2m)$ per Edmonds Karp a 
 
 \section{Goldberg-Rao}
 \label{gbr}
-Ottimizzando il \nameref{dnc}, l'algoritmo di Goldberg-Rao riesce ad ottenere un \textbf{costo computazionale} di $\tilde{O}(\min\{n^{1/2}, m^{2/3}\} \cdot m)$ \\(ovvero $O(\min\{n^{1/2}, m^{2/3}\} \cdot m \cdot \log n \cdot \log nU )$)
+Ottimizzando il \nameref{dnc}, l'algoritmo di Goldberg-Rao riesce ad ottenere un \textbf{costo computazionale} di $\tilde{O}(\min\{n^{2/3}, m^{1/2}\} \cdot m)$ \\(ovvero $O(\min\{n^{2/3}, m^{1/2}\} \cdot m \cdot \log n \cdot \log nU )$)
 su un Network a con capacità intera.
 \paragraph*{Dettagli di notazione:}
 Nella sezione 2.2 useremo la segue notazione:
 \begin{itemize}
-    \item $\Lambda = \min\{n^{1/2}, m^{2/3}\}$
+    \item $\Lambda = \min\{n^{2/3}, m^{1/2}\}$
 \end{itemize}
 
 \subsection{Idea}
@@ -1037,9 +1037,9 @@ Nella sezione 2.2 useremo la segue notazione:
     \begin{remark}
         {Costo da raggiungere}{}
         Il costo dichiarato in partenza è in:
-        \[O(\min \{m^{2/3},\ n^{1/2}\}\cdot m \log n\log m U_{max})\]
+        \[O(\min \{n^{2/3}, m^{1/2}\}\cdot m \log n\log m U_{max})\]
         utilizzando strutture dati più avanzate, si può raggiungere il costo di:
-        \[O(\min \{m^{2/3},\ n^{1/2}\}\cdot m \log \frac{n^2}{m}\log U_{max})\]
+        \[O(\min \{n^{2/3}, m^{1/2}\}\cdot m \log \frac{n^2}{m}\log U_{max})\]
 
     \end{remark}
     Abbiamo già notato che il numero di \textbf{fasi} (ovvero il numero di decrementi) di F è nell'ordine di $\log(F)$ ovvero $log(m U_{max})$.
@@ -1086,37 +1086,32 @@ Nella sezione 2.2 useremo la segue notazione:
     Si ottiene il tempo dichiarato.
 
 
+\chapter{Orlin Algorithm}
+L'algoritmo di Goldberg-Rao raggiunge un costo detto \textit{weakly polynomial}, risolvendo il problema in $\log mU$ fasi ognuna da $O(\Lambda m \log(n^2/m))$ dove $\Lambda = \min \{n^{2/3}, m^{1/2}\}$.
+Se si vuole risolvere il problema del max flow con un costo di tempo che sia \textit{strongly polynomial} esiste l'algoritmo di King Rao e Tarjan. Tuttavia, tale algoritmo raggiunge un costo di $O(nm)$ solo a patto che $ m = \Omega (n^{1+\varepsilon})$ per qualche $\varepsilon > 0$. 
+Se il numero di archi non è sufficiente, il suo costo è di $O(nm \log m/(n \log n) n)$.
 
+Con il seguente algoritmo James B. Orlin propone una soluzione che sfruttando l'algoritmo di Goldberg-Rao, riesce a risolvere il problema del max flow in $O(nm)$ quando $m = O(n^{1+\varepsilon})$ rendendo così possibile risolvere il problema in tempo strettamente polinomiale per ogni valore di $n$ e $m$ e senza essere limitati da capacità di qualche arco.
 
-
-
-
-
-
-
-
-    \chapter{Orlin Algorithm}
-Fino ad ora gli algoritmi hanno minimizzato il costo computazionale fino ad arrivare ad un costo $O(nm)$ solo quando il valore di $m$ o $n$ assumeva determinate proporzioni.
-Il seguente algoritmo attinge dall'algoritmo \textbf{Goldberg and Rao} modificandone dei passaggi e preservando alcuni concetti per dimostrare però che si può risolvere il problema del max flows in $O(nm)$ per qualunque valore di $n$ e $m$.
 \section{Idea}
-Il problema viene risolto attraverso una serie di incrementi di flusso come nel Goldberg and Rao ma si rimpiazza il Network residuo del $\Delta$-incremento con una versione più compatta.
-l'algoritmo presenta due bottleneck: \begin{enumerate}
-    \item creazione della rappresentazione compattata
+L'idea nasce da varie osservazioni:
+Il Goldberg-Rao lavora per \textbf{fasi di incremento} che prendono un flusso \dlt-ottimale e lo rendono $\Delta/2$-ottimale. 
+In oltre si nota che $\log_{8m} mU \le 1 + \log U$ infatti d'ora in poi verranno considerate $\log U$ fasi di incremento.
+Se consideriamo $\Lambda = O(m^{1/2})$ possiamo notare che \[\log U < m^{7/16} \implies \tilde{O}(m^{3/2}m^{7/16}) = \tilde{O}(m^{31/16})\] 
+(la notazione $\tilde{O}$ ignora i fattori logaritmici).\\
+Approfondendo il calcoli si osserva 
+\[\tilde{O}(m^{31/16}) = O(m\cdot m^{15/16}\cdot log(n^2/m)) = O(m\cdot n^{(16/15)^{15/16}}\cdot log(n^2/m)) \]
+dato che stiamo cercando un algoritmo per quando $m = O(n^{1+\varepsilon})$, se $1+\varepsilon < 16/15$ e $\log U < m^{7/16}$ possiamo ottenere una soluzione ottimale ad un costo polinomiale $O(nm)$ già utilizzando solo il Goldberg-Rao.
+
+Ad ogni modo, ciò è vero solo se il numero di archi è sufficientemente più grande rispetto all'arco di capacità massima.
+Da qui l'idea di contrarre e compattare il network per fare in modo di calcolare il flusso massimo nelle condizioni ottimali . 
+
+L'algoritmo presenta due bottleneck: 
+\begin{enumerate}
+    \item creazione della rappresentazione compattata (più precisamente, mantenimento della chiusura trannsitiva)
     \item passaggio dal flow compattato al flow esteso.
 \end{enumerate}
-\section{Passaggi}
 
-Di seguito la lista dei passaggi che il programma svolge per risolvere il problema in $O(mn)$:
-\begin{enumerate}
-    \item scegliere un cut $(S,T)$
-    \item calcolo del residual graph
-    \item calcolo del \textit{abundant graph} (+ chiusura transitiva)
-    \item riduzione del residual graph a \textit{strongly compact}
-    \item riduzione dello \textit{strongly compact} a \textit{$\Delta$-compact}
-\end{enumerate}
-
-La particolarità di questo algoritmo sta nella scelta della modalità di incremento del flusso.
-\newpage
 \section{Fase di incremento}
 Il max-flow flow problem viene risolto attraverso una serie di \textit{fasi di incremento}, vediamo quindi quali sono gli input e gli output di ogni fase:
 \begin{itemize}[itemsep=0.5ex]
@@ -1140,7 +1135,8 @@ Affianco al parametro $\Delta$ verrà posto un parametro $\Gamma$ , dove $\Gamma
 A seconda delle condizioni, il \dlt improvement verrà eseguito o sul network $G$ originale oppure sul \gmm-\textit{compact network} $G^c$ che presenteremo più avanti.
 
 \section{$\Delta$-abundant e grafo di abbondanza}
-In questa sezione viene presentato il concetto di \textbf{Abbondanza} che in un certo senso sostituisce quello di \textbf{lunghezza} di Goldberg-Rao, che infatti non è sfruttato per la soluzione di Orlin.
+In questa sezione viene presentato il concetto di \textbf{Abbondanza}.
+
 \begin{definition}{$\Delta$-abundant arc}{}
     Sia $\Delta = r(S,T)$ un arco $(i,j)$ si dice $\Delta$-abbondante se $r_{ij} \ge 2\Delta$ 
      
@@ -1163,7 +1159,7 @@ In questa sezione viene presentato il concetto di \textbf{Abbondanza} che in un 
     Per il lemma \ref{ab4ever} proseguendo con le iterazioni il grafo di abbondanza può solo acquisire nuovi archi, mai perderli.
 \end{obs}
 
-IL grafo di abbondanza è utile in vari modi: 
+Il grafo di abbondanza ha due scopi: 
 \begin{enumerate}
     \item Tutti i cicli formati da archi abbondanti vengono \textit{contratti} in un solo nodo
     \item Tutti i nodi che adiacenti solo ad archi abbondanti (o di capacità troppo piccola), vengono \textit{compattati}
@@ -1468,7 +1464,7 @@ quando si compatta un grafo viene \underline{eliminato} un nodo che ha tutti gli
 
 
 \section{Da sc-compact a $\Gamma$-compact}
-Il tempo $O(nm)$ si basa sul fatto che calcolare un max flow \textit{approssimato} su un grafo $\Gamma$-compact sia di molto inferiore a calcolarlo sul grafo originale.
+Il grafo sc-compact non è abbastanza compattato per raggiungere il costo desiderato. Per compattarlo ulteriormente dovremmo utilizzare un parametro \gmm per scegliere quali nodi compattare e da quali archi trasferire capacità residua.
 La scelta del parametro \gmm\ verrà mostrata in seguito.
 Prima di proseguire è importante distinguere diversi tipo di archi.
 \begin{definition}{Classificazioni di capacità}{}
@@ -1654,6 +1650,8 @@ Viceversa un taglio in $G^c$ si dice indotto da uno in $G[r]$ se composto come s
     Ma sappiamo dal lemma \ref{boundlose} che:
     \[\sum_{p\in Q}r(p)\le \Gamma/16m\]\QED
 \end{proof}
+
+
 Dai precedenti lemmi possiamo quindi giungere all'asserzione del seguente teorema
 \begin{theo}{}{}
     Sia $y$ un $\alpha$-optimal flow nel \gmm-compact network $G^c$.
@@ -1666,12 +1664,13 @@ Dai precedenti lemmi possiamo quindi giungere all'asserzione del seguente teorem
 
 \section{Max flow in $O(nm)$ time}
 
-Mostreremo in questa sezione come è possibile calcolare il max flow in tempo $O(nm)$ anche quando $m < n^{1.06}$.
+Mostreremo in questa sezione come è possibile calcolare il max flow in tempo $O(nm)$ quando $m = O(n^{1.06})$.
 Mostreremo anche che il bottleneck di questa procedura è dovuto al mantenimento della chiusura transitiva di $G^{ab}$.
 
 
 \begin{algorithm}
 \caption{\textit{Improve-approx-2(r,S,T)}}
+\label{imp2}
 \begin{algorithmic}[1]
 \State $\Delta := r(S,T)$
 \State $c = |N^c|$
@@ -1693,8 +1692,27 @@ Mostreremo anche che il bottleneck di questa procedura è dovuto al mantenimento
 \EndIf
 \end{algorithmic}
 \end{algorithm}
+Una delle prime cose che possiamo capire osservando questo algoritmo è la complessità richiesta per la creazione del network \gmm-compact che enunciamo nel seguente teorema.
+\begin{theo}[label = tgcomp]{Costrutire un compact network}{}
+    Supponiamo che l'algoritmo mantenga dinamicamente la chiusura transitiva del grafo di abbondanza e 
+    che il parametro \gmm\ sia fornito in partenza, allora
+    l'algoritmo impiega tempo $O(m^{9/8})$ a creare il grafo compatto $G^c$.
+\end{theo}
+\begin{proof}
+    Per contrarre i componenti abbondanti connessi, così come i cicli, è necessario tempo $O(m)$.
+    Per quanto riguarda il grafo compattato: 
+    \begin{itemize}
+        \item Gli archi in $A^1$ possono essere calcolati in $O(m)$; 
+        \item Gli archi in $A^3$ possono essere calcolati in $O(m\log m)$ utilizzando gli alberi dinamici;
+        \item Quelli che sono più complessi da calcolare sono gli archi abbondanti di $A^2$ che vengono calcolati basandosi sulla chiusura transitiva che richiede costo ${|N^c|}^2$ per essere mantenuta.
+    \end{itemize}
+    Tuttavia l'algoritmo costruisce $G^c$ solo se il numero di nodi \gmm-critici è minore di $m^{9/16}$ dunque il costo diventa
+    \[O((m^{9/16})^2) = O(m^{9/8})\]
+\end{proof}
 
-\begin{theo}{max improve in $O(m)$}{}
+Di seguito se vogliamo dimostrare che la complessità di tutto l'algoritmo è proprio quella dichiarata in partenza abbiamo bisogno di porre dei bound tanto alle azioni che vengono compiute quanto agli oggetti che vengono analizzati.
+La prima cosa da dichiarare è che il numero di tutti i nodi \gmm-critici analizzati durante le varie fasi è in $O(m)$
+\begin{theo}[label = maxM]{max critical node in $O(m)$}{}
     Supponiamo che ogni improvement phase soddisfi i requisiti richiesti allora  i nodi \gmm-critici calcolati durante le iterazioni sono in tutto $O(m)$
 \end{theo}
 \begin{proof}
@@ -1733,36 +1751,118 @@ Mostreremo anche che il bottleneck di questa procedura è dovuto al mantenimento
     per conservazione del flusso, in oltre 
     \[\sum_{j:(i,j)\in E}y^*_{ij} < \sum_{j:(i,j)\in E^{-ab}}y^*_{ij} + \sum_{j:(i,j)\in E^{ab}}y^*_{ij}+ m\Gamma/64m^3\]
     ma dato che abbiamo assunto che nessun arco abbondante ha flow maggiore di $\Gamma/64m^3$
-    \[< \hat{r}_{in}(j) + 2m\Gamma/64m^3\]
-    \[< (\hat{r}_{out}(j) - \Gamma/16m^2) + \Gamma/32m^2\]
-    \[< \hat{r}_{out}(j) - \Gamma/32m^2\]
-    \[< \sum_{j:(j,k)\in E^{-ab}}r_{jk} - \Gamma/32m^2\]
+    \[\begin{array}{rl}
+        < & \hat{r}_{in}(j) + 2m\Gamma/64m^3\\
+        < & (\hat{r}_{out}(j) - \Gamma/16m^2) + \Gamma/32m^2\\
+        < & \hat{r}_{out}(j) - \Gamma/32m^2\\
+        = & \sum_{j:(j,k)\in E^{-ab}}r_{jk} - \Gamma/32m^2
+    \end{array}\]
+
     Deve esistere dunque qualche arco per cui 
     \[y^*_{jk}<r_{jk}-\Gamma/32m^3\implies r^*_{jk}\ge r_{jk}-y^*_{jk}>\Gamma/32m^3>16\Delta^*\]
-    Dunque esiste qualche $(j,k)$ arco antiabbondante nella fase \dlt che diventa abbondante nella fase $\Delta^*$ e dunque, dato che anche $(k,j)$ è abbondante il ciclo viene contratto.\QED
+    Dunque esiste qualche $(j,k)$ arco antiabbondante nella fase \dlt che diventa abbondante nella 
+    fase $\Delta^*$ e dunque, dato che anche $(k,j)$ è abbondante il ciclo viene contratto.\QED
+\end{proof}
 
-    
+Conoscendo il numero di nodi da analizzare il passo successivo sarebbe stimare il numero di \textbf{improvement phase} per calcolare il max flow. 
+Prima però è necessario comprendere il modo in cui viene scelto il parametro \gmm.
 
+\begin{lemma}[label = gammchose]{Il parametro \gmm}{}
+    Il parametro \gmm\ può essere scelto in tempo $O(m+n\log n)$
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}
+        \item Per ogni nodo $j$ calcoliamo il più grande valore \gmm'\ per cui j è \gmm'-critical (\textit{tempo richiesto} $O(m)$)
+        \item Ordiniamo i nodi $j$ per il loro valore \gmm' (\textit{tempo richiesto }$O(n\log n)$)
+        \item scegliamo il valore \gmm\ tale che esistano al massimo $m^{1/3}$ nodi j con $\Gamma'(j)\ge \Gamma$ (\textit{tempo richiesto }$O(1)$)\\\QED
+    \end{enumerate}
 
 \end{proof}
-\newpage
-\section{Dubbi}
 
-\section{Sostituzioni}
-Di seguito tutta la terinologia che fa riferimento all'articolo
-\begin{center}
-    Max flows in O(nm) time, or better\\
-    James B. Orlin*\\
-    Revised: July 25, 2012\\
-\end{center}
-con accanto la relativa sostituzione. La sostituzione del termine nel seguente articolo è stata effettuata per 
-motivi di comprensibilità o affinità con la bibliografia di riferimento. Tutti i termini che non appaiono in questa
- sezionie coincidono con quelli utilizzati nell'articolo.\\
-$\begin{array}{lcccl}
-      &orlin&          &here& description\\\hline
-    1.& A & \rightarrow &E& \text{L'insieme degli archi}\\
-    2.& x & \rightarrow &f& \text{La funzione del flow}
-\end{array}$
+Abbiamo ora tutti gli strumenti per calcolare il numero di improvement phase:
+\begin{lemma}{}{}
+    Il numero di improvement phase in $O(m^{2/3})$
+\end{lemma}\begin{proof}
+    Sappiamo dal teorema \ref{maxM} che il numero di nodi \gmm-critici analizzati è $O(m)$ e sappiamo dal lemma \ref{gammchose} che in ogni improvement phase almeno $m^{1/3}$ vengono analizzati.
+    
+    Quando abbiamo dimostrato che il numero di nodi era $O(m)$ la dimostrazione verteva sul fatto che i nodi avessero una "scadenza" e che in massimo 3 o 4 fasi consecutive sarebbero stati contratti.
+    Quindi tutti gli almeno $m^{1/3}$ nodi analizzati in una fase verranno consumati in $O(1)$ fasi.
+    Di conseguenza il numero di fasi necessarie per "consumarli" tutti è proprio $O(m^{2/3})$.\QED
+\end{proof}
+
+Dai seguenti lemmi possiamo giungere dunque al tempo totale richiesto per creare tutti i $G^c$.
+\begin{lemma}{}{}
+    Il tempo totale per creare tutti i compact network è $O(nm+m^{43/24})$
+\end{lemma} 
+\begin{proof}
+    Sappiamo che il parametro \gmm\ richiede tempo $O(m+n\log n)$\\
+    Sappiamo che per creare un compact network serve tempo $O(m^{9/8})$.\\
+    Dato che il numero di fasi sono $m^{2/3}$,\\
+    mettendo tutto insieme otteniamo:
+    \[O(mn+m^{43/24} )\]
+    \QED
+\end{proof}
+
+Trovare un flusso che che sia $\alpha$-ottimale significa trovare un flusso che sia inferiore a quello di capacità massima di al più $\alpha$.
+abbiamo visto che se cerchiamo il flusso massimo sul \gmm-compact network $G^c$ e poi lo trasponiamo sul network originale $G$ questo è già $\Gamma/16m$-ottimale. 
+
+Tuttavia durante l'algoritmo noi cerchiamo di ottenere questa approssimazione direttamente in $G$. 
+Se ricordiamo però il funzionamento del Goldberg-Rao possiamo vedere che l'algoritmo termina quando la stima che fa del flusso massimo è minore di 1.
+Intervenendo su questa stima del flusso massimo è possibile far terminare l'algoritmo prima che si arrivi al flusso ottimale ottenendo un distacco di massimo un valore $\alpha$ a nostra scelta.
+
+Ragioniamo ora sul costo $T$ di una fase del Goldberg-Rao sapendo di eseguirlo su un grafo con $C$ nodi e $O(C^2)$ archi.
+\[ \Lambda = O(C^{2/3}),\quad T = \tilde O(C^{2/3}\cdot C^2) =\tilde O(C^{8/3})\]
+Possiamo ora valutare il costo della procedura \hyperref[imp2]{Improve-approx-2} 
+
+In oltre possiamo notare che se eseguiamo il Goldberg rao su un totale di O(m) nodi eseguendo un massimo di $\log U$ fasi il numero medio di nodi in ogni improvement phase è
+\[C = O\left (\frac{m}{\log{U}}\right )\]
+da qui il motivo per cui nella procedura costruiamo il grafo compatto solo se $C \le m^{9/16}$ infatti se il Goldberg è polinomiale se $\log U \le m^{7/16}$ allora 
+\[C\ge m^9/16 \implies \frac{m}{\log U}\ge m^{9/16} \implies \log U \le \frac{m}{m^{9/16}} = m^{7/3}\]
+
+\begin{lemma}{Time of improve-max}{}
+    Il tempo per calcolare il flusso ottimale utilizzando sempre la procedura improve-approx 2 è 
+    \[O(m^{31/16}\log^2m)\]
+\end{lemma}
+\begin{proof}
+Dato che in tutto vengono calcolati $O(m)$ nodi \gmm-critici, calcolo il costo della procedura sul singolo nodo invece che per il numero di fasi:
+Sia T il tempo necessario per trovare un $\alpha$-optimal flow\\
+Sappiamo che se $C \ge m^{9/16}$ possiamo trovare un optimal flow con $T = O(m^{3/2}\log^2 n)$ eseguendo $\log n$ fasi del goldberg rao sul grafo originale. Rapportato al numero di nodi \gmm-critici otteniamo che $T/C = m^{15/16}\log^2n$. 
+se invece $ m^{1/3} \le C < m^{9/16}$ lavoriamo nel grafo compattato e cerchiamo il max flow eseguendo $\log n$ fasi del goldberg avendo $T = O(C^{8/3} \log n)$ dunque \[T/C = O(m^{5/3}\log n = m^{15/16})\]
+In fine se $C < m^{1/3}$ otteniamo che l'esiguo numero di archi porta il costo ad essere $ T= O(C^3)$ di conseguenza $T/C = O(C^2) = O(m^{2/3})$.
+
+Possiamo affermare che in ogni caso il costo del della procedura per ogni nodo è $O(m^{15/16}\log^2n)$. Moltiplicando il risultato per il numero di nodi \gmm-critici su tutti gli incrementi otteniamo \[O(m\cdot m^{15/16}\log^2n) = O(m^{31/16}\log^2n)\] 
+\QED
+\end{proof}
+
+\begin{lemma}{}{}
+    Il tempo totale per trasformare tutti i flussi calcolati su $G^c$ in flussi sul grafo residuo è 
+    \[O(nm+ m^{5/3}\log n)\]
+
+\end{lemma}
+\begin{proof}
+    Sia $G^c$ il grafo compatto determinato da $G[r]$ il grafo residuo e sia $y^c$ il flusso in  $G^c$ mentre $y$ è quello indotto sul grafo residuo.
+
+    Gli archi di $G^c$ sono divisi in tre categorie $E^c = E^1\cup E^2\cup E^3$ rispettivamente gli archi originali, gli pseudoarchi abbondanti e gli pseudoarchi antiabbondanti.
+
+    preso un qualsiasi arco $(i,j)$ tale che $y^c_{ij}> 0$ distinguiamo i tre casi:
+    \begin{enumerate}
+        \item se $(i,j) \in E^1 \implies y_{ij} = y^c_{ij}$
+        \item se $(i,j) \in E^2$ sappiamo che per ricostruire l'abundant path abbiamo bisogno di $O(|P|) = O(n)$, in oltre sfruttando gli alberi dinamici possiamo tenere il numero di archi con flow positivo in $E^2$ sotto il valore $C$ al costo $O(m\log n)$, che ripetuto per $O(m^{2/3})$ fasi fa $O(m^{5/3}\log n)$. In questo modo, tutti gli abundant path vengono ripristinati in $O(nm)$.
+        Per ricotruire gli abundant path ricordiamo sempre che il costo di mantenere dinamicamente la chiusura transitiva è di $O(nm)$
+        \item Per quanto riguarda gli archi in $E^3$ ancora una volta dobbiamo ricorrere agli alberi dinamici per ricostruire i percorsi anti abundant che abbiamo contratto. In particolare non è possibile tenere traccia di tutti i percorsi in maniera efficiente, tuttavia possiamo tenere un record con tutte le operazioni fatte sul grafo per poterle ripercorrere a ritroso e restaurare i vecchi path. Anche questa procedura ha costo complessivo di $O(m\log n\cdot m^{2/3})$ 
+    \end{enumerate}
+    Concludiamo che il tempo totale per indurre il flow su $G^c$ in $G[r]$ per tutte le $m^{2/3}$ fasi è 
+    \[O(nm+m^{5/3\log n})\]\QED
+\end{proof}
+
+Dai precedenti Lemmi possiamo dedurre il seguente teorema
+\begin{theo}{max flow in $O(nm)$}{}
+    Se il flow in ogni improvement phase è calcolato utilizzando la procedura \textit{improve-approx-2} allora il tempo per trovare il flow di valore massimo è 
+    \[O(nm+M^{31/16}\log^2n)\]
+    se $m= 1^{1.06}$ il running time è
+    \[O(nm)\]
+\end{theo}
+
 
 \chapter*{Bibliografia}
     Le fonti sull'algoritmo di Goldberg-Rao e su quello di Orlin vengono dai seguenti articoli:

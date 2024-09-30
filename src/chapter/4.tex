@@ -1,0 +1,366 @@
+
+\chapter{Goldberg-Rao Algorithm} \label{gbr}
+
+\label{gbr}
+Ottimizzando il \nameref{dnc}, l'algoritmo di Goldberg-Rao riesce ad ottenere un \textbf{costo computazionale} di $\tilde{O}(\min\{n^{2/3}, m^{1/2}\} \cdot m)$ \\(ovvero $O(\min\{n^{2/3}, m^{1/2}\} \cdot m \cdot \log n \cdot \log nU )$)
+su un Network a con capacità intera.
+\paragraph*{Dettagli di notazione:}
+Nella sezione 2.2 useremo la segue notazione:
+\begin{itemize}
+    \item $\Lambda = \min\{n^{2/3}, m^{1/2}\}$
+\end{itemize}
+
+\section{Idea}
+    \subparagraph{}
+    Alla base dell' ottimizzazione c'è l'idea di \textbf{contrarre} il Network secondo certi specifici parametri.
+    L'algoritmo si basa su \nameref{VDL} e introduce una nuova \textbf{length function} \underline{binaria}: $\bar{l}((v,w)): E\rightarrow \{0,1\}$.\\
+    La nuova length function assegna valore zero a tutti gli archi che soddisfano certi requisiti di capacità (che descriveremo meglio in seguito).
+    \subparagraph{}
+    Azzerare la lunghezza degli archi che collegano due o più nodi ci permette di considerarli come un unico nodo. 
+    Dunque contraendo le componenti connesse da archi di lunghezza 0 è possibile ridurre in maniera significativa il numero di incrementi di flusso e quindi il costo computazionale dell'algoritmo.
+
+\section{Il parametro $\Delta$}
+    \subparagraph{}
+    Il problema di contrarre il grafo consiste nel fatto che quando immettiamo il flow dalla sorgente al pozzo dobbiamo essere sicuri che tale flow rispetti i vincoli di capacità degli archi originali che ora sono contratti.
+    Per assicurarci che i vincoli vengano rispettati si utilizza una certa quantità $\Delta$ che funge da \textit{upper bound} all'incremento di flow e da \textit{lower bound} alla capacità degli archi \textit{zero-length}. 
+    \subparagraph{}
+    Incrementando il flusso di al massimo $\Delta$ siamo sicuri di rispettare i vincoli di capacità ma non siamo più sicuri che il flusso sia bloccante.
+    Dunque dobbiamo scegliere il valore da dare a $\Delta$ in maniera tale che il numero di incrementi sia ragionevolmente piccolo in modo da garantirci il costo computazionale desiderato.
+
+\section{Stopping condition}
+    L'algoritmo termina quando la differenza tra il flow corrente e quello massimo raggiungibile $F$ diventa minore di 1.
+    Dato che le capacità del Network sono tutte intere ciò ci assicura di aver raggiunto il massimo flusso possibile.
+    Un primo valore utile per $F$ corrisponde a $F = n\cdot U_{max}$
+
+\section{Scheletro dell'algoritmo}
+    Possiamo ora descrivere uno scheletro dell'algoritmo come segue:
+    
+        while $F \ge 1$:\begin{enumerate}
+            \item Aggiorna il bound $\Delta$, la length function $\bar{l}$, la distance labels $d_{\bar{l}}$;
+            \item Contrai i componenti fortemente connessi di archi \textit{zero-length}
+            \item Determina l'Admissible graph $A(f, \bar{l},d_{\bar{l}} )$
+            \item Trova un flusso in $A(f, \bar{l},d_{\bar{l}} )$ che sia bloccante o di valore $\Delta$
+            \item Somma il nuovo flusso trovato con quello ottenuto fin'ora 
+            \item Aggiorna il valore di $F$
+        \end{enumerate}
+        Ritorna il flusso finale 
+    \textit{NOTA:} Il punto 4 fa riferimento al modo di trovare un flusso bloccante come nel \nameref{dnc}, ciò procedere per incrementi sugli shortest path finché non si raggiunge un flusso bloccante o di valore $\Delta$.
+\section{Stimare il residual flow}
+    Sappiamo già che la capacità residua di ogni taglio $r(S,T)$ rappresenta un \textit{upper bound} al max flow.
+    Per stimare il flow residuo molto rapidamente e efficacemente possiamo analizzare i \nameref{cancut}.
+
+    \begin{lemma}{min $r(S_k,T_k)$ in $O(m)$ time}{}
+        Il taglio canonico di capacità minima può essere trovato in tempo $O(m)$
+    \end{lemma}
+    \begin{proof}
+        Sfruttiamo il fatto che ogni arco ha lunghezza al massimo $1$, dunque può attraversare al massimo un taglio canonico.
+        \begin{itemize}[noitemsep]
+            \item Inizializziamo a zero ogni $r(S_k,T_k)$
+            \item per ogni $(v,w) \in V$:
+            \begin{itemize}
+                \item se $d(v) > d(w)$: $r(S_k,T_k) += r(v,w)$
+            \end{itemize}
+            \item $return\ \min r(S_k,T_k)$
+        \end{itemize}
+        La correttezza e il costo computazionale di questa routine è piuttosto immediato
+    \end{proof}
+    Per gestire il costo computazionale bisogna assicurarsi che il valore di $F$ scenda abbastanza in fretta senza appesantire l'algoritmo.\\
+    Possiamo raggruppare tutte le iterazioni dell'algoritmo in \textbf{fasi} e aggiornare il valore di $F$ al taglio canonico minimo solo all'inizio di una nuova fase. 
+    Ogni fase parte da quando aggiorniamo il valore di $F$ fino a quando\\$\min r(S_k,T_k)\le F/2$.\\
+    In questo modo dopo al massimo $\log nU_{max}$ fasi l'algoritmo termina
+\section{Binary length function}
+    Il metodo del blocking flow del Goldberg-Rao riprende da quello di Dinics con importanti modifiche per assicurarsi che: 
+    \begin{itemize}[nolistsep]
+        \item Il flusso aumenti in maniera significativa ad ogni iterazione 
+        \item Dopo ogni raggiungimento di flusso bloccante, la distanza tra $s$ e $t$ aumenti.
+    \end{itemize} 
+    Allo scopo di raggiungere il costo computazionale desiderato.
+
+    \subparagraph*{} Come già accennato abbiamo bisogno di un upper bound $\Delta$ per rispettare i vincoli di capacità, ma abbiamo anche bisogno che gli incrementi di flussi non bloccanti siano al massimo $\Lambda$ dunque possiamo inizializzare:
+    \[\Delta= \lceil F/\Lambda \rceil \]
+    La funzione binaria di base è la seguente:
+    \[l(u.w) = \left \{ \begin{array}{ll}
+        0 & r_{vw} \ge 3\Delta\\
+        1 & altrimenti
+    \end{array} \right .\]
+    dunque archi con larga capacità avranno distanza zero. Tuttavia per raggiungere il costo desiderato è necessario apportare una modifica a tale funzione.
+    \begin{definition}{Special Arc}{}
+        Un arco $(v,w)$ si dice \textbf{speciale} se soddisfa tutti i seguenti requisiti:
+        \begin{itemize}
+            \item $2\Delta \le r_{v,w} < 3\Delta$
+            \item $d(v) = d(w)$
+            \item $r_{wv} \ge 3\Delta$
+        \end{itemize}
+    \end{definition}    
+    La funzione modificata prende in considerazione anche gli archi binari:
+    \[\bar{l}(u.w) = \left \{ \begin{array}{ll}
+        0 & r_{vw} \ge 3\Delta \lor specialArc((v,w))\\
+        1 & altrimenti
+    \end{array} \right .\]
+\textit{NOTA: Introdurre gli specialArc non modifica la distance labeling: $d_l = d_{\bar{l}}$}
+
+    \begin{lemma}[label = fixCont]{Da contratto a originale}{}
+        
+        Supponiamo di avere contratto il Network originale come descritto fin'ora, e di aver instradato un flusso $f$ attraverso il grafo contratto.
+        \paragraph*{}
+        Il costo computazionale di adattare questo flusso attraverso il grafo originale è $O(m)$
+    \end{lemma}
+    \begin{proof}\begin{enumerate}[nolistsep]
+        \item Scegliamo un vertice qualsiasi in ogni componente contratta.
+        \item Formiamo un in-tree e un out-tree da con radice nei vertici scelti. 
+        \item Dall'in-tree instradiamo il flusso positivo fino alla radice 
+        \item Dall'out-tree riconvogliamo il flusso in entrata dalla radice a tutti altri nodi connessi.
+    \end{enumerate}
+    Dato che il flusso massimo che instradiamo è $\Delta$ e tutti i nodi nei componenti contratti hanno costo almeno $2\Delta$ siamo sicuri che il flusso rispetti le capacità del Network.
+    Risulta immediato che tale metodo abbia costo direttamente proporzionale al numero di archi nei componenti connessi.
+    \QED
+    \end{proof}
+
+    \paragraph*{}Nel Dinic's Algorithm la dimostrazione che il flusso bloccante aumenti strettamente la distanza tra $s$ e $t$ è piuttosto scontata.
+    Non si può dire la stessa cosa nel caso del Goldberg-Rao data la presenza di archi di lunghezza zero. Pertanto risulta essenziale la dimostrazione del seguente teorema per assicurarsi che l'algoritmo termini.
+    \begin{theorem}{Blocking flow with binary length}{}
+        Sia $\bar{f}$ un flow in $A(f,\bar{l}, d_l)$, sia $f' = f + \bar{f}$ il flow incrementato e sia 
+        $l'$  la length function corrispondente a $f'$. Allora:
+        \begin{enumerate}
+            \item $d_l$ è una distance lebeling rispetto a $l'$
+            \item $d_{l'}(s) \ge d_l(s)$
+            \item  se $\bar{f}$ è bloccante $\implies$ $d_{l'}(s) > d_l(s)$
+        \end{enumerate}
+    \end{theorem}
+    \textit{Proof:}\\
+        \textbf{\underline{1. $d_l$ è una distance lebeling rispetto a $l'$}}
+            Per definizione di distance labeling $d_l(v) \le d_l(w) + \bar{l}(v,w)$ (ricordando che $d_l = d_{\bar{l}}$) 
+            dobbiamo quindi dimostrare che  $d_l(v) \le d_l(w) + l'(v,w)$.\\
+            Questo ciò è banalmente vero se $d_l(v) \le d_l(w)$.\\
+            Se $d_l(v) > d_l(w)$ ovvero $d_{\bar{l}}(v) > d_{\bar{l}}(w)$ allora $(w,v)$ non è ammissibile rispetto a $\bar{l}$.\\
+            Dunque se $(v,w)$ è ammissibile sappiamo che $u_{f'}(v,w)\le u_{f}(v,w)$ il che implica che \colorbox{yellow!40!white}{$l'(v,w)\ge \bar{l}(v,w)$} da cui segue lo statement.
+
+            \paragraph*{\underline{2. $d_{l'}(s) \ge d_l(s)$}}
+
+            Dimostriamo che il se $L:= {l_0, l_1, ..., l_n}$ l'insieme ordinato di tutte le funzioni di lunghezza
+            calcolate tra le iterazioni dell'algoritmo allora per qualsiasi $0 \le i \le j \le n \implies d_{l_i}(s) \le d_{l_j}(s)$.\\
+            Distinguiamo le due iterazioni come:
+            \begin{itemize}
+                \item Nell'iterazione $i$\\
+                Sia $l(u,v) = l_i(u,v)$ la funzione di lunghezza e $d(x) = d_{l_i}(x)$ quella di distanza, insieme al flusso definiscono $A(f, l_i, d_{l_i})$.\\ Sia $\Gamma$ l'$s\rightarrow t$ shortest path in $A: \Gamma \subseteq A$
+                \item Nell'iterazione $j$\\
+                Sia $l'(u,v) = l_j(u,v)$ la funzione di lunghezza e $d'(x) = d_{l_j}(x)$ quella di distanza, insieme al flusso definiscono $A'(f, l_j, d_{l_j})$.\\ Sia $\Gamma'$ l'$s\rightarrow t$ shortest path in $A': \Gamma' \subseteq A'$
+            \end{itemize}
+            
+            Supponiamo per assurdo che esistano due iterazioni $0 \le i\le j :$\\$ d(s) > d'(s)$:
+            \[\implies \exists \Gamma s\rightarrow t,\ \Gamma ' \ s \rightarrow t : \sum_{(v,w)\in \Gamma} l(v,w) \ge \sum_{(v,w)\in \Gamma'} l'(v,w)\]
+            Ovvero andando avanti con le iterazioni $s$ e $t$ si sono avvicinati.\\
+            Escludiamo subito il caso in cui $\Gamma = \Gamma'$ in quanto
+            \[\forall (v,w)\in A\cap A',\  l(v,w) \le l'(v,w)\implies l(\Gamma)\ \le\ l'(\Gamma')\]
+            \begin{center}
+                \textit{NOTA: $l(\Gamma) = \sum_{(v,w)\in \Gamma} l(v,w)$}
+            \end{center}
+            Consideriamo ora $\Gamma$ e $\Gamma'$. Sia $w$ l'ultimo nodo in $\Gamma$ per cui è vero che $d(w)> d'(w)$ e sia $x$ il nodo che lo segue:
+            \[w \in \Gamma : d(w) > d'(w) \land \exists x = succ_\Gamma(w) : d(x)\le d'(x)\]
+            $w$ e $x$ sono sempre ben definiti perché $d(s)>d'(s)$ per ipotesi e $d(t) = d'(t) = 0$ per definizione.
+            Dunque esiste in $\Gamma'$ un arco $(w,y)$ con $y \not = x$ tale che $d'(y) < d'(x)$. $x \not = y$ perché se fossero lo stesso nodo allora \[d'(w) = d'(x) + l'(w,x)\ge d(w)\]
+                che contraddice le ipotesi\\
+            Ricomponendo il tutto, sappiamo che:
+            \begin{enumerate}
+                \item $d(w)>d'(w) \iff d(x) + l(w,x) > d'(y) + l'(w,y)$ \\Non conosciamo la distanza $d(y)$ ma sappiamo che:
+                \[d'(y) = \sum_{(a,b)\in y-t\subseteq \Gamma'}l'(a,b) \ge \sum_{(a,b)\in y-t\subseteq \Gamma'}l(a,b) \]
+                Quindi il percorso all'iterazione $j$ è maggiore o uguale a quello dell'iterazione $i$.
+                \item $d(y) +l(w,y) \le d'(y) +l'(w,y) < d(x) +l(w,x)$  
+            \end{enumerate}
+            Ma noi sappiamo che $d(w) = d(x) +l(w,x)$ il che è \textbf{assurdo} perché non è la distanza minima di $w\rightarrow t$ in quanto è maggiore di 
+            $d(y) +l(w,y)$. 
+            
+            Sappiamo per certo che il percorso $w-y\rightarrow t$ esiste in $A$ proprio perché (a meno che non ne esista uno più corto) rappresenta il percorso con distanza minima da $w\rightarrow t$.
+
+            Dall'assurdo, le uniche conclusioni sono che o il percorso che passa per $y$ non era raggiungibile all'iterazione $i$ e quindi è impossibile raggiungerlo successivamente, 
+            oppure se esiste un percorso $s\rightarrow t$ all'iterazione $j$ minore di quello all'iterazione $i$, abbiamo sbagliato a considerare quello all'iterazione $i$.
+
+        
+            \paragraph*{\underline{3. Se $\bar{f}$ è bloccante allora $d_l(s) < d_{l'}(s)$}}
+
+            Per mostrare che il flow bloccante aumenta la distanza del nodo $s$ definiamo il la seguente dicitura:
+            \[c(v,w):= d_l(w)-d_l(v) + l'(v,w)\]
+            che rappresenta il cambiamento di lunghezza di un arco che collega due nodi adiacenti.
+            Possiamo affermare che:
+            \[\forall (v,w)\in E,\ c(v,w)\ge 0\]
+            dato che $l'(v,w)\ge l(v,w)\implies$
+            \[ d_l(w)-d_l(v) < 0 \iff l(v,w) = 1 \implies l'(v,w) = 1\]
+            Consideriamo ora un qualsiasi percorso $\Gamma$ in $G_{f'}$, la lunghezza del percorso è uguale a: 
+            \[l'(\Gamma) = d_l(s)+c(\Gamma)\]
+            Per mostrare quindi che il percorso è più lungo basta mostrare che 
+            \[\forall shortest\ s-t\ path\ \Gamma \in G_{f'}\implies \exists (v,w)\in \Gamma | c(v,w) > 0\]
+            Abbiamo ora uno strumento per mostrare che il flusso bloccante aumenta la distanza di $s$.
+
+
+            \begin{tabular}{c|c}
+                \multicolumn{2}{c}{Un semplice esempio grafico per visualizzare meglio quanto dichiarato}\\
+                \\
+                \begin{tikzpicture}[node distance={14mm}, thick , main/.style = {draw, circle}] 
+                \node[main] (1) at (0,0) {$s$}; 
+                \node[main] (2) [above right of=1] {$2$};
+                \node[main] (3) [right of=2] {$3$};
+                \node[main] (4) [right of=3] {$4$};
+                \node[main] (5) [below right of=1] {$5$};
+                \node[main] (6) [right of=5] {$6$};
+                \node[main] (7) [right of=6] {$7$};
+                \node[main] (9) [below right of=4] {$t$};
+                \node[main] (8) at ($(1)!0.5!(9)$) {$8$};
+                %Admissible
+                \draw[->] (1) to (2);
+                \draw[-] (2) to [red, midway] node {Full} (3);
+                \draw[-] (3) to (4);
+                \draw[-] (4) to (9);
+                \draw[-] (3) to (8);
+                \draw[-] (2) to (8);
+                \draw[-] (8) to (7);
+                \draw[->] (1) to (5);
+                \draw[-] (5) to (6);
+                \draw[-] (6) to (7);
+                \draw[-] (7) to [red, midway] node {Full} (9);
+                
+                %paths
+                \draw[->,line width=1 pt] (1)[babyblue, bend left] to (2);
+                \draw[->,line width=1 pt] (2)[babyblue, bend left] to (3);
+                \draw[->,line width=1 pt] (3)[babyblue, bend left] to (4);
+                \draw[->,line width=1 pt] (4)[babyblue, bend left] to (9);
+            
+                \draw[->,line width=1 pt] (1)[blue, bend right] to (5);
+                \draw[->,line width=1 pt] (5)[blue, bend right] to (6);
+                \draw[->,line width=1 pt] (6)[blue, bend right] to (7);
+                \draw[->,line width=1 pt] (7)[blue, bend right] to (9);
+
+            
+            \end{tikzpicture} 
+            &
+            \begin{tikzpicture}[node distance={14mm}, thick , main/.style = {draw, circle}] 
+                \node[main] (1) at (0,0) {$s$}; 
+                \node[main] (2) [above right of=1] {$2$};
+                \node[main] (3) [right of=2] {$3$};
+                \node[main] (4) [right of=3] {$4$};
+                \node[main] (5) [below right of=1] {$5$};
+                \node[main] (6) [right of=5] {$6$};
+                \node[main] (7) [right of=6] {$7$};
+                \node[main] (9) [below right of=4] {$t$};
+                \node[main] (8) at ($(1)!0.5!(9)$) {$8$};
+                %Admissible
+                \draw[->] (1) to (2);
+                \draw[-] (3) to (4);
+                \draw[-] (4) to (9);
+                \draw[-] (3) to (8);
+                \draw[-] (2) to (8);
+                \draw[-] (8) to (7);
+                \draw[->] (1) to (5);
+                \draw[-] (5) to (6);
+                \draw[-] (6) to (7);
+                
+                \draw[->,line width=1 pt] (1)[brightgreen, bend left] to (2);
+                \draw[->,line width=1 pt] (2)[brightgreen, bend left] to (8);
+                \draw[->,line width=1 pt] (8)[brightgreen, bend right] to (3);
+                \draw[->,line width=1 pt] (3)[brightgreen, bend left] to (4);
+                \draw[->,line width=1 pt] (4)[brightgreen, bend left] to (9);
+
+            \end{tikzpicture}\\
+            In \textbf{\color{babyblue}{azzurro}} $f$ e in  & In \textbf{\color{brightgreen}{verde}} lo \textit{shortest path} $\Gamma$ in $G_{f'}$\\
+            \textbf{\color{blue}{blu}} $\bar{f}$ in $A(f,\bar{l}, d_l)$ &
+\end{tabular}
+    Dato che $\bar{f}$ è bloccate in $A(f,\bar{l}, d_l)$, $\Gamma$ deve contenere un arco $(v,w)$ non presente in in $A(f,\bar{l}, d_l)$.
+    
+    Possiamo in oltre affermare che $d_l(v)\le d_l(w)$ o perché $(v,w) \in G_f$ ma allora se $d_l(v)> d_l(w)$ avremmo $(v,w) \in A(f,\bar{l}, d_l)$
+    oppure perché $(v,w) \not \in G_f$ ma appare in $G_{f'}$ e ciò è possibile solo se incremento il flusso nella direzione opposta per far apparire l'arco residuo. Dunque $(w,v) \in A(f,\bar{l}, d_l)$ il che implica che $d_l(v)\le d_l(w)$.
+
+    Supponiamo ora per assurdo che $c(v,w) = 0$, dunque $d_l(v) = d_l(w)$ e $l'(v,w) = 0$.
+    Il fatto che $(v,w)$ non sia in $A(f,\bar{l}, d_l)$ implica che o $(v,w)$ non sia in $G_f$, ma allora abbiamo mostrato già che l'arco opposto $(w,v)\in A(f,\bar{l}, d_l)$, 
+    oppure che $(v,w) \in G_f$ e non rispetta i requisiti di distance labeling per appartenere all'\nameref{AdmissibleGraph} $A(f,\bar{l}, d_l)$.\\
+    Dato che $d_l(v) = d_l(w)$ allora $l(v,w) = 1$. Si nota $1 = l(v,w) > l'(v,w) = 0$ implica che ho incrementato il flusso sull'arco opposto $(w,v)$.\\
+    Dunque in ogni caso l'arco $(w,v)\in A(f,\bar{l}, d_l)$.
+
+    Come già mostrato in precedenza, dato che $d_l(v) = d_l(w)$, \[(w,v)\in A(f,\bar{l}, d_l) \iff l(w,v) = 0\]
+    Concludiamo quindi che: 
+    \begin{itemize}
+        \item Durante gli incrementi di flusso abbiamo immesso un flow (di valore al massimo $\Delta$) attraverso l'arco $(w,v)$
+        \item $u_f(w,v) \ge 3\Delta$ perché $l(w,v) = 0$
+        \item Dopo questo incremento abbiamo: $u_{f'}(v,w) \ge 3\Delta$ perché  $l'(v,w) = 0$
+        \item Quindi $u_f(v,w) \ge 2\Delta$
+        \item Ma allora l'arco $(v,w)$ era un \textit{arco speciale} già prima dell'incremento, in quanto $d_l(v) = d_l(w) \land u_f(w,v) \ge 3\Delta \land u_f(v,w) \ge 2\Delta$
+    \end{itemize}
+    Concludiamo quindi che: 
+    \[d_l(v) = d_l(w) \implies d_{\bar{l}}(v) = d_{\bar{l}}(w) \land \bar{l}(v,w) = 0 \implies (v,w) \in A(f,\bar{l}, d_l)\]
+    Il che è assurdo 
+    \QED
+
+\section{Costo computazionale}
+    Abbiamo già mostrato che per trovare il max flow nel grafo 
+    Prima di addentrarci nel costo di una fase, rivediamo la struttura dell'algoritmo descritto fino ad ora.
+    \begin{verbatim}
+    def Goldberg_Rao_Algorithm(Network network)
+        F = U*n
+        Delta = F/Lambda
+        f = 0
+        while F >= 1:
+            l = update_length(n, Delta)
+            d_l = distanceLabel(network, l)
+            Gc = collapse(network)
+            Ag = admissible_graph(g)
+            f' = find_blocking_or_Delta_flow(Ag)
+            f = f + f'
+            network.fitFlow(f)
+            if min_canonical_cut(network).residual() <= F/2: 
+                F = min_canonical_cut(network).residual()
+                Delta = F/Lambda
+
+        return f
+        
+    \end{verbatim}
+\textbf{Remark:}
+        
+        Il costo dichiarato in partenza è in:
+        \[O(\min \{n^{2/3}, m^{1/2}\}\cdot m \log n\log m U_{max})\]
+        utilizzando strutture dati più avanzate, si può raggiungere il costo di:
+        \[O(\min \{n^{2/3}, m^{1/2}\}\cdot m \log \frac{n^2}{m}\log U_{max})\]
+
+
+    Abbiamo già notato che il numero di \textbf{fasi} (ovvero il numero di decrementi) di F è nell'ordine di $\log(F)$ ovvero $log(m U_{max})$.
+    Il costo per calcolare il min canonical cut e per adattare il flow al network sono entrambi in $O(m)$.
+    Resta però da analizzare il costo di ogni fase, cioè quanto in fretta il min canonical cut si dimezza.
+    \begin{lemma}
+        {}{}
+        La capacità minima di un canonical cut $(\bar{S}, \bar{T})$ soddisfa
+        \[u_f(\bar{S}, \bar{T})\le \frac{mM}{d_l(s)}\]
+        dove M rappresenta l'arco di lunghezza uno con più capacità
+    \end{lemma}
+    \begin{proof}
+        Risulta evidente che il il modo migliore in cui si può massimizzare la capacita del taglio canonico minimo è supponendo che tutti gli archi abbiano la capacità dell'arco di capacità maggiore e poi dividere equamente gli archi tra i vari tagli.
+
+    \end{proof}
+
+    Da questa prima stima segue il corollario
+    \begin{corollary}{}{}
+    Durante ogni fase ci sono al massimo $O(\Lambda)$ blocking flow incrementi.
+    \end{corollary}
+    \begin{proof}
+        Supponiamo che $\Lambda = m^{1/2}$ dato che abbiamo dimostrato che ogni blocking flow incrementa $d(s)$ di almeno uno, siamo sicuri che dopo $6\lceil \Lambda\rceil$ incrementi $d_l(s) \ge 6 m^{1/2}$.
+        Dunque possiamo prendere la stima nel lemma e affermare che:
+        \[ u_f(\bar{S}, \bar{T})\le \frac{mM}{d_l(s)}\le \frac{3m}{d_l(s)}\Delta\le \frac{3m}{6m^{1/2}}\frac{F}{m^{1/2}} = \frac{F}{2}\]
+        Dunque dopo $\lceil \Lambda\rceil$ la fase termina.\\
+        Per $\Lambda = n^{2/3}$ la dimostrazione è analoga e porta alla stessa conclusione. 
+        In conclusione, il costo di ogni fase è in ordine di $O(\Lambda)$ 
+    \end{proof}
+    
+    L'ultimo collo di bottiglia è rappresentato dal costo di trovare un blocking flow o di valore massimo $\Delta$ (computazionalmente equivalenti):
+    il che richiederebbe un costo di:
+    \begin{itemize}
+        \item $O(mn)$ in un approccio naive;
+        \item $O(m\log n)$ utilizzando i dynamic trees;
+        \item $O(m \log(n^2/m))$ utilizzando i size-bounded dynamic trees;
+    \end{itemize}
+    Unendo il costo di:
+    \begin{itemize}[label=$\times$]
+        \item trovare un Blocking flow
+        \item le iterazioni in ogni fase
+        \item il numero di fasi
+        \item gli ulteriori costi in $O(m)$
+    \end{itemize}
+    Si ottiene il tempo dichiarato.
+
+
+\cleardoublepage
