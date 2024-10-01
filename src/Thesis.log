@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.25)  29 SEP 2024 20:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.25)  30 SEP 2024 19:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1642,25 +1642,30 @@ Underfull \hbox (badness 10000) in paragraph at lines 220--221
 
 [8]) (./chapter/3.tex
 Chapter 2.
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 16.
 
-Underfull \hbox (badness 10000) in paragraph at lines 4--7
+Underfull \hbox (badness 10000) in paragraph at lines 35--39
 
  []
 
-<resources/images/levelGraph.png, id=284, 1128.215pt x 623.32875pt>
-File: resources/images/levelGraph.png Graphic file (type png)
-<use resources/images/levelGraph.png>
-Package pdftex.def Info: resources/images/levelGraph.png  used on input line 15.
-(pdftex.def)             Requested size: 270.36397pt x 149.37697pt.
 
 
 [9
 
 
- <./resources/images/levelGraph.png>]
+]
+<resources/images/levelGraph.png, id=293, 1128.215pt x 623.32875pt>
+File: resources/images/levelGraph.png Graphic file (type png)
+<use resources/images/levelGraph.png>
+Package pdftex.def Info: resources/images/levelGraph.png  used on input line 45.
+(pdftex.def)             Requested size: 270.36397pt x 149.37697pt.
 
-[10]) (./chapter/4.tex
+
+[10 <./resources/images/levelGraph.png>]) (./chapter/4.tex
 Chapter 3.
+
+LaTeX Warning: Reference `dnc' on page 11 undefined on input line 5.
+
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <14.4> on input line 22.
 
@@ -1681,6 +1686,10 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 
 ]
+
+LaTeX Warning: Reference `dnc' on page 12 undefined on input line 47.
+
+
 
 [12]
 
@@ -1763,8 +1772,6 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 [25]
 
 [26]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 496.
-
 
 [27]
 
@@ -1843,18 +1850,18 @@ Package logreq Info: Writing requests to 'Thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 65297 strings out of 473600
- 1527524 string characters out of 5728702
- 2608157 words of memory out of 5000000
- 86707 multiletter control sequences out of 15000+600000
- 668925 words of font info for 275 fonts, out of 8000000 for 9000
+ 65301 strings out of 473600
+ 1527573 string characters out of 5728702
+ 2608245 words of memory out of 5000000
+ 86710 multiletter control sequences out of 15000+600000
+ 668961 words of font info for 275 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  98i,15n,131p,1660b,2261s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss17.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on Thesis.pdf (43 pages, 1355645 bytes).
+Output written on Thesis.pdf (43 pages, 1358140 bytes).
 PDF statistics:
- 659 PDF objects out of 1000 (max. 8388607)
- 532 compressed objects within 6 object streams
- 181 named destinations out of 1000 (max. 500000)
+ 661 PDF objects out of 1000 (max. 8388607)
+ 534 compressed objects within 6 object streams
+ 182 named destinations out of 1000 (max. 500000)
  60271 words of extra memory for PDF output out of 61914 (max. 10000000)
 

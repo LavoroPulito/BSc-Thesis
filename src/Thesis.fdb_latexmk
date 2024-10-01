@@ -1,11 +1,11 @@
 # Fdb version 4
-["biber Thesis"] 1727343468.82916 "Thesis.bcf" "Thesis.bbl" "Thesis" 1727633234.14162 0
-  "Thesis.bcf" 1727633233.92342 108593 304666a97073edb14fa47bd316675133 "pdflatex"
+["biber Thesis"] 1727343468.82916 "Thesis.bcf" "Thesis.bbl" "Thesis" 1727718369.78962 0
+  "Thesis.bcf" 1727718369.56098 108593 304666a97073edb14fa47bd316675133 "pdflatex"
   (generated)
   "Thesis.bbl"
   "Thesis.blg"
   (rewritten before read)
-["pdflatex"] 1727633229.81968 "/Users/armandocoppola/Documents/MaxFlow_Algorithms/src/Thesis.tex" "Thesis.pdf" "Thesis" 1727633234.14197 0
+["pdflatex"] 1727718365.69 "/Users/armandocoppola/Documents/MaxFlow_Algorithms/src/Thesis.tex" "Thesis.pdf" "Thesis" 1727718369.78996 0
   "/Users/armandocoppola/Documents/MaxFlow_Algorithms/src/Thesis.tex" 1727633224.98136 6947 7cfe5eb6e870fa6fafbe36d7e06d00b9 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1254269338 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc" 1202520719 3486 c7eadf5dcc57b3b2d11736679f6636ba ""
@@ -377,17 +377,17 @@
   "/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1719312286 5483212 5ca4a6f711768cda56ff4b2d946fe634 ""
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1719312335 8238406 1e5a10c85567a8395e3e952f4b43c48d ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
-  "Thesis.aux" 1727633233.91118 6164 214b1576530d3ea54969b8b845cba2e3 "pdflatex"
+  "Thesis.aux" 1727718369.55608 6462 caabe1352683b2f24e8d0429967f2c43 "pdflatex"
   "Thesis.bbl" 1727343471.08918 466 76d65a242ec496c9b4361af646ff12cb "biber Thesis"
-  "Thesis.out" 1727633233.91908 3718 249f231c6da4a588ebcbd16dbfc45f55 "pdflatex"
-  "Thesis.run.xml" 1727633233.92524 2327 ab30363762baa8ded8624c9b253330f4 "pdflatex"
+  "Thesis.out" 1727718369.55797 3718 249f231c6da4a588ebcbd16dbfc45f55 "pdflatex"
+  "Thesis.run.xml" 1727718369.56179 2327 ab30363762baa8ded8624c9b253330f4 "pdflatex"
   "Thesis.tex" 1727633224.98136 6947 7cfe5eb6e870fa6fafbe36d7e06d00b9 ""
-  "Thesis.toc" 1727633233.92566 2221 70a6a8ca5e308743f752d14d517c2943 "pdflatex"
+  "Thesis.toc" 1727718369.56187 2221 70a6a8ca5e308743f752d14d517c2943 "pdflatex"
   "chapter/1.tex" 1727339825.51433 778 d9d01ef95ba53a36a89cdc8a087f07d5 ""
-  "chapter/2.tex" 1727633185.02984 19956 4e577630e94e9606aae012a9d26dbd94 ""
-  "chapter/3.tex" 1727633176.06623 1657 e8c30901fe6ee726904998c8a357caec ""
+  "chapter/2.tex" 1727718365.43059 19911 8c670ce1350bb6193824e4456ace3117 ""
+  "chapter/3.tex" 1727718114.72178 3465 23c5ccb762bbb8850bf4f851552489da ""
   "chapter/4.tex" 1727344312.05895 22951 772b6855bcd966157f4ee916c4cbf866 ""
-  "chapter/5.tex" 1727344995.54926 43707 b1a4d46a73d58623204e00a704bdcde5 ""
+  "chapter/5.tex" 1727715728.46881 43705 d0c3143fb7855826fd109bbca9d48219 ""
   "chapter/acknowledgements.tex" 1726852310 78 954a38de739600c6dcd9f79c7b4b8628 ""
   "chapter/conclusions.tex" 1727343367.5484 69 cf057c0b76bfe5a5f0bda0116d4b1b5f ""
   "resources/images/levelGraph.png" 1727340971.88829 972705 bc135715c1fb5cef386cff003728855a ""

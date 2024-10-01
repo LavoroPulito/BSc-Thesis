@@ -651,6 +651,7 @@ INPUT ./chapter/3.tex
 INPUT ./chapter/3.tex
 INPUT ./chapter/3.tex
 INPUT ./chapter/3.tex
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmr9.tfm
 INPUT ./resources/images/levelGraph.png
 INPUT ./resources/images/levelGraph.png
 INPUT ./resources/images/levelGraph.png
@@ -678,7 +679,6 @@ INPUT ./chapter/5.tex
 INPUT ./chapter/5.tex
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmri8.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmri7.tfm
-INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmr9.tfm
 INPUT ./chapter/conclusions.tex
 INPUT ./chapter/conclusions.tex
 INPUT ./chapter/conclusions.tex
