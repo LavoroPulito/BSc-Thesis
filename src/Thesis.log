@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.25)  30 SEP 2024 19:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.25)  3 OCT 2024 19:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1347,14 +1347,7 @@ File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 LaTeX Warning: Unused global option(s):
     [binding=0.6cm].
 
-(./Thesis.aux
-
-LaTeX Warning: Label `gbr' multiply defined.
-
-
-LaTeX Warning: Label `gbr@cref' multiply defined.
-
-)
+(./Thesis.aux)
 \openout1 = `Thesis.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 203.
@@ -1501,7 +1494,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmss' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-<sapienzalogo.pdf, id=143, 288.07625pt x 89.33376pt>
+<sapienzalogo.pdf, id=147, 288.07625pt x 89.33376pt>
 File: sapienzalogo.pdf Graphic file (type pdf)
 <use sapienzalogo.pdf>
 Package pdftex.def Info: sapienzalogo.pdf  used on input line 210.
@@ -1585,18 +1578,18 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 [5
 
-{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}])
+{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}])
 \tf@toc=\write7
 \openout7 = `Thesis.toc'.
 
 
 
 Package hyperref Warning: Option `colorlinks' has already been used,
-(hyperref)                setting the option has no effect on input line 224.
+(hyperref)                setting the option has no effect on input line 231.
 
 
 
-[6] (./chapter/1.tex
+[6{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}] (./chapter/1.tex
 
 [1
 
@@ -1616,19 +1609,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 79--84
 {/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
 
 [3{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
-Underfull \hbox (badness 10000) in paragraph at lines 131--132
+Underfull \hbox (badness 10000) in paragraph at lines 132--133
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 139--140
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
 
  []
 
 
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 220--221
+Underfull \hbox (badness 10000) in paragraph at lines 221--222
 
  []
 
@@ -1642,43 +1635,29 @@ Underfull \hbox (badness 10000) in paragraph at lines 220--221
 
 [8]) (./chapter/3.tex
 Chapter 2.
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 16.
-
-Underfull \hbox (badness 10000) in paragraph at lines 35--39
-
- []
-
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 30.
 
 
 [9
 
 
 ]
-<resources/images/levelGraph.png, id=293, 1128.215pt x 623.32875pt>
-File: resources/images/levelGraph.png Graphic file (type png)
-<use resources/images/levelGraph.png>
-Package pdftex.def Info: resources/images/levelGraph.png  used on input line 45.
-(pdftex.def)             Requested size: 270.36397pt x 149.37697pt.
 
-
-[10 <./resources/images/levelGraph.png>]) (./chapter/4.tex
+[10]) (./chapter/4.tex
 Chapter 3.
-
-LaTeX Warning: Reference `dnc' on page 11 undefined on input line 5.
-
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 22.
+(Font)              <14.4> on input line 26.
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 22.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Delta' on input line 22.
+(hyperref)                removing `math shift' on input line 26.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 22.
+(hyperref)                removing `\Delta' on input line 26.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 26.
 
 
 
@@ -1686,8 +1665,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 
 ]
-
-LaTeX Warning: Reference `dnc' on page 12 undefined on input line 47.
+Underfull \vbox (badness 7907) has occurred while \output is active []
 
 
 
@@ -1700,7 +1678,9 @@ LaTeX Warning: Reference `dnc' on page 12 undefined on input line 47.
 [15]
 
 [16]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 294.
+
+[17]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 380.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1710,15 +1690,15 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 
 
-[17]
-
 [18]
 
-[19]) (./chapter/5.tex
+[19]
+
+[20]) (./chapter/5.tex
 Chapter 4.
 
 
-[20
+[21
 
 
 ]
@@ -1736,25 +1716,22 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 
 
-[21]
-
-LaTeX Warning: Reference `ab4ever' on page 22 undefined on input line 73.
-
-
-
 [22]
+
+LaTeX Warning: Reference `ab4ever' on page 23 undefined on input line 73.
+
+
+
+[23]
 Underfull \hbox (badness 10000) in paragraph at lines 91--94
 
  []
 
 
-LaTeX Warning: Hyper reference `fixCont' on page 23 undefined on input line 275.
-
-
-
-[23]
 
 [24]
+
+[25]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 380.
@@ -1769,67 +1746,67 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 
 
-[25]
-
 [26]
 
 [27]
 
 [28]
 
-LaTeX Warning: Reference `ftsafe' on page 29 undefined on input line 569.
-
-
-
 [29]
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 585.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 585.
+LaTeX Warning: Reference `ftsafe' on page 30 undefined on input line 569.
 
 
 
 [30]
 
-LaTeX Warning: Reference `ab4ever' on page 31 undefined on input line 658.
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 585.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 585.
 
 
 
 [31]
+
+LaTeX Warning: Reference `ab4ever' on page 32 undefined on input line 658.
+
+
+
+[32]
 Underfull \hbox (badness 10000) in paragraph at lines 693--695
 
  []
 
 
 
-[32]
-
-LaTeX Warning: Reference `maxM' on page 33 undefined on input line 708.
-
-
-LaTeX Warning: Reference `gammchose' on page 33 undefined on input line 708.
-
-
-
 [33]
+
+LaTeX Warning: Reference `maxM' on page 34 undefined on input line 708.
+
+
+LaTeX Warning: Reference `gammchose' on page 34 undefined on input line 708.
+
+
 
 [34]
 
-[35]) (./chapter/conclusions.tex) (./chapter/acknowledgements.tex
+[35]
 
-[36
+[36]) (./chapter/conclusions.tex) (./chapter/acknowledgements.tex
+
+[37
 
 
 ])
 
-[37
+[38
 
 ]
 
-LaTeX Warning: Empty bibliography on input line 252.
+LaTeX Warning: Empty bibliography on input line 259.
 
 (./Thesis.aux)
  ***********
@@ -1840,28 +1817,25 @@ L3 programming layer <2024-05-27>
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package rerunfilecheck Info: File `Thesis.out' has not changed.
-(rerunfilecheck)             Checksum: 249F231C6DA4A588EBCBD16DBFC45F55;3718.
+(rerunfilecheck)             Checksum: CFE667CB90EDAF41605E6117D8038DE3;3882.
 Package logreq Info: Writing requests to 'Thesis.run.xml'.
 \openout1 = `Thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 65301 strings out of 473600
- 1527573 string characters out of 5728702
- 2608245 words of memory out of 5000000
- 86710 multiletter control sequences out of 15000+600000
- 668961 words of font info for 275 fonts, out of 8000000 for 9000
+ 65447 strings out of 473600
+ 1529526 string characters out of 5728702
+ 2608589 words of memory out of 5000000
+ 86837 multiletter control sequences out of 15000+600000
+ 681424 words of font info for 285 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 98i,15n,131p,1660b,2261s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 98i,15n,131p,1660b,2218s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss17.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on Thesis.pdf (43 pages, 1358140 bytes).
+Output written on Thesis.pdf (44 pages, 556227 bytes).
 PDF statistics:
- 661 PDF objects out of 1000 (max. 8388607)
- 534 compressed objects within 6 object streams
- 182 named destinations out of 1000 (max. 500000)
- 60271 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 671 PDF objects out of 1000 (max. 8388607)
+ 545 compressed objects within 6 object streams
+ 187 named destinations out of 1000 (max. 500000)
+ 68466 words of extra memory for PDF output out of 74296 (max. 10000000)
 

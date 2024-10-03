@@ -14,6 +14,8 @@
 \newlabel{chap:preliminaries@cref}{{[chapter][1][]1}{[1][2][]2}{}{}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {1.1}Network e flow}{2}{section.1.1}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces A classic example of a network}}{3}{figure.caption.3}\protected@file@percent }
+\newlabel{maxFlowMinCut}{{1.1}{4}{Max residual flow min residual cut}{lemma.1.1}{}}
+\newlabel{maxFlowMinCut@cref}{{[lemma][1][1]1.1}{[1][4][]4}{}{}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {1.2}Decomposition e transferring del flow}{5}{section.1.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {1.3}Distance based}{7}{section.1.3}\protected@file@percent }
 \newlabel{VDL}{{1.10}{7}{Valid distance labeling}{definition.1.10}{}}
@@ -28,52 +30,56 @@
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{chap:dnc}{{2}{9}{Dinic's Algorithm}{chapter.2}{}}
 \newlabel{chap:dnc@cref}{{[chapter][2][]2}{[1][9][]9}{}{}{}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces \textit  {Dinics-Algorithm(G, c)}}}{9}{algorithm.1}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces \textit  {Dinics-Algorithm(G, c)}}}{10}{algorithm.1}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{algotrans}{{1}{9}{\textit {Dinics-Algorithm(G, c)}}{algorithm.1}{}}
-\newlabel{algotrans@cref}{{[algorithm][1][]1}{[1][9][]9}{}{}{}}
-\@writefile{toc}{\contentsline {paragraph}{Altri link utili}{10}{obs.2.1}\protected@file@percent }
+\newlabel{dinicsAlgo}{{1}{10}{\textit {Dinics-Algorithm(G, c)}}{algorithm.1}{}}
+\newlabel{dinicsAlgo@cref}{{[algorithm][1][]1}{[1][9][]10}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Altri link utili}{10}{algorithm.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {chapter}{\numberline {3}Goldberg-Rao Algorithm}{11}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{gbr}{{3}{11}{Goldberg-Rao Algorithm}{chapter.3}{}}
-\newlabel{gbr@cref}{{[chapter][3][]3}{[1][11][]11}{}{}{}}
-\newlabel{gbr}{{3}{11}{Goldberg-Rao Algorithm}{chapter.3}{}}
-\newlabel{gbr@cref}{{[chapter][3][]3}{[1][11][]11}{}{}{}}
+\newlabel{chap:gbr}{{3}{11}{Goldberg-Rao Algorithm}{chapter.3}{}}
+\newlabel{chap:gbr@cref}{{[chapter][3][]3}{[1][11][]11}{}{}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.1}Idea}{11}{section.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subparagraph}{}{11}{section.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subparagraph}{}{11}{section.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Il parametro $\Delta $}{11}{section.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subparagraph}{}{11}{section.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subparagraph}{}{12}{section.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Stopping condition}{12}{section.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Scheletro dell'algoritmo}{12}{section.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.5}Stimare il residual flow}{12}{section.3.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.6}Binary length function}{13}{section.3.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.7}Costo computazionale}{17}{section.3.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Orlin Algorithm}{20}{chapter.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}The $\Delta $ parameter}{11}{section.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Stop condition}{12}{section.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Stimare il residual flow}{12}{section.3.4}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces \textit  {canCutCapacity($G_f$, d, l)}}}{13}{algorithm.2}\protected@file@percent }
+\newlabel{canCutCapacity}{{2}{13}{\textit {canCutCapacity($G_f$, d, l)}}{algorithm.2}{}}
+\newlabel{canCutCapacity@cref}{{[algorithm][2][]2}{[1][12][]13}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}Binary length function}{13}{section.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}How to zero lengths}{13}{subsection.3.5.1}\protected@file@percent }
+\newlabel{fixCont}{{3.2}{14}{From contract to original}{lemma.3.2}{}}
+\newlabel{fixCont@cref}{{[lemma][2][3]3.2}{[1][14][]14}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}How to increase distance}{15}{subsection.3.5.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces graphic example to better visualize what was declared}}{17}{table.caption.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.6}Costo computazionale}{18}{section.3.6}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces \textit  {Goldberg-RaoAlgorithm(G, c)}}}{18}{algorithm.3}\protected@file@percent }
+\newlabel{algotrans}{{3}{18}{\textit {Goldberg-RaoAlgorithm(G, c)}}{algorithm.3}{}}
+\newlabel{algotrans@cref}{{[algorithm][3][]3}{[1][18][]18}{}{}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Orlin Algorithm}{21}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:Orlin}{{4}{20}{Orlin Algorithm}{chapter.4}{}}
-\newlabel{chap:Orlin@cref}{{[chapter][4][]4}{[1][20][]20}{}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Idea}{20}{section.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Fase di incremento}{21}{section.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}$\Delta $-abundant e grafo di abbondanza}{21}{section.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Contractions of abundant graph}{23}{section.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Compattare il network}{24}{section.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.6}Da sc-compact a $\Gamma $-compact}{25}{section.4.6}\protected@file@percent }
-\newlabel{media}{{2}{25}{}{Item.42}{}}
-\newlabel{media@cref}{{[enumi][2][]2}{[1][25][]25}{}{}{}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces \textit  {Improve-approx-2(r,S,T)}}}{28}{algorithm.2}\protected@file@percent }
-\newlabel{imrAprx}{{2}{28}{\textit {Improve-approx-2(r,S,T)}}{algorithm.2}{}}
-\newlabel{imrAprx@cref}{{[algorithm][2][]2}{[1][27][]28}{}{}{}}
-\newlabel{boundlose}{{4.3}{28}{Bound to \gmm -compact lose capacity}{lemma.4.3}{}}
-\newlabel{boundlose@cref}{{[lemma][3][4]4.3}{[1][28][]28}{}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.7}Max flow in $O(nm)$ time}{30}{section.4.7}\protected@file@percent }
-\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces \textit  {Improve-approx-2(r,S,T)}}}{30}{algorithm.3}\protected@file@percent }
-\newlabel{imp2}{{3}{30}{\textit {Improve-approx-2(r,S,T)}}{algorithm.3}{}}
-\newlabel{imp2@cref}{{[algorithm][3][]3}{[1][30][]30}{}{}{}}
-\@writefile{toc}{\contentsline {chapter}{Conclusions}{36}{chapter*.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{Acknowledgements}{37}{chapter*.5}\protected@file@percent }
+\newlabel{chap:Orlin}{{4}{21}{Orlin Algorithm}{chapter.4}{}}
+\newlabel{chap:Orlin@cref}{{[chapter][4][]4}{[1][21][]21}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Idea}{21}{section.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Fase di incremento}{22}{section.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}$\Delta $-abundant e grafo di abbondanza}{22}{section.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Contractions of abundant graph}{24}{section.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Compattare il network}{25}{section.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Da sc-compact a $\Gamma $-compact}{26}{section.4.6}\protected@file@percent }
+\newlabel{media}{{2}{26}{}{Item.40}{}}
+\newlabel{media@cref}{{[enumi][2][]2}{[1][26][]26}{}{}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {4}{\ignorespaces \textit  {Improve-approx-2(r,S,T)}}}{29}{algorithm.4}\protected@file@percent }
+\newlabel{imrAprx}{{4}{29}{\textit {Improve-approx-2(r,S,T)}}{algorithm.4}{}}
+\newlabel{imrAprx@cref}{{[algorithm][4][]4}{[1][28][]29}{}{}{}}
+\newlabel{boundlose}{{4.3}{29}{Bound to \gmm -compact lose capacity}{lemma.4.3}{}}
+\newlabel{boundlose@cref}{{[lemma][3][4]4.3}{[1][29][]29}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.7}Max flow in $O(nm)$ time}{31}{section.4.7}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {5}{\ignorespaces \textit  {Improve-approx-2(r,S,T)}}}{31}{algorithm.5}\protected@file@percent }
+\newlabel{imp2}{{5}{31}{\textit {Improve-approx-2(r,S,T)}}{algorithm.5}{}}
+\newlabel{imp2@cref}{{[algorithm][5][]5}{[1][31][]31}{}{}{}}
+\@writefile{toc}{\contentsline {chapter}{Conclusions}{37}{chapter*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Acknowledgements}{38}{chapter*.6}\protected@file@percent }
 \abx@aux@read@bbl@mdfivesum{76D65A242EC496C9B4361AF646FF12CB}
-\gdef \@abspage@last{43}
+\gdef \@abspage@last{44}
