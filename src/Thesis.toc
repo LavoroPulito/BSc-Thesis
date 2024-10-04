@@ -19,10 +19,10 @@
 \contentsline {chapter}{\numberline {4}Orlin Algorithm}{21}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Idea}{21}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Fase di incremento}{22}{section.4.2}%
-\contentsline {section}{\numberline {4.3}$\Delta $-abundant e grafo di abbondanza}{22}{section.4.3}%
+\contentsline {section}{\numberline {4.3}$\Delta $-abundant e grafo di abbondanza}{23}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Contractions of abundant graph}{24}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Compattare il network}{25}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Da sc-compact a $\Gamma $-compact}{26}{section.4.6}%
+\contentsline {section}{\numberline {4.5}How to compact network}{25}{section.4.5}%
+\contentsline {section}{\numberline {4.6}From sc-compact to $\Gamma $-compact}{26}{section.4.6}%
 \contentsline {section}{\numberline {4.7}Max flow in $O(nm)$ time}{31}{section.4.7}%
 \contentsline {chapter}{Conclusions}{37}{chapter*.5}%
 \contentsline {chapter}{Acknowledgements}{38}{chapter*.6}%

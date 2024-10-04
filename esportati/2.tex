@@ -199,7 +199,7 @@
 
 % ================== DEDICATION ==================
 \dedication{
-    DA DEDICARE.
+    To DO.
 }
 % ================== ABSTRACT ==================
 
@@ -214,447 +214,450 @@
 
 
 \mainmatter
-\chapter{Preliminary notions} \label{chap:preliminaries}
 
-\section{Network and flow}
-    Before starting, we need to establish some essential preliminary notions. In particular, we need to define what a network is and what it is composed of.
-\begin{definition}[Network]
-    A network is a structure composed of a graph G such that $G = (N,E)$ such that:\begin{itemize}
-        \item N = the set of nodes
-        \item E = the set of edges such that $(i,j) \in E \implies i,j\in N$
-        \item $n$ = $|N|$
-        \item $m$ = $|E|$
-    \end{itemize}
-    and a function $u: E \rightarrow \mathbb{N}^+\cup \{+\infty\}$ which denotes the capacity of each edge.
-    \[u(i,j) = \text{capacity of the edge } (i,j)\]
-    \begin{center}
-        \textit{we will denote the capacity $u(i,j)$ below with the abbreviation $u_{ij}$}
-    \end{center}
-\end{definition}
-In each network exists two special nodes, s \textit{the source} and t \textit{the sink}. The network aims to send a certain flow from the source to the sink.
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[node distance={18mm}, thick, main/.style = {draw, circle}] 
-        \node[main] (0) {$s$}; 
-        \node[main] (1) [above right of=0] {$1$};
-        \node[main] (2) [below right of= 0] {$2$};
-        \node[main] (3) [above right of = 2] {$3$};
-        \node[main] (4) [above right of=3] {$4$};
-        \node[main] (5) [below right of=3] {$5$};
-        \node[main] (6) [below right of=4] {$t$};
-        
-    
-    
-        \draw[->] (0) to [bend left = 20] (1);
+\chapter{Goldberg-Rao Algorithm}
 
-    
-        \draw[->] (0) to [bend right = 20] (2);
+\label{chap:gbr}
+After understanding how Dinic's algorithm works, we can move to the next step and focus on the algorithm published by Andrew V. Goldberg and Satish Rao in 1998.
 
-    
-        \draw[->] (2) to [bend left= 20] (3);
-        \draw[->] (3) to [bend left= 20] (2);
-    
-        \draw[->] (1) to [bend left= 20] (3);
-        \draw[->] (3) to [bend left= 20] (1);
-
-        \draw[->] (4) to [bend left= 20] (3);
-        \draw[->] (3) to [bend left= 20] (4);
-
-        \draw[->] (5) to [bend left= 20] (3);
-        \draw[->] (3) to [bend left= 20] (5);
-
-        \draw[->] (1) to [bend left= 20] (4);
-        \draw[->] (4) to [bend left= 20] (1);
-
-
-        \draw[->] (4) to [bend left= 20] (6);
-
-        \draw[->] (5) to [bend left= 20] (2);
-        \draw[->] (2) to [bend left= 20] (5);
-
-        \draw[->] (5) to [bend right= 20] (6);
-
-    
-    \end{tikzpicture} 
-    \caption{A classic example of a network}
-\end{figure}
-
-
-
-\begin{definition}[$U_{min},\ U_{max}$]
-    In each Network we define:
-    \begin{itemize}
-        \item $U_{min}$: the smallest non zero capacity associated to an edge:
-        \[U_{min} = u_{ij} | (i,j) \in E\ \land\ u_{ij} > 0\ \land\ \nexists (k,l) \in E : 0<u_{kl}<u_{ij}\]
-        \item $U_{max}$: the largest finite capacity
-        \[U_{max} = u_{ij}| (i,j) \in E\land u_{ij} \not = + \infty\ \land \]
-        \[\nexists (k,l) \in E : u_{ij}< u_{jl} < +\infty \]
-    \end{itemize}
-\end{definition}
-Moreover, we divide the edge into two categories:\\
-\textbf{External Arcs} := $\{(x,y) | (x,y)\in E \land (x = s \lor y = t)\}$\\
-\textbf{Internal Arcs} := $\{(x,y) | (x,y)\in E \land x \not = s \land y \not = t\}$ i.e. $E \setminus External\ edges$\\
-\\
-For our simplicity, we assume that for each internal edge $(i,j)\in E$ exists the edge $(j,i) \in E$.\\ The same thing is true for any internal node for which there always exists an edge that link it with $s$ and $t$, even if it has zero capacity.
-\[\forall i \in N \implies \{(s,i),(i,t)\} \subseteq E\]
-\begin{obs}
-    Node $s$ has no incoming arcs just as node $t$ has no outgoing arcs.
-\end{obs}
-
-\begin{definition}[Flow]
-    We define the flow as the function $f: E \rightarrow\mathbb{R}_+ \cup \{0\}$ which satisfies the \textbf{flow conservation role}:
-    \[\sum_{j:(i,j) \in E} f_{ij} - \sum_{j:(j,i) \in E}f_{ji} = 0 \quad \forall i \in N\setminus\{s,t\}\]
-\end{definition}
-
-We call a flow \textit{feasible} if it respects the \textbf{capacity constraint}: \[\forall (i,j) \in E,\ f_{ij} \le u_{ij}\]
-
-The value of a flow is given by the sum of all the outgoing edges of $s$ (or by the sum of all the incoming edges of $t$; it is the same)
-\begin{definition}[Residual capacity]
-    The residual capacity of an edge $(i,j)$ means the amount of flow we can route in this edge before we saturate it.
-    \[r_{ij} = u_{ij} + f_{ji} - f_{ij}\]    
-    When we talk about residual capacity according to different flows we could also use the notation:    \[u_f(i,j)\]
-    that means the residual capacity of the edge $(i,j)$ which has routed the flow $f$.
-
-\end{definition}
-We will often talk later about the residual function or the array of residual capacities, in fact we are referring to any function or structure that associates each arc with its residual capacity.
-
-\begin{definition}[Residual Graph]
-    Given a network $G$ and a flow $f$, we can define a residual graph as follows
-    \[G[r] := (N(\mc{N}), \{(i,j) | (i,j)\in E(\mc{N}) \land r_{ij} > 0\})\]
-    The notation $G[r]$ refers to a graph designed from the residual capacity function $r$. We will refer to the residual graph also using the notation $G_f$ that underlines the representation of the original network under the effect of the routed flow $f$
-\end{definition}
-
-\begin{definition}[s-t Cut]
-    Given a network $G$ we define an $s$-$t$ cut on G as a partition into two subsets $(T, S)$ such that:
-    \begin{enumerate}
-        \item $s \in S$
-        \item $t \in T$
-        \item $S \cap T = \varnothing$
-        \item $S \cup T = N$
-    \end{enumerate}
-    
-    The \textit{cutting capacity} is defined as:
-    \[u(S,T) = \sum_{i\in S\land j\in T} u_{ij}\]
-    the \textit{residual of a cut} is defined as:
-    \[r(S,T) = \sum_{i\in S\land j\in T} r_{ij}\]
-\end{definition}
-
-\begin{lemma}[Max residual flow min residual cut]
-    Given a residual graph $G[r]$ and a cut (S,T) then $r(S,T)$ represents the upper bound of the flow from $s \rightarrow t$.
-In particular, the maximum increase in flow with respect to $r$ is the smallest residual capacity of an s-t cut.
-\end{lemma}
-\textit{Proof. }Omitted.\\
-
-The lemma states that the problem of finding the maximum flow on a network is \textbf{dual} to that of finding a minimum capacity cut on the same network since this will represent the bottleneck that acts as an upper bound to the increase in flow.
-
-\begin{definition}(Anti-symmetric subset)
-    Let $E(j)$ be the set of edges incident to a node $j$, we define the \textit{Anti-symmetric} subset of $j$ as:
-    \[E'(j) :=\{(x,y)|(x,y)\in E(j) \land (x,y) \in E'(j) \iff (y,x) \not\in E'(j)\}\] 
-\end{definition}
-\textbf{Example:}\\
-\begin{center}
-    
-\begin{tabular}{cc|cc}
-    $E(j)  $&\qquad &\qquad& $E'(j)  $\\
-\begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}] 
-    \node[main] (1) {$j$}; 
-    \node[main] (2) [above right of=1] {$b$};
-    \node[main] (3) [below right of=1] {$c$};
-    \node[main] (4) [above left of=1] {$a$};
-    \node[main] (5) [below left of=1] {$d$};
-
-
-    \draw[->] (2) to [bend left] (1);
-    \draw[->] (1) to [bend left] (2);
-
-    \draw[->] (3) to [bend left] (1);
-    \draw[->] (1) to [bend left] (3);
-
-    \draw[->] (4) to [bend left] (1);
-    \draw[->] (1) to [bend left] (4);
-
-    \draw[->] (5) to [bend left] (1);
-    \draw[->] (1) to [bend left] (5);
-
-\end{tikzpicture} 
-&&
-&
-\begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}] 
-    \node[main] (1) {$j$}; 
-    \node[main] (2) [above right of=1] {$b$};
-    \node[main] (3) [below right of=1] {$c$};
-    \node[main] (4) [above left of=1] {$a$};
-    \node[main] (5) [below left of=1] {$d$};
-
-
-
-    \draw[->] (1) to [bend right] (2);
-
-
-    \draw[->] (1) to [bend left] (3);
-
-    \draw[->] (4) to [bend right] (1);
-
-
-    \draw[->] (5) to [bend left] (1);
-
-
-\end{tikzpicture} 
-\end{tabular}
-\end{center}
-\begin{lemma}[Anti-symmetriy lemma]
-
-    Given $E'(j)$ an anti-symmetric subset of $E(j)$ and a flow $f$ on $G$ with $r = r[f]$ then is true that:
-    \[\sum_{(i,j)\in E'(j)}r_{ij} - \sum_{(j,i)\in E'(j)}r_{ji} = \sum_{(i,j)\in E'(j)}u_{ij} - \sum_{(j,i)\in E'(j)}u_{ji} \]
-\end{lemma}
-\begin{proof}
-    \[\sum_{(i,j)\in E'(j)}r_{ij} - \sum_{(j,i)\in E'(j)}r_{ji} -\sum_{(i,j)\in E'(j)}u_{ij} + \sum_{(j,i)\in E'(j)}u_{ji}= 0 \implies\]
-    \[\sum_{(i,j)\in E'(j)}(u_{ij}-r_{ij}) + \sum_{(j,i)\in E'(j)}(u_{ji}-r_{ji}) = 0 \]
-    since $r_{ij} = u_{ij} - f_{ji} + f_{ij} \implies u_{ij} -r_{ij} = f_{ji}- f_{ij}$ 
-    \[\sum_{(i,j)\in E'(j)}(f_{ji}-f_{ij}) + \sum_{(j,i)\in E'(j)}(f_{ij}-f_{ji}) = \sum_{(i,j)\in E(j)}(f_{ji}-f_{ij}) = 0\]
-    so we deduce the conservation flow constraint.
-\end{proof}
-\section{Flow decomposition and transferring}
-
-\begin{definition}[Flow decompositon]
-    Given $f$ an $s$-$t$ flow on a Network $\mc{N}$, we define a \textit{flow-decomposition}, as a collection of $s$-$t$ directed path 
-
-    \[P_1, ..., P_k\quad where\ k < m\]
-    To each path $P_i $ corresponds a value $\phi_i \in \mb{N^+} | \phi_i > 0$ that is the value of the path flow.
-
-    In a flow decomposition the following rules must be respected: 
-    \begin{enumerate}
-        
-        \item $\forall P_i, P_j,\  |P_i\cap P_j|\not = |P_i|\land |P_i\cap P_j|\not = |P_i|$ So each path in the decomposition must differ for at least one edge
-        \item $ val(f) = \sum_{i = 1}^k \phi_i$
-    \end{enumerate}
-
-
-\end{definition}
-An intuitive observation is that the maximum number of decompositions of any flow is $m$.\\
-\begin{center}
-    \begin{tikzpicture}[node distance={20mm}, thick , main/.style = {draw, circle}] 
-    \node[main] (1) {$s$}; 
-    \node[main] (2) [above right of=1] {$a$};
-    \node[main] (3) [below right of=1] {$b$};
-    \node[main] (4) [right of=2] {$c$};
-    \node[main] (5) [right of=3] {$d$};
-    \node[main] (6) [above right of=5] {$t$};
-    %Admissible
-    \draw[->] (1) to (2);
-    \draw[->] (1) to (3);
-    \draw[->] (3) to (5);
-    \draw[->] (2) to (4);
-    \draw[->] (5) to (6);
-    \draw[->] (4) to (6);
-    \draw[->] (3) to (4);
-    
-    %paths
-    \draw[->,line width=1 pt] (1)[red, bend left] to (2);
-    \draw[->,line width=1 pt] (2)[red, bend left] to (4);
-    \draw[->,line width=1 pt] (4)[red, bend left] to (6);
-
-    \draw[->,line width=1 pt] (1)[blue, bend right] to (3);
-    \draw[->,line width=1 pt] (3)[blue, bend right] to (5);
-    \draw[->,line width=1 pt] (5)[blue, bend right] to (6);
-
-    \draw[->,line width=1 pt] (1)[green!70!black, bend left] to (3);
-    \draw[->,line width=1 pt] (3)[green!70!black, bend left] to (4);
-    \draw[->,line width=1 pt] (4)[green!70!black, bend right] to (6);
-
-\end{tikzpicture} \\
-Example of a decomposed flow 
-\end{center}
-
-Once we establish what decomposing a flow means, we can talk about capacity transfer
-\begin{definition}[Tranfer]
-    Given an edge $(i,j) \in E$ and a $path\ P\ i\rightarrow j$ with $|P|\ge 2$, \textbf{to transfer} $\delta$ unity of capacity from $P$ to $(i,j)$ means subtracting $\delta$ unity of residual capacity from each edge in $P$ and incrementing the $(i,j)$ residual capacity of the same $\delta$ unity
-\end{definition}
-\begin{lemma}[Capacity tranfer lemma]
-    Let $P$ be $path$ in $G$ from node $i$ to node $j$ and let $(S,T)$ be an $s$-$t$ cut. 
-    If we transfer delta capacity from the path $P$ to the edge $(i, j)$ and $r$ and $r'$ are respectively the residual capacity of the network before and after the transfer then is true that:
-    \[r'(S,T) \le r(S,T)\] 
-\end{lemma}
-\begin{proof}
-    The proof is trivial if $i,j \in S \lor i,j \in T$ since $u'(P) \le u(P) \implies u'(S,T)\le u(S,T)$.\\
-    Otherwise if $i\in S \land j \in T$, if we consider $(l,k)\in P$ such that $l \in S\land k\in T$ we estimate
-    \[u'(S,T)-u(S,T)\le (u'_{kl}+u'_{ij})- (u_{kl}+u_{ij}) = -\delta + \delta = 0\]
-\end{proof}
-
-
-\[\begin{tabular}{c|c}
-    \begin{tikzpicture}[node distance={15mm}, thick , main/.style = {draw, circle}] 
-    % Disegna i nodi del grafo
-    
-    \node[main] (1) {i};
-    \node[main] (0) [above left of = 1] {$s$};
-    \node[main] (2) [above right of=1] {$2$};
-    \node[main] (3) [below right of=1] {$j$};
-    \node[main] (4) [right of=2] {$4$};
-    \node[main] (6) [below right of=4] {$6$};
-    \node[main] (5) [below of=4] {$5$};
-    % Disegna gli archi orientati
-    \draw[->] (0) to (1);
-    \draw[->,line width=1.5 pt] (1)[red, bend left] to (2);
-    \draw[->,line width=1.5 pt] (1)[green!80!black, bend right] to (3);
-    \draw[->,line width=1.5 pt] (2)[red, bend left] to (4);
-    \draw[->,line width=1.5 pt] (4)[red,bend left] to (5);
-    \draw[->] (4)[bend left] to (6);
-    \draw[->] (3)[bend right = 50] to (6);
-    \draw[->,line width=1.5 pt] (5)[red,bend left] to (3);
-
-    % Aggiungi una linea tratteggiata per dividere il grafo in due
-    \draw[dashed] (1.7,-2) -- (1.7,2);
-    \node at (1.7,2.2) {s-t\ cut};
-
-\end{tikzpicture}& 
-\begin{tikzpicture}[node distance={15mm}, thick , main/.style = {draw, circle}] 
-    % Disegna i nodi del grafo
-    
-    
-    \node[main] (0) {$s$};
-    \node[main] (1) [below right of = 0] {i};
-    \node[main] (2) [above right of=0] {$2$};
-    \node[main] (4) [right of=2] {$4$};
-    \node[main] (6) [below right of=4] {$6$};
-    \node[main] (3) [below left of=6] {$j$};
-    % Disegna gli archi orientati
-    \draw[->] (0)[bend right] to (1);
-    \draw[->,line width=1.5 pt] (1)[red, bend left] to (2);
-    \draw[->,line width=1.5 pt] (1)[green!80!black, bend right] to (3);
-    \draw[->,line width=1.5 pt] (2)[red, bend left] to (4);
-    \draw[->,line width=1.5 pt] (4)[red, bend left] to (3);
-    
-    \draw[->] (4)[bend left] to (6);
-    \draw[->] (3)[bend right] to (6);
-
-
-    % Aggiungi una linea tratteggiata per dividere il grafo in due
-    \draw[dashed] (1.7,-2) -- (1.7,2);
-    \node at (1.7,2.2) {s-t\ cut};
-
-\end{tikzpicture}\\
-    \multicolumn{2}{c}{in {\color{red}{red}} the path P, in {\color{green!80!black}{green}} the edge (i,j)}
-
-\end{tabular}\]
-
-At the end of this consideration, we can deduce that transferring capacity from a path to an edge doesn't increase the maximum routable flow in a network
-\newpage
-\section{Distance based}
-We usually think about graphs composed of nodes linked by edges and measure the distance between two nodes $i$ and $j$ as the sum of the edges on the shortest path that brings from $i$ to $j$. That is true just because we don't specify the length of an edge then we assume that it is one. Instead, we can specify the length of each edge and still divide the nodes by labels, i.e. by the distance from a specific node. But in doing this we have to pay attention to some rules that allow us to achieve our goal.
-First of all we need to establish what a valid distance labeling is:
-\begin{definition}[Valid distance labeling]
-    \label{VDL}
-    Let $N$ be a Network, $f$ a feasible flow on $N$ and $l$ a function that takes as input an edge in $G$ and returns its \textit{length}.\\
-    The \textbf{distance function} $d: N(G) \rightarrow \mathbb{N}$ is said \textbf{valid} with respect to the residual graph $G[r]$ if it satisfies the following properties 
-    \begin{enumerate}
-        \item $d(t) = 0$
-        \item $d(i) \le d(j) + l((i,j))$
-    \end{enumerate}
-\end{definition}
-
-\begin{obs}[Valid distance label property]
-    A valid distance label, $d$, preserves the following properties:
-    \begin{enumerate}
-        \item $d(i)$ represents the \textit{lower bound} of the length of the shortest path from $i \rightarrow t$
-        in the residual graph
-        \item $d(s) \ge n \implies \nexists\ p\ path \in G[r]\ |\ p = s \rightarrow t $ 
-    \end{enumerate}
-    
-\end{obs}
-Another point of view of the second property that a valid distance label has to respect ($d(i) \le d(j) + l((i,j))$) is that:
-\[\neg (d(v) > d(w) + l(v,w))\]
-This means that can not exist a node $i$ that is more distant from $t$ than any node $j$ adjacent to $i$, plus the length of the edge $(i,j)$.
-
-\begin{definition}[Admissible graph]
-    \label{AdmissibleGraph}
-    Let $G$ be a Network with a feasible flow $f$, a valid distance label $d: N(G_f) \rightarrow \mathbb{N}$ 
-    and a length function $l$.
-    A \textit{residual arc} is called \textbf{Admissible arc} if it satisfies:
-    \[d(v) = d(w) + l(v,w) \quad \forall (v,w) \in E(G(f))\]
-    i.e.
-    \[d(v) > d(w) \lor (d(v) = d(w) \land l(v,w) = 0)\]
-    
-    We will represent the admissible graph with the notation $A(f,l,d)$. The admissible graph is the graph formed to all the edges that are admissible concerning the distance $d$ and the length $l$ in the residual graph given by the flow $f$
-\end{definition}
-
-
-\begin{obs}{}{}
-    Let $G_f$ be a residual graph, let $B_s$ be an arborescence given by a BFS on the graph $G_f$ from node $s$ and let $A$ l'\textit{admissible graph} of $G_f$ then
-    \[E(B_s)\subsetneq E(A)\]
-\end{obs}
-
+\noindent By optimizing the \nameref{chap:dnc}, the Goldberg-Rao algorithm achieves a \textbf{computational cost} of 
 \[
-    \begin{array}{c|c|c}
-        
-    
-    \begin{tikzpicture}[node distance={12mm}, thick , main/.style = {draw, circle}] 
-    \node[main] (1) {$s$}; 
-    \node[main] (2) [above right of=1] {$a$};
-    \node[main] (3) [below right of=1] {$b$};
-    \node[main] (4) [right of=2] {$c$};
-    \node[main] (5) [right of=3] {$d$};
-    \node[main] (6) [above right of=5] {$t$};
-    %Admissible
-    \draw[->] (1) to (2);
-    \draw[->] (1) to (3);
-    \draw[->] (3) to (5);
-    \draw[->] (2) to (4);
-    \draw[->] (5) to (6);
-    \draw[->] (4) to (6);
-    \draw[->] (3) to (4);
-    \draw[->] (4) to (5);
-    \draw[->] (5) to (2);
-    \draw[->] (2) to (3);
-\end{tikzpicture}  &
-\begin{tikzpicture}[node distance={12mm}, thick , main/.style = {draw, circle}] 
-    \node[main] (1) {$0$}; 
-    \node[main] (2) [above right of=1] {$1$};
-    \node[main] (3) [below right of=1] {$1$};
-    \node[main] (4) [right of=2] {$2$};
-    \node[main] (5) [right of=3] {$2$};
-    \node[main] (6) [above right of=5] {$3$};
-    %Admissible
-    \draw[->, red] (1) to (2);
-    \draw[->, red] (1) to (3);
-    \draw[->, red] (3) to (5);
-    \draw[->, red] (5) to (6);
-    \draw[->, red] (3) to (4);
-\end{tikzpicture} &
-\begin{tikzpicture}[node distance={12mm}, thick , main/.style = {draw, circle}] 
-    \node[main] (1) {$s$}; 
-    \node[main] (2) [above right of=1] {$a$};
-    \node[main] (3) [below right of=1] {$b$};
-    \node[main] (4) [right of=2] {$c$};
-    \node[main] (5) [right of=3] {$d$};
-    \node[main] (6) [above right of=5] {$t$};
-    %Admissible
-    \draw[->] (1) to (2);
-    \draw[->] (1) to (3);
-    \draw[->] (3) to (5);
-    \draw[->] (5) to (6);
-    \draw[->] (3) to (4);
-    \draw[->] (2) to (4);
-    \draw[->] (4) to (6);
-\end{tikzpicture} \\
-\text{grafo originale}&\text{arborescenza} & \text{Admissible graph}
-\end{array} 
+\tilde{O}(\min\{n^{2/3}, m^{1/2}\} \cdot m)
 \]
-Given the distance label definition, we can recall the notions about s-t cut to define the \textbf{canonical cut}
-\begin{definition}[Canonical cut]
-    \label{cancut}
-    Given a network $\mc{N}$ and a distance label $d$ on $\mc{N}$, a canonical cut is defined by a partition made as follows
-    \[(S_k, T_k) =  (S_k:=\{v\in V(\mc{N}) | d(v) \ge k\},\ T_k := V(\mc{N})\setminus S_k)\]
-\end{definition}
+on a network with integer capacities, which, when considering logarithmic factors, becomes \( O(\min\{n^{2/3}, m^{1/2}\} m \log n \log nU) \).
 
-\section{Max flow}
-To find the maximum flow in the network, we can use the \textbf{Edmonds-Karp algorithm}.
+\textbf{Note:} From here on, we will abbreviate the expression \( \min\{n^{2/3}, m^{1/2}\} \) using \( \Lambda \).
 
-This algorithm finds the shortest path from the source to the sink $P$ and augments the flow on the edges of the path by the value $x$ s.t.
-\[x = \min_{\forall (i,j)\in P} r_{ij}\]
-In this way at each increment at least one edge is deleted from the residual graph and in at most $O(nm)$ increments the algorithm terminates.
-Since we need $O(n+m)$ time to use the BFS to find the shortest s-t path and other $O(n)$ time tu augments flow in this path, Edmonds-Karp algorithm take $O(nm^2)$ time to find a maximum flow in any network.
+\section{Idea}
 
-Up to here, all notations that we need to recognize a network and its properties were given. The Edmonds-Karp algorithm represents the first step in a series of improvements that will lead us to find the max flow in $O(nm)$. From here on, each algorithm will bring a modification of the previous one while preserving the original intuition. The last algorithm shows how to reach the desired cost even for sparse graphs.
+    At the core of the optimization is the idea of \textbf{contracting} the network according to certain specific parameters.  
+    The speed-up lies in computing the flow in a contracted graph, which is more efficient than computing it in the original one.
+    The algorithm is based on \nameref{VDL} and introduces a new  \textbf{\underline{binary} length function} : \( \bar{l}((v,w)): E \rightarrow \{0,1\} \).  
+
+    The new length function assigns a value of zero to all edges that meet certain capacity requirements (which we will describe in more detail later), such edges are called "zero length".
+
+    By setting the length of the edges connecting two or more nodes to zero, we can consider them as a single node.  
+    Thus, by contracting the components connected by edges of length 0, it is possible to significantly reduce the number of flow increments and therefore the computational cost of the algorithm.
+
+\section{The $\Delta$ parameter}
+
+    The issue with contracting the graph is that when we send flow from the source to the sink, we must ensure that this flow respects the capacity constraints of all the edges, including those that were contracted.  
+    To ensure that the flow calculated on the contracted graph is valid for the original graph as well, a parameter \dlt\ is used, which serves two purposes. The first function is as a \textbf{lower bound} on the capacity of zero-length edges.  
+    In fact, edges with residual capacity greater than \dlt\ are first selected, and the length of these edges is set to 0.  
+    Subsequently, all components connected by zero-length edges are contracted.  
+    Finally, a blocking flow (exactly as in Dinic's algorithm) is calculated in the contracted graph.  
+    At this stage, the parameter \dlt\ serves its second function, which is as an \textbf{upper bound for the blocking flow}. In fact, the computation of the blocking flow stops either when such a flow is found, or just before the flow value exceeds \dlt. This second condition ensures that the flow remains feasible even for the original network.
+
+    By increasing the flow by at most \dlt, we ensure that the capacity constraints are respected, but we can no longer guarantee that the flow is blocking.  
+    Therefore, we must choose a value for \dlt\ that is both small enough to contract the graph as much as possible, but also adequately selected to keep the number of flow increments as low as possible, thus ensuring the desired computational cost.
+
+\section{Stop condition}
+    To terminate its execution, the algorithm estimates the difference between the maximum achievable flow (which from now on will be called $F$) and the flow it has computed.
+    When this difference becomes less than 1, the algorithm terminates.
+    Since the capacities of the network are all integers, this ensures that the maximum possible flow has been reached.
+    An initial useful value for $F$ is $F=n\cdot U_{max}$, and later, the residual capacity of the canonical cut will be used (further details will be provided later).
+
+
+\section{Stimare il residual flow}
+    We already know that the residual capacity of each cut $r(S,T)$ represents an upper bound on the max flow (\nameref{maxFlowMinCut}).
+    To estimate the residual flow quickly and efficiently, we can analyze the \nameref{cancut}.
+
+    \begin{lemma}{min $r(S_k,T_k)$ in $O(m)$ time}{}
+        The canonical cut with the minimum capacity can be found in $O(m)$ time.
+    \end{lemma}
+    \begin{proof}
+
+        Exploiting the fact that each edge has a length of at most 1, and therefore can cross at most one canonical cut, we can define the following subroutine.
+        \begin{algorithm}[H]
+            \caption{\textit{canCutCapacity($G_f$, d, l)}}
+            \label{canCutCapacity}
+            \begin{algorithmic}[1]
+                \For{$k\leftarrow 0\ to\ d(s)$}  $r(S_k,T_k) = 0$
+                \EndFor
+                \For{$(u,v)\in E(G_f)$}  \If{$d(v) > d(w)$} $r(S_{d(v)},T_{d(v)}) += r(v,w)$\EndIf
+                \EndFor
+                \State\Return  $\text{argmin}\ r(S_k,T_k)$
+            \end{algorithmic}
+        \end{algorithm}
+    The correctness and computational cost of this routine are fairly straightforward.
+    \end{proof}
+
+    To manage the computational cost, we need to ensure that the value of $F$ decreases quickly enough without overburdening the algorithm.  
+    First, we can group all the iterations of the algorithm into \textbf{phases} and update the value of $F$ at the minimum canonical cut only between the end of one phase and the start of a new one. If we update the value of $F$ only when $\min r(S_k, T_k) \leq F/2$, the algorithm will terminate after at most $\log nU_{max}$ phases.
+
+\section{Binary length function}
+    There are two other issues that arise from contracting the graph and modifying the length function:
+    \begin{enumerate}
+        \item Choosing a \dlt\ that is too small would make the flow increase too slowly, while choosing it too large would not contract the graph enough to justify the management costs.
+        \item In Dinic's algorithm, the blocking flow always guaranteed an increase in the distance from $s$ to $t$, but with zero-length edges, this is no longer guaranteed.
+
+    \end{enumerate}
+    In this section, we show the choices that were made to address these two issues. While the effectiveness of the solution to the second problem is promptly demonstrated, the effectiveness of the choice of the \dlt\  parameter will only become clear in the section where the various computational costs are proven.
+    \subsection{How to zero lengths}
+    As previously mentioned, we need an upper bound \dlt\  to respect the capacity constraints. At the same time, to meet the declared computational cost, we need the blocking flow increments to be at most $\Lambda$.
+    Thus, we can initialize:
+    \[\Delta= \lceil F/\Lambda \rceil \]
+    The criterion for assigning zero length to an edge is as follows:
+    \begin{definition}[Length function]
+        Let $r$ be the residual function of any residual graph $G_f$. We define the length function $l((u,v))$ as a function that associate to the edge $(u,v)$ the value 1 or 0 as follow:
+            \[l(u.w) = \left \{ \begin{array}{ll}
+            0 & r_{vw} \ge 3\Delta\\
+            1 & altrimenti
+        \end{array} \right .\]
+    \end{definition}
+    
+    However, to achieve the desired computational cost, it is necessary to add a specification to this function.
+    \begin{definition}[Special Arc]
+
+        Any edge $(v,w)$ is said \textbf{special} If it meets all the following requirements:
+        \begin{itemize}
+            \item $2\Delta \le r_{v,w} < 3\Delta$
+            \item $d(v) = d(w)$
+            \item $r_{wv} \ge 3\Delta$
+        \end{itemize}
+    \end{definition}  
+    
+
+    By applying this definition to the length function, we can define a more complex function, which we distinguish from the first by calling it $\bar{l} $.
+    The modified function also takes into account special edges:
+    \[\bar{l}(u.w) = \left \{ \begin{array}{ll}
+        0 & r_{vw} \ge 3\Delta \lor specialArc((v,w))\\
+        1 & altrimenti
+    \end{array} \right .\]
+    \begin{obs}
+        Introducing special edges does not change the distance labeling: $d_l = d_{\bar{l}}$
+    \end{obs}
+
+
+    \begin{lemma}[From contract to original]
+        \label{fixCont}
+        Let's suppose we have contracted the original network as described so far, and routed a flow $f$ through the contracted graph.
+
+        The computational cost of adapting this flow through the original graph is $O(m)$.
+    \end{lemma}
+    \begin{proof}
+
+        Through the following steps, it is intuitive how the flow can be adapted:
+
+        \begin{enumerate}[nolistsep] 
+            \item Choose any vertex in each contracted component. 
+            \item Form an in-tree and an out-tree rooted at the chosen vertices. 
+            \item Route the positive flow from the in-tree to the root. 
+            \item From the out-tree, redirect the incoming flow from the root to all other connected nodes. 
+        \end{enumerate}
+
+    Since the maximum flow we route is \dlt\ and all nodes in the contracted components have a cost of at least $2\Delta$, we are assured that the flow respects the capacities of the network.
+    It is evident that this method has a cost directly proportional to the number of edges in the connected components.
+    \end{proof}
+
+    \subsection{How to increase distance}
+    In Dinic's Algorithm, the proof that the blocking flow strictly increases the distance between $s$ and $t$ is quite obvious.
+    The same cannot be said for the Goldberg-Rao case due to the presence of zero-length edges. Therefore, it is essential to prove the following theorem to ensure that the algorithm terminates.
+    \begin{theorem}{Blocking flow with binary length}{}
+        Let $\bar{f}$ be a flow in $A(f,\bar{l}, d_l)$, let $f' = f + \bar{f}$ be the increased flow, and let 
+        $l'$ be the length function corresponding to $f'$.
+        Then:
+        \begin{enumerate}
+            \item $d_l$ is a distance labeling with respect to $l'$
+            \item $d_{l'}(s) \ge d_l(s)$
+            \item if $\bar{f}$ is blocking $\implies$ $d_{l'}(s) > d_l(s)$
+        \end{enumerate}
+    \end{theorem}
+    \begin{proof}
+        Let's proceed point by point
+    
+            \paragraph*{\underline{1. $d_l$ is a distance lebeling with respect to $l'$}}
+            By the definition of distance labeling, $d_l(v) \le d_l(w) + \bar{l}(v,w)$ (remembering that $d_l = d_{\bar{l}}$),
+            we therefore need to prove that  $d_l(v) \le d_l(w) + l'(v,w)$.\\
+            This is trivially true if $d_l(v) \le d_l(w)$.\\
+            If $d_l(v) > d_l(w)$ i.e. $d_{\bar{l}}(v) > d_{\bar{l}}(w)$ then $(w,v)$ is not admissible with respect to $\bar{l}$.\\
+            Since $l'(v,w)\ge \bar{l}(v,w)$, the statement follows.
+
+            \paragraph*{\underline{2. $d_{l'}(s) \ge d_l(s)$}}
+
+            Let \( L := \{ l_0, l_1, ..., l_n \} \) be the ordered set of all length functions calculated between the iterations of the algorithm. Then, for any \( 0 \le i \le j \le n \), we have \( d_{l_i}(s) \le d_{l_j}(s) \).
+
+            We distinguish between two iterations as follows:
+            \begin{enumerate}
+                \item In iteration \( i \):
+                Let \( l(u,v) = l_i(u,v) \) be the length function and \( d(x) = d_{l_i}(x) \) be the distance. Together with the flow, they define \( A(f, l_i, d_{l_i}) \). Let \( \Gamma \) be the shortest \( s \rightarrow t \) path in \( A \), where \( \Gamma \subseteq A \).
+                \item In iteration \( j \):
+                Let \( l'(u,v) = l_j(u,v) \) be the length function and \( d'(x) = d_{l_j}(x) \) be the distance. Together with the flow, they define \( A'(f, l_j, d_{l_j}) \). Let \( \Gamma' \) be the shortest \( s \rightarrow t \) path in \( A' \), where \( \Gamma' \subseteq A' \).
+            \end{enumerate}
+       
+            Suppose by contradiction that there exist two iterations \( 0 \le i \le j \) such that \( d(s) > d'(s) \):
+            \[
+            \implies \exists \Gamma \, s \rightarrow t,\ \Gamma' \, s \rightarrow t : \sum_{(v,w) \in \Gamma} l(v,w) \ge \sum_{(v,w) \in \Gamma'} l'(v,w)
+            \]
+            In other words, as the iterations progress, \( s \) and \( t \) have gotten closer.
+
+            We immediately exclude the case where \( \Gamma = \Gamma' \) since
+            \[
+            \forall (v,w) \in A \cap A',\ l(v,w) \le l'(v,w) \implies l(\Gamma) \le l'(\Gamma')
+            \]
+            \textbf{Note:} \( l(\Gamma) = \sum_{(v,w) \in \Gamma} l(v,w) \).
+
+            Now consider \( \Gamma \) and \( \Gamma' \). Let \( w \) be the last node in \( \Gamma \) for which \( d(w) > d'(w) \), and let \( x \) be the next node:
+            \[
+            w \in \Gamma : d(w) > d'(w) \land \exists x = succ_{\Gamma}(w) : d(x) \le d'(x)
+            \]
+            \( w \) and \( x \) are always well defined because we assume \( d(s) > d'(s) \) and \( d(t) = d'(t) = 0 \) by definition.
+
+            Thus, there exists an arc \( (w,y) \) in \( \Gamma' \) with \( y \neq x \) such that \( d'(y) < d'(x) \). \( x \neq y \), because if they were the same node, then:
+            \[
+            d'(w) = d'(x) + l'(w,x) \ge d(w)
+            \]
+            which contradicts the hypothesis.
+
+            To summarize, we know that:
+            \begin{enumerate}
+                \item \( d(w) > d'(w) \iff d(x) + l(w,x) > d'(y) + l'(w,y) \).While we don't know the exact distance \( d(y) \), we know that:
+            \[
+            d'(y) = \sum_{(a,b) \in y-t \subseteq \Gamma'} l'(a,b) \ge \sum_{(a,b) \in y-t \subseteq \Gamma'} l(a,b)
+            \]
+            Therefore, the path in iteration \( j \) is greater than or equal to the path in iteration \( i \).
+                \item \( d(y) + l(w,y) \le d'(y) + l'(w,y) < d(x) + l(w,x) \).
+            \end{enumerate}
+
+            However, we know that \( d(w) = d(x) + l(w,x) \), which is \textbf{absurd} because it is not the minimal distance from \( w \rightarrow t \), as it is greater than \( d(y) + l(w,y) \).
+
+            We know for certain that the path \( w-y \rightarrow t \) exists in \( A \) because (unless there is a shorter one) it represents the minimal distance from \( w \rightarrow t \).
+
+            From this contradiction, the only conclusions are that either the path through \( y \) was not reachable in iteration \( i \), making it impossible to reach it later, or if a shorter \( s \rightarrow t \) path exists in iteration \( j \) than in iteration \( i \), we made an error in considering the path in iteration \( i \).
+
+        
+            \paragraph*{\underline{3. Se $\bar{f}$ è bloccante allora $d_l(s) < d_{l'}(s)$}}
+
+            To show that the blocking flow increases the distance of node \( s \), we define the following notation:
+            \[
+            c(v,w) := d_l(w) - d_l(v) + l'(v,w)
+            \]
+            which represents the change in length of an edge connecting two adjacent nodes.
+
+            We can assert that:
+            \[
+            \forall (v,w) \in E, \, c(v,w) \ge 0
+            \]
+            since \( l'(v,w) \ge l(v,w) \), which implies:
+            \[
+            d_l(w) - d_l(v) < 0 \iff l(v,w) = 1 \implies l'(v,w) = 1
+            \]
+
+            Now, consider any path \( \Gamma \) in \( G_{f'} \), the length of the path is equal to:
+            \[
+            l'(\Gamma) = d_l(s) + c(\Gamma)
+            \]
+            Therefore, to show that the path is longer, we need to show that:
+            \[
+            \forall \text{ shortest } s-t \text{ path } \Gamma \in G_{f'} \implies \exists (v,w) \in \Gamma \, \text{where} \, c(v,w) > 0
+            \]
+
+            We now have a tool to demonstrate that the blocking flow increases the distance of \( s \).
+
+            \begin{table}[H]
+                \centering
+                \caption{graphic example to better visualize what was declared}
+            \begin{tabular}{c|c}
+
+                \\
+                \begin{tikzpicture}[node distance={14mm}, thick , main/.style = {draw, circle}] 
+                \node[main] (1) at (0,0) {$s$}; 
+                \node[main] (2) [above right of=1] {$2$};
+                \node[main] (3) [right of=2] {$3$};
+                \node[main] (4) [right of=3] {$4$};
+                \node[main] (5) [below right of=1] {$5$};
+                \node[main] (6) [right of=5] {$6$};
+                \node[main] (7) [right of=6] {$7$};
+                \node[main] (9) [below right of=4] {$t$};
+                \node[main] (8) at ($(1)!0.5!(9)$) {$8$};
+                %Admissible
+                \draw[->] (1) to (2);
+                \draw[-] (2) to [red, midway] node {X} (3);
+                \draw[-] (3) to (4);
+                \draw[-] (4) to (9);
+                \draw[-] (3) to (8);
+                \draw[-] (2) to (8);
+                \draw[-] (8) to (7);
+                \draw[->] (1) to (5);
+                \draw[-] (5) to (6);
+                \draw[-] (6) to (7);
+                \draw[-] (7) to [red, midway] node {X} (9);
+                
+                %paths
+                \draw[->,line width=1 pt] (1)[babyblue, bend left] to (2);
+                \draw[->,line width=1 pt] (2)[babyblue, bend left] to (3);
+                \draw[->,line width=1 pt] (3)[babyblue, bend left] to (4);
+                \draw[->,line width=1 pt] (4)[babyblue, bend left] to (9);
+            
+                \draw[->,line width=1 pt] (1)[blue, bend right] to (5);
+                \draw[->,line width=1 pt] (5)[blue, bend right] to (6);
+                \draw[->,line width=1 pt] (6)[blue, bend right] to (7);
+                \draw[->,line width=1 pt] (7)[blue, bend right] to (9);
+
+            
+            \end{tikzpicture} 
+            &
+            \begin{tikzpicture}[node distance={14mm}, thick , main/.style = {draw, circle}] 
+                \node[main] (1) at (0,0) {$s$}; 
+                \node[main] (2) [above right of=1] {$2$};
+                \node[main] (3) [right of=2] {$3$};
+                \node[main] (4) [right of=3] {$4$};
+                \node[main] (5) [below right of=1] {$5$};
+                \node[main] (6) [right of=5] {$6$};
+                \node[main] (7) [right of=6] {$7$};
+                \node[main] (9) [below right of=4] {$t$};
+                \node[main] (8) at ($(1)!0.5!(9)$) {$8$};
+                %Admissible
+                \draw[->] (1) to (2);
+                \draw[-] (3) to (4);
+                \draw[-] (4) to (9);
+                \draw[-] (3) to (8);
+                \draw[-] (2) to (8);
+                \draw[-] (8) to (7);
+                \draw[->] (1) to (5);
+                \draw[-] (5) to (6);
+                \draw[-] (6) to (7);
+                
+                \draw[->,line width=1 pt] (1)[brightgreen, bend left] to (2);
+                \draw[->,line width=1 pt] (2)[brightgreen, bend left] to (8);
+                \draw[->,line width=1 pt] (8)[brightgreen, bend right] to (3);
+                \draw[->,line width=1 pt] (3)[brightgreen, bend left] to (4);
+                \draw[->,line width=1 pt] (4)[brightgreen, bend left] to (9);
+
+            \end{tikzpicture}\\
+
+            \textbf{\color{blue}{blu}} $\bar{f}$ in $A(f,\bar{l}, d_l)$ &
+            \end{tabular}
+            \end{table}
+
+            Since \( \bar{f} \) is blocking in \( A(f,\bar{l}, d_l) \), \( \Gamma \) must contain an edge \( (v,w) \) that is not present in \( A(f,\bar{l}, d_l) \).
+            
+            Furthermore, we can state that \( d_l(v) \leq d_l(w) \), either because \( (v,w) \in G_f \), but then if \( d_l(v) > d_l(w) \), we would have \( (v,w) \in A(f,\bar{l}, d_l) \),  
+            or because \( (v,w) \notin G_f \), but it appears in \( G_{f'} \), which is only possible if the flow is incremented in the opposite direction, causing the residual edge to appear. Therefore, \( (w,v) \in A(f,\bar{l}, d_l) \), which implies that \( d_l(v) \leq d_l(w) \).
+            
+            Now, suppose for contradiction that \( c(v,w) = 0 \), so \( d_l(v) = d_l(w) \) and \( l'(v,w) = 0 \).  
+            The fact that \( (v,w) \) is not in \( A(f,\bar{l}, d_l) \) implies that either \( (v,w) \) is not in \( G_f \), but then we have already shown that the opposite edge \( (w,v) \in A(f,\bar{l}, d_l) \),  
+            or that \( (v,w) \in G_f \) but does not meet the distance labeling requirements to belong to the \nameref{AdmissibleGraph} \( A(f,\bar{l}, d_l) \).  
+            Since \( d_l(v) = d_l(w) \), then \( l(v,w) = 1 \). We note that \( 1 = l(v,w) > l'(v,w) = 0 \), which implies that we have incremented the flow on the opposite edge \( (w,v) \).  
+            Thus, in any case, the edge \( (w,v) \in A(f,\bar{l}, d_l) \).
+            
+            As shown earlier, since \( d_l(v) = d_l(w) \),  
+            \[
+            (w,v) \in A(f,\bar{l}, d_l) \iff l(w,v) = 0
+            \]  
+            We conclude that:
+            \begin{itemize}
+                \item During the flow increments, we routed a flow (of at most \( \Delta \)) through the edge \( (w,v) \)
+                \item \( u_f(w,v) \geq 3\Delta \) because \( l(w,v) = 0 \)
+                \item After this increment, we have \( u_{f'}(v,w) \geq 3\Delta \) because \( l'(v,w) = 0 \)
+                \item Thus \( u_f(v,w) \geq 2\Delta \)
+                \item But then the edge \( (v,w) \) was a \textit{special edge} even before the increment, since \( d_l(v) = d_l(w) \land u_f(w,v) \geq 3\Delta \land u_f(v,w) \geq 2\Delta \)
+            \end{itemize}
+            We therefore conclude that:
+            \[
+            d_l(v) = d_l(w) \implies d_{\bar{l}}(v) = d_{\bar{l}}(w) \land \bar{l}(v,w) = 0 \implies (v,w) \in A(f,\bar{l}, d_l)
+            \]
+            which is a contradiction.
+            
+\end{proof}
+
+\section{Costo computazionale}
+    We have already shown how to find the maximum flow in the graph.
+    Before diving into the cost of a phase, let's review the structure of the algorithm described so far.
+
+    \begin{algorithm}
+        \caption{\textit{Goldberg-RaoAlgorithm(G, c)}}
+        \label{GoldbergRao}
+        \begin{algorithmic}[1]
+            \State $n = |N(G)|$
+            \State $F = U\cdot n$
+            \State $\Delta = F/ \Lambda$
+            \For{$(i,j)\in E(G)$}
+                $f_{ij} = 0$
+            \EndFor
+            \While{$F \ge 1$}
+                \State $l = update\_length(n, \Delta)$ \Comment return a length function w.r.t. \dlt
+                \State $d_l = BFS(G_f, l)$ \Comment return a distance labeling w.r.t. $l$
+                \State $G^c = contract(G_f, l)$ 
+                \State $A = A(G^c, d_l, l)$ \Comment return the admissible graph
+                \State $f' = find\_blocking\_or\_Delta\_flow(A)$ \Comment Dinic's style 
+                \State $f_{ad} = fit(f')$ \Comment the procedure to adapt the flow to the original graph
+                \State $f = f + f_{ad}$
+                \State $c = r(canCutCapacity(G_f,d, l))$ \Comment residual capacity of min canon. cut 
+                \If{$c \le F/2:$ } 
+                    \State $F = c$
+                    \State $\Delta = F/\Lambda$
+                \EndIf
+            \EndWhile 
+            \State \Return $f$
+        \end{algorithmic}
+    \end{algorithm}
+
+\textbf{Remark:}
+        
+        The cost stated at the beginning is in:
+        \[O(\min \{n^{2/3}, m^{1/2}\}\cdot m \log n\log m U_{max})\]
+        Using more advanced data structures, you can achieve the cost of:
+        \[O(\min \{n^{2/3}, m^{1/2}\}\cdot m \log \frac{n^2}{m}\log U_{max})\]
+
+
+      
+        
+    We divided the number of \textbf{phases} so that the estimated maximum flow (\( F \)) is halved in each phase.  
+    This gives us a number of phases on the order of \( \log(F) \), which is \( \log(m U_{max}) \).  
+    We have shown how both the calculation of the minimum canonical cut and the adjustment of the flow to the original network can be computed in \( O(m) \) time.  
+    However, we still need to analyze the cost of each phase, that is, how quickly the minimum canonical cut is halved.
+    
+    From the corollary of the following lemma, we demonstrate what was previously stated when we fixed the value of the parameter \dlt.  
+    With this lemma, we estimate the maximum capacity for the canonical cut, which is then used to estimate \( F \), while in the subsequent corollary, we show how the parameters for which we contract the graph lead this capacity to halve within \( O(\Lambda) \) blocking flows.
+
+    \begin{lemma}
+        The minimum capacity of a canonical cut $(\bar{S}, \bar{T})$ satisfies
+        \[u_f(\bar{S}, \bar{T})\le \frac{mM}{d_l(s)}\]
+        where $M$ represents the length-one edge with the highest capacity.
+    \end{lemma}
+    \begin{proof}
+        It is clear that the best way to maximize the capacity of the minimum canonical cut is by assuming that all edges have the capacity of the edge with the highest capacity, and then evenly dividing the edges among the various cuts.
+
+    \end{proof}
+
+    From this initial estimate follows the corollary.
+    \begin{corollary}
+    During each phase, there are at most $O(\Lambda)$ blocking flow increments.
+    \end{corollary}
+    \begin{proof}
+        Let us assume that \( \Lambda = m^{1/2} \). Since we have shown that each blocking flow increases \( d(s) \) by at least one, we can be sure that after \( 6\lceil \Lambda \rceil \) increments, \( d_l(s) \geq 6 m^{1/2} \).  
+        Thus, we can take the estimate from the lemma and state that:  
+        \[
+        u_f(\bar{S}, \bar{T}) \le \frac{mM}{d_l(s)} \le \frac{3m}{d_l(s)}\Delta \le \frac{3m}{6m^{1/2}} \frac{F}{m^{1/2}} = \frac{F}{2}
+        \]
+        Thus, after \( \lceil \Lambda \rceil \), the phase ends.\\  
+        For \( \Lambda = n^{2/3} \), the proof is analogous and leads to the same conclusion.  
+        In conclusion, the cost of each phase is on the order of \( O(\Lambda) \).
+    \end{proof}
+    \newpage
+
+    At this point, the last bottleneck is represented by the cost of finding a blocking flow or a flow of value \( \Delta \) (which are computationally equivalent):  
+    this would require a cost of:
+    \begin{itemize}
+        \item \( O(mn) \) in a naive approach;
+        \item \( O(m \log n) \) using dynamic trees;
+        \item \( O(m \log(n^2/m)) \) using size-bounded dynamic trees;
+    \end{itemize}
+    
+    Combining the cost of:
+    \begin{itemize}[label=$\times$]
+        \item finding a blocking flow
+        \item iterations in each phase
+        \item the number of phases
+        \item additional costs in \( O(m) \)
+    \end{itemize}
+    
+    \section*{Conclusion}
+    Goldberg and Rao published their algorithm in a 1998 paper. About four years earlier, V. King, S. Rao, and R. Tarjan had published a paper in which they presented an algorithm capable of finding the maximum flow in \( O(nm) \) time, provided the algorithm had enough edges relative to the number of nodes.  
+    The stated cost is \( O(nm(\log_{m/n \log n} n)) \), but if \( m/n = \Omega(n^\varepsilon) \) for some \( \varepsilon > 0 \), the cost becomes \( O(nm) \).  
+    However, the problem of finding the maximum flow in polynomial time remains unresolved, as it is still unclear how to calculate it for sparser graphs than those covered by the King-Rao-Tarjan algorithm.  
+    The next chapter analyzes the solution proposed in 2013 by James B. Orlin, which leverages a specific condition of the Goldberg-Rao algorithm and develops a strategy for compacting and contracting the graph, along with approximations in a series of optimal flows, to make the algorithm strictly polynomial where King-Rao-Tarjan fails.
+\cleardoublepage
 
 \end{document}

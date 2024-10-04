@@ -1,6 +1,10 @@
 \babel@toc {english}{}\relax 
-\contentsline {chapter}{\numberline {1}Preliminary notions}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Network and flow}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Flow decomposition and transferring}{4}{section.1.2}%
-\contentsline {section}{\numberline {1.3}Distance based}{6}{section.1.3}%
-\contentsline {section}{\numberline {1.4}Max flow}{7}{section.1.4}%
+\contentsline {chapter}{\numberline {1}Goldberg-Rao Algorithm}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Idea}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}The $\Delta $ parameter}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Stop condition}{2}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Stimare il residual flow}{2}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Binary length function}{3}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}How to zero lengths}{3}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}How to increase distance}{5}{subsection.1.5.2}%
+\contentsline {section}{\numberline {1.6}Costo computazionale}{8}{section.1.6}%

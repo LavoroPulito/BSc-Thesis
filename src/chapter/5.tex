@@ -1,98 +1,116 @@
 
 \chapter{Orlin Algorithm} \label{chap:Orlin}
 
-L'algoritmo di Goldberg-Rao raggiunge un costo detto \textit{weakly polynomial}, risolvendo il problema in $\log mU$ fasi ognuna da $O(\Lambda m \log(n^2/m))$ dove $\Lambda = \min \{n^{2/3}, m^{1/2}\}$.
-Se si vuole risolvere il problema del max flow con un costo di tempo che sia \textit{strongly polynomial} esiste l'algoritmo di King Rao e Tarjan. Tuttavia, tale algoritmo raggiunge un costo di $O(nm)$ solo a patto che $ m = \Omega (n^{1+\varepsilon})$ per qualche $\varepsilon > 0$. 
-Se il numero di archi non è sufficiente, il suo costo è di $O(nm \log m/(n \log n) n)$.
+    Before delving into Orlin's algorithm, let's review the current state of the problem.  
+    The Goldberg-Rao algorithm achieves what is called a \textit{weakly polynomial} time complexity, solving the problem in \(\log mU\) phases, each with a cost of \( O(\Lambda m \log(n^2/m)) \), where \( \Lambda = \min \{n^{2/3}, m^{1/2}\} \).  
+    If we aim to solve the maximum flow problem with a \textit{strongly polynomial} time complexity, there is the King-Rao-Tarjan algorithm. However, this algorithm achieves a time cost of \( O(nm) \) only under the condition that \( m = \Omega (n^{1+\varepsilon}) \) for some \( \varepsilon > 0 \).  
+    If the number of edges is insufficient, its cost is \( O(nm \log_{m / (n \log n)} n) \).  
 
-Con il seguente algoritmo James B. Orlin propone una soluzione che sfruttando l'algoritmo di Goldberg-Rao, riesce a risolvere il problema del max flow in $O(nm)$ quando $m = O(n^{1+\varepsilon})$ rendendo così possibile risolvere il problema in tempo strettamente polinomiale per ogni valore di $n$ e $m$ e senza essere limitati da capacità di qualche arco.
+    In the following algorithm, James B. Orlin proposes a solution that, by leveraging the Goldberg-Rao algorithm, manages to solve the maximum flow problem in \( O(nm) \) when \( m = O(n^{1+\varepsilon}) \). This makes it possible to solve the problem in strictly polynomial time for any values of \( n \) and \( m \), without being limited by edge capacities.
+
 
 \section{Idea}
-L'idea nasce da varie osservazioni:
-Il Goldberg-Rao lavora per \textbf{fasi di incremento} che prendono un flusso \dlt-ottimale e lo rendono $\Delta/2$-ottimale. 
-In oltre si nota che $\log_{8m} mU \le 1 + \log U$ infatti d'ora in poi verranno considerate $\log U$ fasi di incremento.
-Se consideriamo $\Lambda = O(m^{1/2})$ possiamo notare che \[\log U < m^{7/16} \implies \tilde{O}(m^{3/2}m^{7/16}) = \tilde{O}(m^{31/16})\] 
-(la notazione $\tilde{O}$ ignora i fattori logaritmici).\\
-Approfondendo il calcoli si osserva 
-\[\tilde{O}(m^{31/16}) = O(m\cdot m^{15/16}\cdot log(n^2/m)) = O(m\cdot n^{(16/15)^{15/16}}\cdot log(n^2/m)) \]
-dato che stiamo cercando un algoritmo per quando $m = O(n^{1+\varepsilon})$, se $1+\varepsilon < 16/15$ e $\log U < m^{7/16}$ possiamo ottenere una soluzione ottimale ad un costo polinomiale $O(nm)$ già utilizzando solo il Goldberg-Rao.
 
-Ad ogni modo, ciò è vero solo se il numero di archi è sufficientemente più grande rispetto all'arco di capacità massima.
-Da qui l'idea di contrarre e compattare il network per fare in modo di calcolare il flusso massimo nelle condizioni ottimali . 
+    The idea arises from several observations:\\
+    The Goldberg-Rao algorithm operates through \textbf{increment phases} that take a \(\Delta\)-optimal flow and make it \(\Delta/2\)-optimal.  
+    Furthermore, it is noted that \(\log_{8m} mU \leq 1 + \log U\); in fact, from now on, \(\log U\) increment phases will be considered.  
+    If we set \(\Lambda = O(m^{1/2})\), we can observe that  
+    \[
+    \log U < m^{7/16} \implies \tilde{O}(m^{3/2} \cdot m^{7/16}) = \tilde{O}(m^{31/16})
+    \]
+    (the notation \(\tilde{O}\) ignores logarithmic factors).\\
+    Delving deeper into the calculations, we observe  
+    \[
+    \tilde{O}(m^{31/16}) = O(m \cdot m^{15/16} \cdot \log(n^2/m)) = O(m \cdot n^{(16/15)^{15/16}} \cdot \log(n^2/m))
+    \]
+    since we are looking for an algorithm when \(m = O(n^{1+\varepsilon})\). If \(1+\varepsilon < 16/15\) and \(\log U < m^{7/16}\), we can achieve an optimal solution with a polynomial cost of \(O(nm)\) by using only the Goldberg-Rao algorithm.
 
-L'algoritmo presenta due bottleneck: 
-\begin{enumerate}
-    \item creazione della rappresentazione compattata (più precisamente, mantenimento della chiusura trannsitiva)
-    \item passaggio dal flow compattato al flow esteso.
-\end{enumerate}
+    However, this is only true if the number of edges is sufficiently larger compared to the edge with the maximum capacity.  
+    
+    Hence, the idea of contracting and compacting the network arises to ensure the calculation of the maximum flow under optimal conditions.
+
+    The algorithm presents two bottlenecks:
+    \begin{enumerate}
+        \item Creation of the compacted representation (more precisely, maintaining the transitive closure)
+        \item Transitioning from the compacted flow to the extended flow.
+    \end{enumerate}
 
 \section{Fase di incremento}
-Il max-flow flow problem viene risolto attraverso una serie di \textit{fasi di incremento}, vediamo quindi quali sono gli input e gli output di ogni fase:
+If the Goldberg-Rao algorithm, in a sense, 'wraps' Dinic's Algorithm into a higher level of abstraction where the original graph is modified, Orlin does the same with Goldberg-Rao.
+
+A higher level of increment phase is introduced, within which a slightly modified version of the Goldberg-Rao algorithm is executed.
+So let's examine the input and output of each phase:
+
 \begin{itemize}[itemsep=0.5ex]
-    \item \textbf{input}
+    \item \textbf{Input}
     \begin{enumerate}
-        \item un \textit{Flow} $f$
-        \item un \textit{Residual Graph} $G_f$, rappresentabile anche come $r: E \rightarrow \mathbb{R}$ la funzione che associa a ogni arco la sua capacità residua
-        \item un s-t cut $(S,T)$
+        \item a \textit{Flow} \(f\)
+        \item a \textit{Residual Graph} \(G_f\), 
+        \item an s-t cut \((S,T)\)
     \end{enumerate}
-    Possiamo rappresentare l'input con la tripla $(r,S,T)$
-    \item \textbf{output}
+    Since with the flow and the residual graph, we can compose the residual function, when we consider the flow and the graph we can say to have also the residual function "r". \\
+    We can represent the input as the tuple \((r, S, T)\).
+    
+    \item \textbf{Output}
     \begin{enumerate}
-        \item un \textit{Flow} $f'$
-        \item un \textit{Residual Graph} $G_f'$
-        \item un s-t cut $(S',T')$ tale che $r'(S',T') \le \frac{r(S,T)}{8m}$
+        \item a \textit{Flow} \(f'\)
+        \item a \textit{Residual Graph} \(G_f'\)
+        \item an s-t cut \((S', T')\) such that \(r'(S', T') \leq \frac{r(S, T)}{8m}\)
     \end{enumerate}
 \end{itemize}
-Questa fase prende il nome di $\Delta\text{-}improvement\ phase$ dove $\Delta = r(S,T)$.
-Affianco al parametro $\Delta$ verrà posto un parametro $\Gamma$ , dove $\Gamma \le \Delta$ che verrà utilizzato per creare il $\Gamma$-compact network. 
 
-A seconda delle condizioni, il \dlt improvement verrà eseguito o sul network $G$ originale oppure sul \gmm-\textit{compact network} $G^c$ che presenteremo più avanti.
+This phase is called the \(\Delta\text{-improvement phase}\), where \(\Delta = r(S, T)\). Alongside the parameter \(\Delta\), a parameter \(\Gamma\) is introduced, where \(\Gamma \leq \Delta\), which will be used to create the \(\Gamma\)-compact network.
+
+Depending on the conditions, the \(\Delta\)-improvement will be executed either on the original network \(G\) or on the \(\Gamma\)-compact network \(G^c\), which we will introduce later.
+\newpage
 
 \section{$\Delta$-abundant e grafo di abbondanza}
 In questa sezione viene presentato il concetto di \textbf{Abbondanza}.
 
-\begin{definition}{$\Delta$-abundant arc}{}
-    Sia $\Delta = r(S,T)$ un arco $(i,j)$ si dice $\Delta$-abbondante se $r_{ij} \ge 2\Delta$ 
+\begin{definition}[$\Delta$-abundant arc]
+    Let $\Delta = r(S,T)$ then any edge $(i,j)$ is said $\Delta$-abundant if $r_{ij} \ge 2\Delta$ 
      
 \end{definition}
-\begin{lemma}[label = ab4ever]{}{}
-    
-    Sia $(r,S,T)$ l'input di una $\Delta\text{-}improvement\ phase$. Se l'arco $(i,j)$ è abbondate prima dell'incremento allora rimmarrà abbondante per tutti gli incrementi successivi.
+\begin{lemma}
+    \label{ab4ever}
+    Let $(r,S,T)$ be the input for a $\Delta\text{-}improvement\ phase$. If the edge  $(i,j)$ is abundant before the phase then it will be abundant for for all subsequent phases.
 \end{lemma}
 \begin{proof}
-    Dato che 
-    $\Delta' \le \frac{\Delta}{8m} $ e ricordando che $r_{ij} \ge 2\Delta $ si deduce che 
-    allora \[r'_{ij} \ge r_{ij}-\Delta \ge\Delta\ge  2\Delta'\]\QED
+    Since
+    $\Delta' \le \frac{\Delta}{8m} $ and recalling that $r_{ij} \ge 2\Delta $ it follows that 
+    allora \[r'_{ij} \ge r_{ij}-\Delta \ge\Delta\ge  2\Delta'\]
 \end{proof}
 
-\begin{definition}{Grafo di Abbondanza}{}
-    Dato un network $G$ si definisce il suo \textbf{grafo di abbastanza} $G^{ab}$ come: 
+\begin{definition}[Abundance Graph]
+    Given a network $G$, its \textbf{Abundance Graph} $G^{ab}$ is defined as: 
     \[G^{ab} := (N(G), \{(i,j)| (i,j)\in E(G)\land r_{ij}\ge 2\Delta\})\]
 \end{definition}
-\begin{obs}{}{}
-    Per il lemma \ref{ab4ever} proseguendo con le iterazioni il grafo di abbondanza può solo acquisire nuovi archi, mai perderli.
+
+\begin{obs}
+    By lemma \ref{ab4ever}, as iterations proceed, the abundant graph can only acquire new edges, never lose them.
 \end{obs}
 
-Il grafo di abbondanza ha due scopi: 
+The abundant graph has two purposes: 
 \begin{enumerate}
-    \item Tutti i cicli formati da archi abbondanti vengono \textit{contratti} in un solo nodo
-    \item Tutti i nodi che adiacenti solo ad archi abbondanti (o di capacità troppo piccola), vengono \textit{compattati}
+    \item All cycles formed by abundant edges are \textit{contracted} into a single node.
+    \item All nodes adjacent only to abundant edges (or edges with capacity that is too small) are \textit{compacted}.
 \end{enumerate}
-L'algoritmo mantiene in oltre la chiusura transitiva di tutti i nodi collegati tra loro da un \textbf{abundant path}, ovvero un cammino composto solo da archi abbondanti. \\
-Se esiste un abundant path tra il nodi $i$ e $j$, ciò si indica con $i\implies j$, e l'informazione viene mantenuta in una matrice \textbf{M}$_{n\times n}$, dove nella posizione 
-\textbf{M}$_{i,j}$ si trova il nodo che precede $j$ nel percorso che parte da $i$. Se durante le iterazioni si creano più percorsi viene comunque mantenuto il primo trovato.
 
-La chiusura transitiva può essere mantenuta in tempo $O(nm)$ utilizzando l'algoritmo di Italiano. 
-In questo modo è sempre possibile (vedremo di seguito che contrarre il grafo non lo impedisce e non ne altera il costo) ricostruire un percorso abbondante $P$ in $O(|P|)$
+    Additionally, the algorithm maintains the transitive closure of all nodes connected by an \textbf{abundant path}, meaning a path composed only of abundant edges.\\
+    If there exists an abundant path between nodes \( i \) and \( j \), this is indicated as \( i \implies j \), and the information is stored in an \textbf{M}$_{n \times n}$ matrix, where at position \textbf{M}$_{i,j}$ is the node that precedes \( j \) in the path starting from \( i \). If multiple paths are created during the iterations, the first one found is kept.
+
+    The transitive closure can be maintained in time \( O(nm) \) using Italiano's algorithm. 
+    In this way, it is always possible to reconstruct an abundant path \( P \) in \( O(|P|) \) (we will see later that contracting the graph does not prevent this nor does it alter its cost).
+
 \newpage
 \section{Contractions of abundant graph}
-Vediamo ora come sfruttare l'abundant graph per contrarre il grafo su cui calcolare il max-flow e rendere l'algoritmo più efficiente.
+Let's now see how to exploit the abundant graph to contract the graph on which we calculate the max-flow and make the algorithm more efficient.
 
-Analizziamo tre contrazioni di esempio differenti:\\
-\\
-Supponiamo che esistano due nodi $i$ e $j$ tali che $r_{ij} \ge 2\Delta$ e $r_{ji} \ge 2\Delta$
+We analyze three different examples of contractions:
 
-Possiamo quindi contrarre i due nodi in uno unico che preservi gli archi di entrambi
+Suppose there are two nodes \(i\) and \(j\) such that \(r_{ij} \geq 2\Delta\) and \(r_{ji} \geq 2\Delta\).
+We can contract the two nodes into a single one, preserving the edges of both.
+
 \[\begin{tabular}{ccc}
     \begin{tikzpicture}[node distance={15mm}, thick , main/.style = {draw, circle}] 
     % Disegna i nodi del grafo
@@ -165,7 +183,7 @@ Possiamo quindi contrarre i due nodi in uno unico che preservi gli archi di entr
 \end{tikzpicture}
 \end{tabular}\]
 
-Dato che non esistono archi opposti agli archi esterni, è possibile contrarre archi esterni alla sola condizione che essi siano abbondanti:
+Since there are no reverse edges for the external edges, it is possible to contract external edges under the sole condition that they are abundant.
 
 \[\begin{tabular}{ccc}
     \begin{tikzpicture}[node distance={19mm}, thick , main/.style = {draw, circle}] 
@@ -215,7 +233,7 @@ Dato che non esistono archi opposti agli archi esterni, è possibile contrarre a
 \end{tikzpicture}
 \end{tabular}\]
 
-E dunque tutti i cicli abbondanti
+And so all the abundant cycles
 
 \[\begin{tabular}{ccc}
     \begin{tikzpicture}[node distance={18mm}, thick , main/.style = {draw, circle}] 
@@ -269,20 +287,19 @@ E dunque tutti i cicli abbondanti
 
 \end{tikzpicture}
 \end{tabular}\]
-\begin{obs}{Violazioni della conservazione del flusso}{}
-    È possibile che quando il grafo contratto verrà riespanso venga violata la legge di conservazione del flusso. 
-    
-    Tuttavia si tratta di una violazione minore di $2\Delta$ unità dunque, come mostrato da \hyperref[fixCont]{Goldberg e Rao} la contrazione, l'espansione e l'adattamento per la conservazione del flusso possono essere eseguiti in tempo $O(m)$. 
+
+\begin{obs}
+    It is possible that when the contracted graph is expanded again, the flow conservation law may be violated.
 \end{obs}
-\section{Compattare il network}
-Oltre alla contrazione del grafo è necessario eseguire un'altra trasformazione, la \textit{compattazione}.
-Per ottenere un grafo compatto mostriamo prima come ottenere una versione intermedia ovvero lo \textbf{strongly compact network}.
+    However, this violation is minor, at most \(2\Delta\) units; thus, as shown by Goldberg and Rao, the contraction, expansion, and adjustment for flow conservation can be performed in \(O(m)\) time.
 
-\noindentÈ importante comprendere la differenza tra contrarre e compattare:
+\section{How to compact network}
 
-Se nella contrazione viene creato un nodo unico che rappresenta il ciclo abbondate e vengono preservati gli archi originali non appartenenti al ciclo, 
-quando si compatta un grafo viene \underline{eliminato} un nodo che ha tutti gli archi adiacenti abbondanti e gli archi eliminanti di conseguenza vengono sostituiti da pseudo archi.
+In addition to the contraction of the graph, another transformation is necessary: the \textit{compaction}. To obtain a compact graph, we first demonstrate how to achieve an intermediate version, namely the \textbf{strongly compact network}.
 
+It is important to understand the difference between contracting and compacting:
+
+In contraction, a single node is created that represents the abundant cycle, and the original edges not belonging to the cycle are preserved. However, when compacting a graph, a node that has all adjacent edges abundant is \underline{eliminated}, and the outgoing edges are consequently replaced by pseudo-edges.
 \[\begin{tabular}{ccc}
     \begin{tikzpicture}[node distance={18mm}, thick , main/.style = {draw, circle}] 
     % Disegna i nodi del grafo
@@ -345,43 +362,50 @@ quando si compatta un grafo viene \underline{eliminato} un nodo che ha tutti gli
 
 \end{tikzpicture}
 \end{tabular}\]
- Il seguente algoritmo ha tempo $O(m + |E^{sc}|)$ in quanto si possono costruire gli pseudo archi in tempo $O(1)$ dato che viene dinamicamente preservata la chiusura transitiva. 
 
-\textbf{Strongly compact network}\\
-    Definiamo lo \textbf{Strongly compact} come $G^{sc} =(N^{sc}, E^{sc})$ originato dal network $G$:
+The following algorithm has a time complexity of \(O(m + |E^{sc}|)\) since pseudo-edges can be constructed in \(O(1)\) time, given that the transitive closure is dynamically preserved.
+
+\begin{definition}[Strongly compact network]
+
+    We define the \textbf{Strongly compact} as \(G^{sc} =(N^{sc}, E^{sc})\) originated from the network \(G\):
     \begin{enumerate}
-        \item Contrarre il grafo di tutti gli abundant cycles e degli archi esterni abbondanti.\\
-        Sia $(r,S,T)$ l'input dopo la contrazione.
-        \item Sia $N^{sc}\subseteq N(G)$ l'insieme dei nodi che sono adiacenti ad almeno un arco non abbondante.\\
-        Ci riferiremo a $N(G)\setminus N^{sc}$ come l'insieme dei nodi \textit{strongly compactible}.
-        \item Definiamo gli archi come $E^{sc} = E^1 \cup E^2$ dove:\\
-        $E^1 = \{(i,j): i\in N^{sc}\land j\in N^{sc}\land (i,j)\in E(G)\}$\\
-        $E^2 = \{(i,j): i\in N^{sc}\land j\in N^{sc}\land i\implies j\}$\\
-        Dunque abbiamo archi originali in $E^1$ e pseudo archi che derivano dagli abundant path.
-        
+        \item Contract the graph of all abundant cycles and the external abundant edges.\\
+        Let \((r,S,T)\) be the input after contraction.
+        \item Let \(N^{sc}\subseteq N(G)\) be the set of nodes that are adjacent to at least one non-abundant edge.\\
+        We will refer to \(N(G)\setminus N^{sc}\) as the set of \textit{strongly compactible} nodes.
+        \item We define the edges as \(E^{sc} = E^1 \cup E^2\) where:\\
+        \(E^1 = \{(i,j): i\in N^{sc}\land j\in N^{sc}\land (i,j)\in E(G)\}\)\\
+        \(E^2 = \{(i,j): i\in N^{sc}\land j\in N^{sc}\land i\implies j\}\)\\
+        Thus, we have original edges in \(E^1\) and pseudo-edges that derive from the abundant paths.
     \end{enumerate}
-    
+\end{definition}
 
-   \begin{theorem}[label = fmaxfsc]{$f_{max} = f_{max}^{sc}$}{}
-    Sia $f_{max}$ il flusso massimo nel network $G$ e sia $f_{max}^{sc}$ il flusso massimo in $G^{sc}$ allora 
+When we contract the graph, we are sure that if the flow routed in the contracted graph is less than a certain parameter \(\Delta\) with which we contracted the graph, then that flow is also adaptable on the original one. The following theorem shows us that the same is true for strongly compact graphs.
+\newpage
+
+\begin{theorem}[$f_{max} = f_{max}^{sc}$]
+
+    \label{fmaxfsc}
+    Let \(f_{max}\) be the maximum flow in the network \(G\) and let \(f_{max}^{sc}\) be the maximum flow in \(G^{sc}\). Then 
     \[f_{max} = f_{max}^{sc}\]
 \end{theorem}
+
 \begin{proof}
-    Abbiamo già mostrato che qualsiasi flow in $G^{sc}$ può essere reindirizzato in $G$.
-    Se invece prendiamo un flow in $G$, è possibile instradarlo in $G^{sc}$ usando la \textbf{flow decomposition} per ottenere da $f$ un insieme di path diversi almeno per un arco,
+    We have already shown that any flow in \(G^{sc}\) can be rerouted in \(G\).
+    If we take a flow in \(G\), it can be routed in \(G^{sc}\) using the \textbf{flow decomposition} to obtain from \(f\) a set of paths that differ by at least one edge,
     \[f := \{P^0, P^1, ..., P^k\}\]
-    Possiamo suddividere ancora ogni $P^a\in f$ in subpath \[P^{a}_{i\rightarrow j}| i\in N^{sc}\land j\in N^{sc}\land \forall q \in P^a_{i\rightarrow j}, q\not = i \land q\not = j \implies q\in N\setminus N^{sc}\] 
-    A questo punto sostituiamo ogni $P^{a}_{i\rightarrow j}$ in $G$ non  interamente contenuto in $G^{sc}$ con lo pseudo arco corrispettivo $(i,j)$.
-    \QED
+    We can further subdivide each \(P^a\in f\) into subpaths \[P^{a}_{i\rightarrow j}| i\in N^{sc}\land j\in N^{sc}\land \forall q \in P^a_{i\rightarrow j}, q\not = i \land q\not = j \implies q\in N\setminus N^{sc}\] 
+    At this point, we replace each \(P^{a}_{i\rightarrow j}\) in \(G\) that is not entirely contained in \(G^{sc}\) with the corresponding pseudo-edge \((i,j)\).
+
 \end{proof}
 
 
 
-\section{Da sc-compact a $\Gamma$-compact}
+\section{From sc-compact to $\Gamma$-compact}
 Il grafo sc-compact non è abbastanza compattato per raggiungere il costo desiderato. Per compattarlo ulteriormente dovremmo utilizzare un parametro \gmm per scegliere quali nodi compattare e da quali archi trasferire capacità residua.
 La scelta del parametro \gmm\ verrà mostrata in seguito.
-Prima di proseguire è importante distinguere diversi tipo di archi.
-\begin{definition}{Classificazioni di capacità}{}
+Prima di proseguire è importante distinguere diversi tipi di archi.
+\begin{definition}[Classificazioni di capacità]
     Un arco $(i,j)$ rispetto a $\Gamma$ ha:
     \begin{enumerate}
         \item \textbf{small capacity} se $u_{ij}+u_{ji} < \Gamma/(64m^3)$
@@ -389,27 +413,32 @@ Prima di proseguire è importante distinguere diversi tipo di archi.
         \item \textbf{abundant capacity} se $r_{ij} \ge 2\Delta$ 
         \item \textbf{antiabundant capacity} se $(j,i) \in E^{ab} \lor\ (i,j)$ è un arco esterno non abbondante.
     \end{enumerate}
-    Dove $E^{ab}$ e $E^{-ab}$ rappresentano rispettivamente l'insieme degli archi abbondanti e anti abbondanti all'inizio dell'improvment phase.
+    Dove $E^{ab}$ e $E^{-ab}$ rappresentano rispettivamente l'insieme degli archi abbondanti e anti abbondanti all'inizio dell'improvement phase.
 
-    \underline{NOTA}: dato che abbiamo contratto i cicli abbondanti se $(i,j)\in E^{ab}\implies (j,i)\not \in E^{ab}$
+   
     
 \end{definition}
+\begin{obs}
+    Dato che abbiamo contratto i cicli abbondanti se $(i,j)\in E^{ab}\implies (j,i)\not \in E^{ab}$
+\end{obs}
+
 
 Un altro strumento necessario per decidere quali nodi compattare è la funzione \textit{potenziale}
-\begin{definition}{Potential function}{}
+\begin{definition}[Potential function]
+
     Dato un nodo $j\in N$ una funzione di capacità residua $r$ e un sottoinsieme di archi adiacenti a $j$ $\tilde{E}$  possiamo definire la funzione potenziale come: 
     \[\Phi (j, r, \tilde{E}) = \sum_{(i,j)\in \tilde{E}} r_{ij}-\sum_{(j,i)\in \tilde{E}} r_{ji}\] 
 \end{definition}
 
-    \begin{definition}{$\Gamma$-critical e $\Gamma$-compactible}{}
+    È secondo questi parametri che in ogni improvement phase vengono distinti i nodi che si possono compattare da quelli che non possono essere compattati. Queste due distinzioni prendono il nome rispettivamente di nodi \gmm-compactible e nodi \gmm-critical. 
+    \begin{definition}[$\Gamma$-critical e $\Gamma$-compactible]
         
         Un nodo j si dice \textbf{$\Gamma$-critical} se è adiacente almeno ad un arco \gmm-medio oppure se $|\Phi (j, r, E^{-ab})| > \Gamma/(16m^2)$.
 
-        \vspace*{7pt}
-        \noindent Se un nodo non è $\Gamma$-critical allora si dice \textbf{$\Gamma$-compactible}.
+        Se un nodo non è $\Gamma$-critical allora si dice \textbf{$\Gamma$-compactible}.
 
         \vspace*{7pt}
-        \noindent Dato un network $G$ definiamo il \gmm\-compact network di $G$ come \[G^c := (N^c, E^c)\]
+        Dato un network $G$ definiamo il \gmm\-compact network di $G$ come \[G^c := (N^c, E^c)\]
         Dove $N^c$ sono tutti e soli i nodi \gmm-critical mentre $E^c$ l'insieme di archi che definiremo in seguito.
     \end{definition}
     Per costruire il $\Delta$-compact network vengono iterativamente trasferite unità di capacità residue di vari path a pseudo archi. 

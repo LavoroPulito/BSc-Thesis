@@ -346,12 +346,12 @@ on a network with integer capacities, which, when considering logarithmic factor
 \end{proof}
 
 \section{Costo computazionale}
-    Abbiamo già mostrato che per trovare il max flow nel grafo 
-    Prima di addentrarci nel costo di una fase, rivediamo la struttura dell'algoritmo descritto fino ad ora.
+    We have already shown how to find the maximum flow in the graph.
+    Before diving into the cost of a phase, let's review the structure of the algorithm described so far.
 
     \begin{algorithm}
         \caption{\textit{Goldberg-RaoAlgorithm(G, c)}}
-        \label{algotrans}
+        \label{GoldbergRao}
         \begin{algorithmic}[1]
             \State $n = |N(G)|$
             \State $F = U\cdot n$
@@ -367,8 +367,8 @@ on a network with integer capacities, which, when considering logarithmic factor
                 \State $f' = find\_blocking\_or\_Delta\_flow(A)$ \Comment Dinic's style 
                 \State $f_{ad} = fit(f')$ \Comment the procedure to adapt the flow to the original graph
                 \State $f = f + f_{ad}$
-                \State $c = r(canCutCapacity(G_f,d, l))$
-                \If $c \le F/2:$ 
+                \State $c = r(canCutCapacity(G_f,d, l))$ \Comment residual capacity of min canon. cut 
+                \If{$c \le F/2:$ } 
                     \State $F = c$
                     \State $\Delta = F/\Lambda$
                 \EndIf
@@ -377,76 +377,69 @@ on a network with integer capacities, which, when considering logarithmic factor
         \end{algorithmic}
     \end{algorithm}
 
-    \begin{verbatim}
-    def Goldberg_Rao_Algorithm(Network network)
-        F = U*n
-        Delta = F/Lambda
-        f = 0
-        while F >= 1:
-            l = update_length(n, Delta)
-            d_l = distanceLabel(network, l)
-            Gc = collapse(network)
-            Ag = admissible_graph(g)
-            f' = find_blocking_or_Delta_flow(Ag)
-            f = f + f'
-            network.fitFlow(f)
-            if min_canonical_cut(network).residual() <= F/2: 
-                F = min_canonical_cut(network).residual()
-                Delta = F/Lambda
-
-        return f
-        
-    \end{verbatim}
 \textbf{Remark:}
         
-        Il costo dichiarato in partenza è in:
+        The cost stated at the beginning is in:
         \[O(\min \{n^{2/3}, m^{1/2}\}\cdot m \log n\log m U_{max})\]
-        utilizzando strutture dati più avanzate, si può raggiungere il costo di:
+        Using more advanced data structures, you can achieve the cost of:
         \[O(\min \{n^{2/3}, m^{1/2}\}\cdot m \log \frac{n^2}{m}\log U_{max})\]
 
 
-    Abbiamo già notato che il numero di \textbf{fasi} (ovvero il numero di decrementi) di F è nell'ordine di $\log(F)$ ovvero $log(m U_{max})$.
-    Il costo per calcolare il min canonical cut e per adattare il flow al network sono entrambi in $O(m)$.
-    Resta però da analizzare il costo di ogni fase, cioè quanto in fretta il min canonical cut si dimezza.
+      
+        
+    We divided the number of \textbf{phases} so that the estimated maximum flow (\( F \)) is halved in each phase.  
+    This gives us a number of phases on the order of \( \log(F) \), which is \( \log(m U_{max}) \).  
+    We have shown how both the calculation of the minimum canonical cut and the adjustment of the flow to the original network can be computed in \( O(m) \) time.  
+    However, we still need to analyze the cost of each phase, that is, how quickly the minimum canonical cut is halved.
+    
+    From the corollary of the following lemma, we demonstrate what was previously stated when we fixed the value of the parameter \dlt.  
+    With this lemma, we estimate the maximum capacity for the canonical cut, which is then used to estimate \( F \), while in the subsequent corollary, we show how the parameters for which we contract the graph lead this capacity to halve within \( O(\Lambda) \) blocking flows.
+
     \begin{lemma}
-        {}{}
-        La capacità minima di un canonical cut $(\bar{S}, \bar{T})$ soddisfa
+        The minimum capacity of a canonical cut $(\bar{S}, \bar{T})$ satisfies
         \[u_f(\bar{S}, \bar{T})\le \frac{mM}{d_l(s)}\]
-        dove M rappresenta l'arco di lunghezza uno con più capacità
+        where $M$ represents the length-one edge with the highest capacity.
     \end{lemma}
     \begin{proof}
-        Risulta evidente che il il modo migliore in cui si può massimizzare la capacita del taglio canonico minimo è supponendo che tutti gli archi abbiano la capacità dell'arco di capacità maggiore e poi dividere equamente gli archi tra i vari tagli.
+        It is clear that the best way to maximize the capacity of the minimum canonical cut is by assuming that all edges have the capacity of the edge with the highest capacity, and then evenly dividing the edges among the various cuts.
 
     \end{proof}
 
-    Da questa prima stima segue il corollario
-    \begin{corollary}{}{}
-    Durante ogni fase ci sono al massimo $O(\Lambda)$ blocking flow incrementi.
+    From this initial estimate follows the corollary.
+    \begin{corollary}
+    During each phase, there are at most $O(\Lambda)$ blocking flow increments.
     \end{corollary}
     \begin{proof}
-        Supponiamo che $\Lambda = m^{1/2}$ dato che abbiamo dimostrato che ogni blocking flow incrementa $d(s)$ di almeno uno, siamo sicuri che dopo $6\lceil \Lambda\rceil$ incrementi $d_l(s) \ge 6 m^{1/2}$.
-        Dunque possiamo prendere la stima nel lemma e affermare che:
-        \[ u_f(\bar{S}, \bar{T})\le \frac{mM}{d_l(s)}\le \frac{3m}{d_l(s)}\Delta\le \frac{3m}{6m^{1/2}}\frac{F}{m^{1/2}} = \frac{F}{2}\]
-        Dunque dopo $\lceil \Lambda\rceil$ la fase termina.\\
-        Per $\Lambda = n^{2/3}$ la dimostrazione è analoga e porta alla stessa conclusione. 
-        In conclusione, il costo di ogni fase è in ordine di $O(\Lambda)$ 
+        Let us assume that \( \Lambda = m^{1/2} \). Since we have shown that each blocking flow increases \( d(s) \) by at least one, we can be sure that after \( 6\lceil \Lambda \rceil \) increments, \( d_l(s) \geq 6 m^{1/2} \).  
+        Thus, we can take the estimate from the lemma and state that:  
+        \[
+        u_f(\bar{S}, \bar{T}) \le \frac{mM}{d_l(s)} \le \frac{3m}{d_l(s)}\Delta \le \frac{3m}{6m^{1/2}} \frac{F}{m^{1/2}} = \frac{F}{2}
+        \]
+        Thus, after \( \lceil \Lambda \rceil \), the phase ends.\\  
+        For \( \Lambda = n^{2/3} \), the proof is analogous and leads to the same conclusion.  
+        In conclusion, the cost of each phase is on the order of \( O(\Lambda) \).
     \end{proof}
-    
-    L'ultimo collo di bottiglia è rappresentato dal costo di trovare un blocking flow o di valore massimo $\Delta$ (computazionalmente equivalenti):
-    il che richiederebbe un costo di:
+    \newpage
+
+    At this point, the last bottleneck is represented by the cost of finding a blocking flow or a flow of value \( \Delta \) (which are computationally equivalent):  
+    this would require a cost of:
     \begin{itemize}
-        \item $O(mn)$ in un approccio naive;
-        \item $O(m\log n)$ utilizzando i dynamic trees;
-        \item $O(m \log(n^2/m))$ utilizzando i size-bounded dynamic trees;
+        \item \( O(mn) \) in a naive approach;
+        \item \( O(m \log n) \) using dynamic trees;
+        \item \( O(m \log(n^2/m)) \) using size-bounded dynamic trees;
     \end{itemize}
-    Unendo il costo di:
+    
+    Combining the cost of:
     \begin{itemize}[label=$\times$]
-        \item trovare un Blocking flow
-        \item le iterazioni in ogni fase
-        \item il numero di fasi
-        \item gli ulteriori costi in $O(m)$
+        \item finding a blocking flow
+        \item iterations in each phase
+        \item the number of phases
+        \item additional costs in \( O(m) \)
     \end{itemize}
-    Si ottiene il tempo dichiarato.
-
-
+    
+    \section*{Conclusion}
+    Goldberg and Rao published their algorithm in a 1998 paper. About four years earlier, V. King, S. Rao, and R. Tarjan had published a paper in which they presented an algorithm capable of finding the maximum flow in \( O(nm) \) time, provided the algorithm had enough edges relative to the number of nodes.  
+    The stated cost is \( O(nm(\log_{m/n \log n} n)) \), but if \( m/n = \Omega(n^\varepsilon) \) for some \( \varepsilon > 0 \), the cost becomes \( O(nm) \).  
+    However, the problem of finding the maximum flow in polynomial time remains unresolved, as it is still unclear how to calculate it for sparser graphs than those covered by the King-Rao-Tarjan algorithm.  
+    The next chapter analyzes the solution proposed in 2013 by James B. Orlin, which leverages a specific condition of the Goldberg-Rao algorithm and develops a strategy for compacting and contracting the graph, along with approximations in a series of optimal flows, to make the algorithm strictly polynomial where King-Rao-Tarjan fails.
 \cleardoublepage
