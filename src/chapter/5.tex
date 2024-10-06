@@ -402,220 +402,277 @@ When we contract the graph, we are sure that if the flow routed in the contracte
 
 
 \section{From sc-compact to $\Gamma$-compact}
-Il grafo sc-compact non è abbastanza compattato per raggiungere il costo desiderato. Per compattarlo ulteriormente dovremmo utilizzare un parametro \gmm per scegliere quali nodi compattare e da quali archi trasferire capacità residua.
-La scelta del parametro \gmm\ verrà mostrata in seguito.
-Prima di proseguire è importante distinguere diversi tipi di archi.
-\begin{definition}[Classificazioni di capacità]
-    Un arco $(i,j)$ rispetto a $\Gamma$ ha:
+An sc-compact graph is not sufficiently compacted for our purpose, so it will be further compacted. To avoid confusion, we will use another parameter for this additional compaction.
+
+The second parameter is \(\Gamma\).  
+The \(\Gamma\)-compact graph (composed solely of \(\Gamma\)-critical nodes) is formed starting from the sc-compact network and transferring capacities from paths where the only \(\Gamma\)-critical nodes are the endpoints, to pseudo-edges that connect these endpoints.
+
+The parameter \(\Gamma\) is also used to ensure that in each improvement phase, there are always "enough" nodes. Thus, \(\Gamma\) initially takes the same value as \(\Delta\), but if, in a given improvement phase, the \(\Gamma\)-critical nodes are too few, a smaller \(\Gamma\) will be chosen to increase their number.
+
+The definition of "enough" nodes and how the value of \(\Gamma\) is selected will be shown later.
+
+Before proceeding, it’s important to distinguish between different types of edges.
+\begin{definition}[Capacity Classifications]
+    An edge $(i,j)$ with respect to \gmm\ has:
     \begin{enumerate}
-        \item \textbf{small capacity} se $u_{ij}+u_{ji} < \Gamma/(64m^3)$
-        \item \label{media}\textbf{medium capacity} se $\Gamma/(64m^3) \le u_{ij}+u_{ji}\ \land$\\ $r_{ij} < 2\Delta \land r_{ji} < 2\Delta $
-        \item \textbf{abundant capacity} se $r_{ij} \ge 2\Delta$ 
-        \item \textbf{antiabundant capacity} se $(j,i) \in E^{ab} \lor\ (i,j)$ è un arco esterno non abbondante.
+        \item \textbf{small capacity} if $u_{ij}+u_{ji} < \Gamma/(64m^3)$
+        \item \label{media}\textbf{medium capacity} if $\Gamma/(64m^3) \le u_{ij}+u_{ji}\ \land r_{ij} < 2\Delta \land r_{ji} < 2\Delta $
+        \item \textbf{abundant capacity} if $r_{ij} \ge 2\Delta$ 
+        \item \textbf{anti-abundant capacity} if $(j,i) \in E^{ab} \lor\ (i,j)$ is a non-abundant external edge.
     \end{enumerate}
-    Dove $E^{ab}$ e $E^{-ab}$ rappresentano rispettivamente l'insieme degli archi abbondanti e anti abbondanti all'inizio dell'improvement phase.
+    Where $E^{ab}$ and $E^{-ab}$ represent, respectively, the set of abundant and anti-abundant edges at the beginning of the improvement phase.
 
    
     
 \end{definition}
 \begin{obs}
-    Dato che abbiamo contratto i cicli abbondanti se $(i,j)\in E^{ab}\implies (j,i)\not \in E^{ab}$
+    Since we have contracted abundant cycles, \[(i,j)\in E^{ab}\implies (j,i)\not \in E^{ab}\]
 \end{obs}
 
 
-Un altro strumento necessario per decidere quali nodi compattare è la funzione \textit{potenziale}
+Another necessary tool to decide which nodes to compact is the \textbf{potential function}.
 \begin{definition}[Potential function]
 
-    Dato un nodo $j\in N$ una funzione di capacità residua $r$ e un sottoinsieme di archi adiacenti a $j$ $\tilde{E}$  possiamo definire la funzione potenziale come: 
-    \[\Phi (j, r, \tilde{E}) = \sum_{(i,j)\in \tilde{E}} r_{ij}-\sum_{(j,i)\in \tilde{E}} r_{ji}\] 
+    Given a node $j\in N$, a residual capacity function $r$, and a subset of edges adjacent to $j$ $(\tilde{E}(j))$  we can define the potential function as:
+    \[\Phi (j, r, \tilde{E}(j)) = \sum_{(i,j)\in \tilde{E}(j)} r_{ij}-\sum_{(j,i)\in \tilde{E}(j)} r_{ji}\] 
 \end{definition}
 
-    È secondo questi parametri che in ogni improvement phase vengono distinti i nodi che si possono compattare da quelli che non possono essere compattati. Queste due distinzioni prendono il nome rispettivamente di nodi \gmm-compactible e nodi \gmm-critical. 
+Based on these parameters, in each improvement phase, nodes that can be compacted are distinguished from those that cannot. These two distinctions are referred to as \gmm-compactible nodes and \gmm-critical nodes respectively.
     \begin{definition}[$\Gamma$-critical e $\Gamma$-compactible]
         
-        Un nodo j si dice \textbf{$\Gamma$-critical} se è adiacente almeno ad un arco \gmm-medio oppure se $|\Phi (j, r, E^{-ab})| > \Gamma/(16m^2)$.
+        A node $j$ is said to be \gmm-critical if it is adjacent to at least one \gmm-medium edge or if  $|\Phi (j, r, E^{-ab})| > \Gamma/(16m^2)$.
 
-        Se un nodo non è $\Gamma$-critical allora si dice \textbf{$\Gamma$-compactible}.
+        If a node is not \gmm-critical, then it is said to be \textbf{\gmm-compactible}.
 
-        \vspace*{7pt}
-        Dato un network $G$ definiamo il \gmm\-compact network di $G$ come \[G^c := (N^c, E^c)\]
-        Dove $N^c$ sono tutti e soli i nodi \gmm-critical mentre $E^c$ l'insieme di archi che definiremo in seguito.
+        
+        Given a network $G$, we define the \textbf{\gmm-compact network} of $G$ as: \[G^c := (N^c, E^c)\]
+        where $N^c$ consists of all and only \gmm-critical nodes, while $E^c$ is the set of edges that will be defined later.
     \end{definition}
-    Per costruire il $\Delta$-compact network vengono iterativamente trasferite unità di capacità residue di vari path a pseudo archi. 
-    l'idea è quella di sottrarre capacità a dei percorsi che collegano due nodi $i,j\in N$ per passarla all'arco (o pseudo arco) $(i,j)$ e poter ulteriormente compattare il grafo.
-    Ovviamente però questi pseudo archi sono solo parte di quelli che compongono $E^c$ che potremmo definire come 
+    To build the \gmm-compact network, units of residual capacity are iteratively transferred from various paths to pseudo-edges. The idea is to transfer capacity from paths connecting two nodes $i,j\in N$ to the edge (or pseudo-edge) $(i,j)$, allowing further compaction of the graph.
+    However, these pseudo-edges are only part of the edges comprising $E^c$, which can be defined as:
     \[E^c = E^1\cup E^2 \cup E^3\]
-    $E^1 = \{(i,j) | i,j\in N^c \land (i,j) \in E(G)\}$ dunque gli archi originali che collegano due nodi \gmm-critici\\
-    $E^2 = \{(i,j) | i,j\in N^c \land i\implies j\}$ ovvero gli archi abbondanti 
+    $E^1 = \{(i,j) | i,j\in N^c \land (i,j) \in E(G)\}$ meaning the original edges connecting two \gmm-critical nodes.\\
+    $E^2 = \{(i,j) | i,j\in N^c \land i\implies j\}$, i.e., the abundant edges.
 
-    Il seguente lemma mostra come se scelti secondo un appropriato criterio, il trasferimento di flusso non riduce la capacità di nessun (S,T) cut e dunque preserva il max flow calcolabile.
-    \begin{lemma}[label = {ftsafe}]{Flow transfer safety}{}
-        Sia $(S,T)$ un s-t cut in $G$ con $r(S,T)\le \Delta$, e sia $A' = E^{-ab}.$\\
-        Supponiamo che esista $P\subseteq A'$ un path da $i\rightarrow j$ e che $(i,j)\in A'$. \\
-        Se $r'$ è la nuova funzione di capacità residua ottenuta spostando $\delta$ unità di capacità residua da $P$ a $(i,j)$, allora possiamo affermare che:
+    The edges in $E^3$ are the pseudo-edges created by transferring flow from paths consisting of anti-abundant edges. The following lemma shows that, if selected based on an appropriate criterion, the flow transfer does not reduce the capacity of any (S, T) cut, thus preserving the maximum flow that can be computed.
+    \begin{lemma}[Flow transfer safety]
+        \label{ftsafe}
+
+        Let \((S,T)\) be an s-t cut in \(G\) with \(r(S,T) \leq \Delta\), and let \(A' = E^{-ab}\).  
+        Suppose there exists \(P \subseteq A'\), a path from \(i \rightarrow j\), and that \((i,j) \in A'\).  
+        If \(r'\) is the new residual capacity function obtained by shifting \(\delta\) units of residual capacity from \(P\) to \((i,j)\), then we can state that:
+
         \begin{enumerate}
             \item $\forall k\in N(G),\ \Phi(k,r',A') = \Phi(k,r,A') $
             \item $r'(S,T) = r(S,T)$
         \end{enumerate}
         
     \end{lemma}
-        \begin{proof} \begin{enumerate}
-                \item Il primo punto è intuitivo in quanto per ogni nodo in $P$ diverso da $i$ e $j$ sto sottraendo la stessa capacità residua sia in entrata che in uscita, mentre nei nodi $i$ e $j$ le sommatorie di $\Phi$ rimangono identiche.
-                \item Il secondo punto è banale se $|P|= 1$ dunque consideriamo $|P|\ge 2$. Definiamo $P = p_1, ..., p_k$, $p_1 \in S$ e almeno un $p_q\in T$.\\
-                    Dato che abbiamo stabilito che $r(S,T) \le \Delta$ e che $P\subseteq A'$ ci troviamo sicuramente in una situazione di questo tipo:
-                    \[\begin{tikzpicture}[node distance={15mm}, thick , main/.style = {draw, circle}] 
-                        % Disegna i nodi del grafo
-                        \node[main] (0) {$i$};
-                        \node[main] (1) [above right of = 0] {1};
-                        \node[main] (2) [right of = 1] {2};
-                        \node[main] (3) [below right of = 2] {j};
-                        \node at (0,1.7) {S};
-                        \node at (3.6,1.7) {T};
-    
-                        \draw[->] (0) [red, bend left] to (1);
-                        \draw[->] (1) [red, bend left] to (2);
-                        \draw[->] (2) [red, bend left] to (3);
-                        \draw[->] (0) [green, bend right] to (3);
-    
-                        \draw[dashed] (1.8,-1) -- (1.8,1.7);
-                    \end{tikzpicture}\]
-                    In quanto se un arco di $P$ passasse da T a S violerebbe $r(S,T)\le \Delta$ dato che $\forall (a,b)\in A'(\Delta),\ r_{ab} > 2\Delta \land r_{ba}\ge 2\Delta$, avremmo che
-                    \[\begin{tikzpicture}[node distance={15mm}, thick , main/.style = {draw, circle}] 
-                        % Disegna i nodi del grafo
-                        \node[main] (0) {$i$};
-                        \node[main] (1) [above right of = 0] {1};
-                        \node[main] (2) at (3.8,0) {2};
-                        \node[main] (3) [below right of = 0] {j};
-                        \node at (0,1.7) {S};
-                        \node at (3.6,1.7) {T};
-    
-                        \draw[->] (0) [red,bend left] to (1);
-                        \draw[->] (1) [red,bend left] to (2);
-                        \draw[->] (2) [red,bend left] to (3);
-                        \draw[->] (3) [thick = 1.5, darktangerine, bend left] to (2);
-                        \draw[->] (0) [green, bend right] to (3);
-    
-                        \draw[dashed] (1.8,-1.7) -- (1.8,1.7);
-                        \node at (2.4, -.4) {\text{\color{darktangerine}{$2\Delta$}}};
-                    \end{tikzpicture}\]
-                Una volta appurato ciò risulta evidente che il trasferimento di capacità residua non influenza la capacità residua del taglio. \QED
-            \end{enumerate}
-        \end{proof}
-    Notiamo dunque che:
-    \begin{definition}
-        {Transferrable residual capacity}{}
-        Per poter trasferire $\delta$ capacità da un path $P$ da $i\rightarrow j$ all'arco $(i,j)$ è necessario che:
+    \begin{proof}
         \begin{enumerate}
-            \item $|P|\ge 2$
-            \item $r(P) > 0$
-            \item $P\subseteq A'$
-       
-        In oltre quando creeremo il \gmm\ compact network saranno essenziali anche i seguenti requisiti
-        \item $i,j \in N^c$
-        \item $P\setminus \{i,j\} \subseteq N(G) \setminus N^c$
-    \end{enumerate}
-    \end{definition} 
-    La capacità che viene trasferita da è $\delta = r(P) = \min_{(a,b)\in P} r(a,b)$, dunque ogni volta almeno un arco anti-abbondante viene saturato. 
-    Se esiste un path $P\subseteq A'\ da\ i\rightarrow j $ ma $(i,j)\not \in E(G)$ allora viene creato come pseudo arco. 
-    Sono proprio questi Pseudo archi antiabbondanti che formeranno $E^3$. 
-    Analizziamo ora la procedura per trasferire tutte le capacità residue necessarie a formare $E^3$ e restituirne l'insieme di archi
-    con le relative capacità residue $r^c_{ij} \forall (i,j)\in E^3$
+            \item The first point is intuitive because, for each node in $P$ that is different from $i$ and $j$, I am subtracting the same residual capacity for both incoming and outgoing edges, while for nodes $i$ and $j$, the summations of $\Phi$ remain unchanged.
+            \item The second point is trivial if $|P|= 1$, so let's consider the case where $|P|\ge 2$. Define $P = p_1, ..., p_k$,where $p_1 \in S$ and at least one $p_q\in T$.\\
+            Since we have established that $r(S,T) \le \Delta$ and $P\subseteq A'$ we are definitely in a situation like this:
+                \[\begin{tikzpicture}[node distance={15mm}, thick , main/.style = {draw, circle}] 
+                    % Disegna i nodi del grafo
+                    \node[main] (0) {$i$};
+                    \node[main] (1) [above right of = 0] {1};
+                    \node[main] (2) [right of = 1] {2};
+                    \node[main] (3) [below right of = 2] {j};
+                    \node at (0,1.7) {S};
+                    \node at (3.6,1.7) {T};
 
+                    \draw[->] (0) [red, bend left] to (1);
+                    \draw[->] (1) [red, bend left] to (2);
+                    \draw[->] (2) [red, bend left] to (3);
+                    \draw[->] (0) [green, bend right] to (3);
+
+                    \draw[dashed] (1.8,-1) -- (1.8,1.7);
+                \end{tikzpicture}\]
+                Because if an edge of $P$ passed from T to S, it would violate $r(S,T)\le \Delta$ since $\forall (a,b)\in A'(\Delta),\ r_{ab} < 2\Delta \land r_{ba}\ge 2\Delta$, we would have:
+                \[\begin{tikzpicture}[node distance={15mm}, thick , main/.style = {draw, circle}] 
+                    % Disegna i nodi del grafo
+                    \node[main] (0) {$i$};
+                    \node[main] (1) [above right of = 0] {1};
+                    \node[main] (2) at (3.8,0) {2};
+                    \node[main] (3) [below right of = 0] {j};
+                    \node at (0,1.7) {S};
+                    \node at (3.6,1.7) {T};
+
+                    \draw[->] (0) [red,bend left] to (1);
+                    \draw[->] (1) [red,bend left] to (2);
+                    \draw[->] (2) [red,bend left] to (3);
+                    \draw[->] (3) [thick = 1.5, darktangerine, bend left] to (2);
+                    \draw[->] (0) [green, bend right] to (3);
+
+                    \draw[dashed] (1.8,-1.7) -- (1.8,1.7);
+                    \node at (2.4, -.4) {\text{\color{darktangerine}{$2\Delta$}}};
+                \end{tikzpicture}\]
+                So the $(S,T)$ would have certainly a residual capaciti $\ge \Delta$.
+                Once this has been established, it becomes clear that the transfer of residual capacity does not affect the residual capacity of the cut.
+        \end{enumerate}
+    \end{proof}
+    We can then observe the following:
+
+    \begin{definition}[Transferrable residual capacity]
+    
+    To transfer $\delta$ capacity from a path \( P \) from \( i \rightarrow j \) to the arc \( (i,j) \), the following conditions must be satisfied:
+    \begin{enumerate}
+        \item \( |P| \ge 2 \)
+        \item \( r(P) > 0 \)
+        \item \( P \subseteq A' \)
+    \end{enumerate}
+    
+    Moreover, when creating the \(\Gamma\)-compact network, the following additional conditions are essential:
+    \begin{enumerate}
+        \item \( i,j \in N^c \)
+        \item \( P \setminus \{i,j\} \subseteq N(G) \setminus N^c \)
+    \end{enumerate}
+    
+    \end{definition}
+    
+    The capacity transferred from \( P \) is given by:
+    \[
+    \delta = r(P) = \min_{(a,b) \in P} r(a,b)
+    \]
+    Thus, each time, at least one anti-abundant arc is saturated. If there exists a path \( P \subseteq A' \) from \( i \rightarrow j \) but \( (i,j) \notin E(G) \), a pseudo-arc is created. These are the anti-abundant pseudo-arcs that will form \( E^3 \).
+    
+    We now analyze the procedure to transfer all residual capacities needed to form \( E^3 \) and return the set of arcs with their respective residual capacities \( r^c_{ij} \) for every \( (i,j) \in E^3 \).
+    
+    The algorithm takes as input (in addition to the residual function \( r \)) the set of \(\Gamma\)-critical nodes and the set of anti-abundant arcs that do not connect two \(\Gamma\)-critical nodes:
+    \begin{itemize}
+        \item \( G^c := \{n \mid n \in N(G) \land \Gamma\text{-critical}(n)\} \)
+        \item \( H := \{(i,j) \mid (i,j) \in E^{-ab} \land (i \notin G^c \lor j \notin G^c)\} \)
+    \end{itemize}
+    
 \begin{algorithm}
-    \caption{\textit{Improve-approx-2(r,S,T)}}
-    \label{imrAprx}
+    \caption{\textit{capacity-tranfer(r, H, $G^c$)}}
+    \label{algotrans}
     \begin{algorithmic}[1]
-        \State sia $G^c := \{n | n\in N(G)\land \Gamma\text{-critical}(n)\}$
-        \State sia $H := \{(i,j)| (i,j)\in E^{-ab}\land i \not \in G^c \lor j \not \in G^c\}$
-        \State $\forall (i,j)\in H,\ q_{ij} = r_{ij}$
+     
+        \For{$(i,j)\in H$} 
+            \State $q_{ij} = r_{ij}$
+        \EndFor
         \While{H $\not = \varnothing$}
-            \State seleziona $i \in H | \nexists (j,i) \in H$:
-            \State P = $DFS(i, l)$ s.t $l\in N^c \lor \nexists (l,k)\in H$ \Comment{usa la DFS per un path da $i$ a $l$}
-            \State sia $\delta = \min_{(a,b)\in P}q_{ab}$
+            \State pick $i\ |\ \exists (i,k)\in H \land\nexists (j,i) \in H$
+            \State pick $l\ |\ l\in N^c \lor \nexists (l,k)\in H$
+            \State P = $DFS(i, l)$ \Comment{use DFS to find a path from $i$ to $l$}
+            \State \(\delta = \min_{(a,b)\in P}q_{ab}\)
             \If{$i,l \in N^c$} 
-                \State $A^3 = A^3 \cup {(i,l)}; r^c_{il} += \delta$
+                \State $A^3 = A^3 \cup {(i,l)}$
+                \State $r^c_{il} $\verb|+=|$ \delta$
             \EndIf
-            \State $\forall (a,b) \in P,\ q_{ab} -= \delta$
-            \State $H = H- \{(a,b) | q_{ab} = 0\}$ 
+            \For{$(a,b) \in P$}
+                \State  $q_{ab} $\verb|-=|$ \delta$
+            \EndFor
+            \State $H = H\setminus \{(a,b) | q_{ab} = 0\}$ 
         \EndWhile 
+        \Return $H, r$ 
     \end{algorithmic}
 \end{algorithm}
 
-Nel passaggio 6 viene creato, utilizzando una \textit{deep first search} un percorso dal nodo scelto $i$ fino ad uno $l$ che soddisfi certi requisiti.
-Da notare con attenzione che \textbf{non è garantito} che $i$ e $l$ siano \gmm-critical e dunque è possibile che tale percorso (che esiste sempre) venga scartato.
+In step 6, a path from the selected node \( i \) to a node \( l \) is created using a **depth-first search**, satisfying specific requirements. It's important to note that it \textbf{is not guaranteed} that \( i \) and \( l \) are \(\Gamma\)-critical, meaning that this path (which always exists) might be discarded.
 
-Quando un percorso viene scartato si dice che $\delta$ capacità è stata \textbf{persa}. 
-Dunque il max flow nel grafo \gmm-compact è inferiore a quello ottimale, tuttavia il seguente lemma mostra che esiste un bound a questa capacità residua \textit{persa}.
-\begin{lemma}[Bound to \gmm-compact lose capacity] \label{boundlose}
-    Sia $f_{max}$ il max-flow calcolato in $G$, il network originale, e $f^*$ quello calcolato in $G^c$, il network compattato creato dalla \nameref{algotrans}.
-    Allora si ha che:
-    \[f^*\le f_{max} \le f^* + \Gamma/16m\]
-    ovvero il flusso massimo calcolato in $G^c$ è sottostimato di al più $\Gamma/16m$.
+When a path is discarded, we say that \(\delta\) capacity has been \textbf{lost}. Thus, the maximum flow in the \(\Gamma\)-compact graph is lower than the optimal one. However, the following lemma shows that there is an upper bound to this lost residual capacity.
+
+\begin{lemma}[Bound on lost capacity in \(\Gamma\)-compact] \label{boundlose}
+    Let \( f_{max} \) be the maximum flow computed in \( G \), the original network, and let \( f^* \) be the flow computed in \( G^c \), the compacted network created by the \nameref{algotrans}.
+    Then:
+    \[
+    f^* \leq f_{max} \leq f^* + \frac{\Gamma}{16m}
+    \]
+    meaning that the maximum flow computed in \( G^c \) is underestimated by at most \( \frac{\Gamma}{16m} \).
 \end{lemma}
+
 \begin{proof}
-    Per essere scartato, un percorso deve iniziare o terminare in un nodo \gmm-compactible ovvero un nodo $j$ non adiacente ad un arco medio tale che:
-    \[|\Phi (j, r, E^{-ab})| =\left | \sum_{(i,j)\in E^{-ab}} r_{ij}-\sum_{(j,i)\in E^{-ab}} r_{ji}\right |\le \Gamma/16m^2\]
-    Tuttavia un nodo non critical per essere scelto deve avere solo archi entranti o solo archi uscenti a seconda di quale estremo del path stiamo parlando.
-    Possiamo quindi stimare che la capacità massima di un certo path $P_s$ scartato sia $r(P_s) \le  \Gamma/16m^2$ ovvero il valore residuo massimo raggiungibile da un arco estremo a $P_s$.
-    Dato quindi che possono esistere al massimo $n$ di questi percorsi allora abbiamo che: 
-    \[n\cdot \Gamma/16m^2 \le m \cdot \Gamma/16m^2 = \Gamma/16m\]
-    Dunque la massima capacità che viene persa nella creazione di $G^c$ è proprio $\Gamma/16m$.
+    For a path to be discarded, it must start or end at a \(\Gamma\)-compactible node, that is, a node \( j \) not adjacent to a medium arc such that:
+    \[
+    |\Phi(j, r, E^{-ab})| = \left| \sum_{(i,j) \in E^{-ab}} r_{ij} - \sum_{(j,i) \in E^{-ab}} r_{ji} \right| \leq \frac{\Gamma}{16m^2}
+    \]
+    However, for a non-critical node to be chosen, it must have only incoming or only outgoing arcs, depending on which end of the path we are discussing.
+    
+    We can estimate that the maximum capacity of a discarded path \( P_s \) is:
+    \[
+    r(P_s) \leq \frac{\Gamma}{16m^2}
+    \]
+    which represents the maximum residual value achievable by an arc at one of the path's ends.
+    
+    Given that there can be at most \( n \) such paths, we have:
+    \[
+    n \cdot \frac{\Gamma}{16m^2} \leq m \cdot \frac{\Gamma}{16m^2} = \frac{\Gamma}{16m}
+    \]
+    Therefore, the maximum capacity lost in creating \( G^c \) is precisely \( \Gamma/16m \).
 \end{proof}
 
-Dobbiamo ora assicurarci che un flow calcolato in $G^c$ che chiameremo $\alpha$-ottimale, sia trasferibile nel Network originale $G$.
+We now need to ensure that a flow computed in \( G^c \), which we will call \(\alpha\)-optimal, can be transferred back to the original network \( G \).
 
-Sia $f'$ il flow calcolato in $G^c$ e rappresentiamo con $f$ la trasposizione di $f'$ in $G$:\\
-Se $f'_{i,j}> 0\land (i,j) \in E(G)\implies f_{i,j} = f'_{i,j}$ basta riportarlo così com'è.
-se $f'_{i,j}> 0\land i \Rightarrow j \implies$ si tratta del compattamento di un path abbondante e per ripristinare il flusso basta usare la matrice di transitività.
-Il caso più interessante rimane quello che si verifica quando dobbiamo trasporre il flusso da uno pseudo-arco di archi abbondanti ai path che lo hanno generato.
-Infatti è importante ricordare che lo la capacità dello pseudo-arco è la somma delle capacità residue dei path che sono strati trasferiti in precedenza.
-Tenere traccia di tutti i path trasferiti risulterebbe troppo inefficiente, tuttavia utilizzando gli alberi dinamici possiamo potenziare l'algoritmo precedentemente utilizzato per fare in modo di mantenere un record con tutte le operazioni effettuate sull'albero.
-In questo modo è possibile, consultando il record a ritroso, ricostruire in tempo $k\log n$ (dove $k$ è  il numero di operazioni sul link-cut tree) le capacità trasferite dalla procedura in maniera sequenziale, potendo così adattare la giusta porzione di flusso in ogni arco.
+Let \( f' \) be the flow computed in \( G^c \), and let \( f \) represent the transposition of \( f' \) in \( G \):
+\begin{itemize}
+    \item If \( f'_{i,j} > 0 \) and \( (i,j) \in E(G) \), then \( f_{i,j} = f'_{i,j} \), meaning it can be directly applied without modification.
+    \item If \( f'_{i,j} > 0 \) and \( i \Rightarrow j \), it represents the compaction of an abundant path, and to restore the flow, we can use the transitivity matrix.
+\end{itemize}
 
-Studiamo ora l'adattamento dal punto di vista dell'$(S,T)$-$cut$:\\
-Sia $(S',T')$ un cut in $G[r]$ e supponiamo che non esistano archi abbondanti da $S$ a $T$,
-un taglio $(S^c,T^c)$ in $G^c$ di dice \textbf{indotto da}  $(S',T')$ se: \[(S^c, T^c) := (S'\cap N(G^c), T'\cap N(G^c))\]
-Viceversa un taglio in $G^c$ si dice indotto da uno in $G[r]$ se composto come segue:
-\[\begin{array}{l}
-    S':=\{n | n\in S^c\lor \exists m \in S^c,\ m \implies n\}\\
-    T' = N(G)\setminus S'
-\end{array}\]
+  
+The most interesting case occurs when we need to transfer the flow from a pseudo-arc of abundant edges back to the paths that generated it. It is important to recall that the capacity of the pseudo-arc is the sum of the residual capacities of the paths that were previously transferred.
 
-\begin{obs}{}{}
-    Osserviamo che se un $(S',T')$ è indotto da  $(S^c,T^c)$ allora  $(S^c,T^c)$ è indotto da $(S',T')$.
-        \[(S',T')\leftarrow(S^c,T^c)\implies (S^c,T^c)\leftarrow(S',T')\]
+Tracking all transferred paths would be too inefficient; however, by using dynamic trees, we can enhance the algorithm previously used to keep a record of all operations performed on the tree. This way, by consulting the record backward, we can reconstruct in time \( k\log n \) (where \( k \) is the number of operations on the link-cut tree) the capacities transferred during the procedure, thereby adjusting the correct portion of flow for each edge.
 
-    Non è vero il contrario in quanto diversi cut su $G[r]$ possono indurre lo stesso $(S^c,T^c)$.
+Let’s now study the adaptation from the perspective of the \((S,T)\)-cut:
+
+Let \((S',T')\) be a cut in \( G[r] \), and suppose there are no abundant edges from \( S \) to \( T \).  
+A cut \((S^c, T^c)\) in \( G^c \) is said to be \textbf{induced by} \((S', T')\) if:
+\[
+(S^c, T^c) := (S' \cap N(G^c),\ T' \cap N(G^c))
+\]
+In other words, \( S^c \) is the intersection of \( S' \) with the set of nodes in \( G^c \), and similarly for \( T^c \).
+
+Conversely, a cut in \( G^c \) is said to be induced by one in \( G[r] \) if composed as follows:
+
+\begin{obs}
+    We observe that if a cut \((S',T')\) is induced by \((S^c,T^c)\), then \((S^c,T^c)\) is also induced by \((S',T')\).
+    \[
+    (S',T')\leftarrow(S^c,T^c)\implies (S^c,T^c)\leftarrow(S',T')
+    \]
+
+    The reverse is not true, as different cuts on \( G[r] \) can induce the same \((S^c,T^c)\).
 \end{obs}
 
-\begin{lemma}{}{}
-    Supponiamo che $(S',T')$ sia un cut in $G[r]$ e che non esistano archi abbondanti da $S$ a $T$.
-    Se $(S^c,T^c)$ è indotto da $(S',T')$ allora \[ r(S^c,T^c) \le r(S',T')\le r(S^c,T^c)+\Gamma/16m\]
+\begin{lemma}
+    Suppose \((S',T')\) is a cut in \( G[r] \) and there are no abundant edges from \( S \) to \( T \). If \((S^c,T^c)\) is induced by \((S',T')\), then
+    \[
+    r(S^c,T^c) \leq r(S',T') \leq r(S^c,T^c) + \Gamma / 16m
+    \]
 \end{lemma}
+
 \begin{proof}
-    Sappiamo che gli archi originali in $E^1$ contribuiscono in egual misura sia in $(S^c,T^c)$ che in $(S',T')$, quelli abbondanti non sono presenti per ipotesi e dunque rimangono solo quelli in $E^3$.
-    dividiamo path calcolati dalla \nameref{algotrans} come $P\cup Q$ dove $Q$ sono quelli che alla fine vengono scartati.
-    Dal lemma \ref{ftsafe} sappiamo che trasferire la capacità non influenza la capacità del taglio. Quindi gli unici archi che possono influenzare la capacità residua restano quelli in $Q$.
-    Ma sappiamo dal \cref{boundlose} che:
-    \[\sum_{p\in Q}r(p)\le \Gamma/16m\]\QED
+    We know that the original edges in \( E^1 \) contribute equally in both \((S^c,T^c)\) and \((S',T')\). The abundant edges are absent by hypothesis, leaving only those in \( E^3 \).
+    
+    We divide the paths computed by the \nameref{algotrans} into \( P \cup Q \), where \( Q \) are those that are eventually discarded.
+    From \cref{ftsafe}, we know that transferring capacity does not affect the cut capacity. Therefore, the only edges that can influence the residual capacity are those in \( Q \).
+    
+    But from \cref{boundlose}, we know that:
+    \[
+    \sum_{p \in Q} r(p) \leq \Gamma / 16m
+    \]
 \end{proof}
 
+From the previous lemmas, we can assert the following theorem:
 
-Dai precedenti lemmi possiamo quindi giungere all'asserzione del seguente teorema
-\begin{theorem}{}{}
-    Sia $y$ un $\alpha$-optimal flow nel \gmm-compact network $G^c$.
-    Sia $(S^c,T^c)$ un taglio in $G^c$ tale che \[r(S^c,T^c)\le val(y)+\alpha\] 
-    Se $(S',T')$ è il taglio indotto da $(S^c,T^c)$ in $G[r]$ e $y'$ il rispettivo flow allora
-    \[val(y') = val(y)\]
-    e $y'$ si dice $\alpha'$-ottimale dove $\alpha' = \alpha + \Gamma/16m$.\\
-    Dunque $r(S',T') \le v+\alpha'$
+\begin{theorem}
+    Let \( y \) be an \(\alpha\)-optimal flow in the \gmm-compact network \( G^c \).
+    Let \((S^c, T^c)\) be a cut in \( G^c \) such that \[ r(S^c, T^c) \leq val(y) + \alpha. \]
+    If \((S', T')\) is the cut induced by \((S^c, T^c)\) in \( G[r] \) and \( y' \) is the respective flow, then
+    \[
+    val(y') = val(y).
+    \]
+    Moreover, \( y' \) is said to be \(\alpha'\)-optimal, where \(\alpha' = \alpha + \Gamma / 16m\).\\
+    Therefore, \( r(S', T') \leq v + \alpha'. \)
 \end{theorem}
+
 
 \section{Max flow in $O(nm)$ time}
 
-Mostreremo in questa sezione come è possibile calcolare il max flow in tempo $O(nm)$ quando $m = O(n^{1.06})$.
-Mostreremo anche che il bottleneck di questa procedura è dovuto al mantenimento della chiusura transitiva di $G^{ab}$.
-
+In this section, we will demonstrate how it is possible to compute the max flow in time \( O(nm) \) when \( m = O(n^{1.06}) \) (Note: \( 16/15 = 1.0\bar{6} \)). We will also show that the bottleneck of this procedure is due to maintaining the transitive closure of \( G^{ab} \).
 
 \begin{algorithm}
 \caption{\textit{Improve-approx-2(r,S,T)}}
@@ -641,177 +698,204 @@ Mostreremo anche che il bottleneck di questa procedura è dovuto al mantenimento
 \EndIf
 \end{algorithmic}
 \end{algorithm}
-Una delle prime cose che possiamo capire osservando questo algoritmo è la complessità richiesta per la creazione del network \gmm-compact che enunciamo nel seguente teorema.
-\begin{theorem}[label = tgcomp]{Costrutire un compact network}{}
-    Supponiamo che l'algoritmo mantenga dinamicamente la chiusura transitiva del grafo di abbondanza e 
-    che il parametro \gmm\ sia fornito in partenza, allora
-    l'algoritmo impiega tempo $O(m^{9/8})$ a creare il grafo compatto $G^c$.
+
+One of the first things we can understand by observing this algorithm is the complexity required for the creation of the \gmm-compact network, which we state in the following theorem.
+
+\begin{theorem}[Constructing a compact network]
+    \label{tgcomp}
+    Suppose the algorithm dynamically maintains the transitive closure of the abundance graph and that the \gmm\ parameter is provided initially. Then, the algorithm takes \( O(m^{9/8}) \) time to create the compact graph \( G^c \).
 \end{theorem}
-\textit{proof:}\\
-    Per contrarre i componenti abbondanti connessi, così come i cicli, è necessario tempo $O(m)$.
-    Per quanto riguarda il grafo compattato: 
+
+\begin{proof}
+    To contract the connected abundant components, as well as cycles, takes \( O(m) \) time. Regarding the compacted graph:
     \begin{itemize}
-        \item Gli archi in $A^1$ possono essere calcolati in $O(m)$; 
-        \item Gli archi in $A^3$ possono essere calcolati in $O(m\log m)$ utilizzando gli alberi dinamici;
-        \item Quelli che sono più complessi da calcolare sono gli archi abbondanti di $A^2$ che vengono calcolati basandosi sulla chiusura transitiva che richiede costo ${|N^c|}^2$ per essere mantenuta.
+        \item The edges in \( E^1 \) can be calculated in \( O(m) \);
+        \item The edges in \( E^3 \) can be calculated in \( O(m \log m) \) using dynamic trees;
+        \item The most complex to calculate are the abundant edges in \( E^2 \), which are determined based on the transitive closure that requires a cost of \( |N^c|^2 \) to maintain.
     \end{itemize}
-    Tuttavia l'algoritmo costruisce $G^c$ solo se il numero di nodi \gmm-critici è minore di $m^{9/16}$ dunque il costo diventa
-    \[O((m^{9/16})^2) = O(m^{9/8})\]
+    However, the algorithm constructs \( G^c \) only if the number of \gmm-critical nodes is less than \( m^{9/16} \), thus the cost becomes
+    \[
+    O((m^{9/16})^2) = O(m^{9/8}).
+    \]
+\end{proof}
 
 
-Di seguito se vogliamo dimostrare che la complessità di tutto l'algoritmo è proprio quella dichiarata in partenza abbiamo bisogno di porre dei bound tanto alle azioni che vengono compiute quanto agli oggetti che vengono analizzati.
-La prima cosa da dichiarare è che il numero di tutti i nodi \gmm-critici analizzati durante le varie fasi è in $O(m)$
-\begin{theorem}[label = maxM]{max critical node in $O(m)$}{}
-    Supponiamo che ogni improvement phase soddisfi i requisiti richiesti allora  i nodi \gmm-critici calcolati durante le iterazioni sono in tutto $O(m)$
+To demonstrate that the overall complexity of the algorithm is indeed as stated initially, we need to establish bounds both on the actions performed and the objects analyzed. The first thing to declare is that the total number of all \gmm-critical nodes analyzed during the various phases is \( O(m) \).
+
+\begin{theorem}[Max critical node in \( O(m) \)]
+    \label{maxM}
+    Suppose that each improvement phase meets the required conditions; then the \gmm-critical nodes calculated during the iterations total \( O(m) \).
 \end{theorem}
-\textit{proof:}\\
-    per essere \gmm-critico un nodo $j$ deve essere adiacente ad un arco \gmm medio oppure non avere archi adiacenti \gmm medi ma avere $|\Phi (j, r, E^{-ab})| > \Gamma/(16m^2)$ ovvero essere \gmm-special.
 
-    Consideriamo prima i nodi adiacenti ad un arco \gmm-medio:\\
+\begin{proof}
+    For a node \( j \) to be \gmm-critical, it must be adjacent to a \gmm medium edge, or it must not have adjacent \gmm medium edges but have \( |\Phi (j, r, E^{-ab})| > \Gamma/(16m^2) \), i.e., it must be \gmm-special.
+
+    First, consider the nodes adjacent to a \gmm-medium edge:\\
     \textbf{Claim:}\\
-    Un arco può avere capacità \gmm-media per al massimo 3 fasi consecutive.
+    An edge can have medium \gmm-capacity for at most 3 consecutive phases.
 
-    \textit{proof:}\\
-    Sia (i,j) un arco di \gmm-media capacità allora $u_{ij} + u_{ji} \ge \Gamma/64m^3$ dato che ad ogni fase $\Delta' = \frac{\Delta}{8m}$
-    allora nella fase subito successiva  \[u_{ij} + u_{ji} \ge \Gamma/64m^3 \ge \Delta'/8m^2 =\Delta''/m = 8\Delta''' \]
-    Ottenendo dunque che dopo 3 fasi $u_ij+u_ji \ge 8\Delta$ dunque o $(i,j)$ o $(j,i)$ sono diventati abbondanti e l'arco non è più \gmm-medio.
+    \textit{Proof:}\\
+    Let \( (i,j) \) be an edge with \gmm-medium capacity, then \( u_{ij} + u_{ji} \ge \Gamma/64m^3 \). Given that in each phase \( \Delta' = \frac{\Delta}{8m} \), in the immediate next phase, we have 
+    \[
+    u_{ij} + u_{ji} \ge \Gamma/64m^3 \ge \Delta'/8m^2 = \Delta''/m = 8\Delta'''.
+    \]
+    Thus, after 3 phases, \( u_{ij} + u_{ji} \ge 8\Delta \), implying that either \( (i,j) \) or \( (j,i) \) has become abundant, and the edge is no longer \gmm-medium.
 
-    Per quanto riguarda gli altri archi \gmm-special invece:\\
+    For the other \gmm-special edges:\\
     \textbf{Claim:}
-    Sia \gmm il parametro di compattezza di una certa \dlt-improvement phase e sia $j$ un nodo \gmm-special.
-    Se $\Delta^*$ è il bound 4 fasi dopo \dlt allora esiste un nodo $k$ tale che 
-    \[r_{jk}\ge 2\Delta^*\land r_{kj}\ge 2\Delta^* \] 
-    ovvero $(j,k)$(ma anche $(k,j)$) è \textit{doubly-abundant}, e dunque verrà contratto.
-    \textit{proof:}\\
-    Per prima cosa definiamo $v^*$ il flusso nella fase $\Delta^*$ tale che $r^* = r_{ij}-v_{ij}+v_{ji}$.
-    Dal lemma \ref{ab4ever} sappiamo che ogni arco \dlt-abbondante sarà anche $\Delta^*$-abbondante e in oltre
-    \[r_{ij}^* > \Gamma/64m^3 \implies r_{ij}^*> 8\Delta^*\]
+    Let \gmm\ be the compactness parameter of a given \dlt-improvement phase, and let \( j \) be a \gmm-special node. If \( \Delta^* \) is the bound 4 phases after \dlt, then there exists a node \( k \) such that 
+    \[
+    r_{jk} \ge 2\Delta^* \quad \text{and} \quad r_{kj} \ge 2\Delta^* 
+    \]
+    implying that \( (j,k) \) (and also \( (k,j) \)) is \textit{doubly-abundant}, and thus will be contracted.
+    
+    \textit{Proof:}\\
+    First, define \( v^* \) as the flow in phase \( \Delta^* \) such that \( r^* = r_{ij}-v_{ij}+v_{ji} \). From lemma \ref{ab4ever}, we know that every \dlt-abundant edge will also be \( \Delta^* \)-abundant. Furthermore,
+    \[
+    r_{ij}^* > \Gamma/64m^3 \implies r_{ij}^* > 8\Delta^*.
+    \]
 
-    Supponiamo che esista un arco abbondante $(j,k)$ con valore di $v_{jk}^*>\Gamma/64m^3$ allora per l'arco opposto $(k,j)$ vale
-    \[r^*_{k,j}= r_{kj}-v^*_{kj}+r^*_{jk}> 8\Delta^*\]
-    Dunque anche l'opposto è $\Delta^*$-abbondante e i nodi $j$ e $k$ vengono contratti.
+    Suppose there exists an abundant edge \( (j,k) \) with \( v_{jk}^* > \Gamma/64m^3 \); then for the opposite edge \( (k,j) \), we have:
+    \[
+    r^*_{k,j}= r_{kj}-v^*_{kj}+r^*_{jk}> 8\Delta^*.
+    \]
+    Thus, the opposite is also \( \Delta^* \)-abundant, and the nodes \( j \) and \( k \) will be contracted.
 
-    Rimane dunque da verificare il caso in cui un nodo $j$ sia \gmm-special senza avere archi $\Delta$-abbondanti con flow maggiore di $\Gamma/64m^3$.\\
-    Sappiamo che:
-    \[|\Phi (j, r, E^{-ab})| = |\hat{r}_{out}(j)-\hat{r_{in}}(j)|> \Gamma/(16m^2) \]
-    consideriamo il caso in cui $\hat{r}_{out}(j)-\hat{r_{in}}(j)> \Gamma/(16m^2)$(l'altro è speculare)
-    Abbiamo che:
-    \[\sum_{j:(j,k)\in E^{-ab}}y^*_{jk} \le \sum_{j:(j,k)\in E}y^*_{jk} = \sum_{j:(i,j)\in E}y^*_{ij}\]
-    per conservazione del flusso, in oltre 
-    \[\sum_{j:(i,j)\in E}y^*_{ij} < \sum_{j:(i,j)\in E^{-ab}}y^*_{ij} + \sum_{j:(i,j)\in E^{ab}}y^*_{ij}+ m\Gamma/64m^3\]
-    ma dato che abbiamo assunto che nessun arco abbondante ha flow maggiore di $\Gamma/64m^3$
-    \[\begin{array}{rl}
+    It remains to check the case where a node \( j \) is \gmm-special without having abundant edges with flow greater than \( \Gamma/64m^3 \).\\
+    We know that:
+    \[
+    |\Phi (j, r, E^{-ab})| = |\hat{r}_{out}(j)-\hat{r_{in}}(j)|> \Gamma/(16m^2).
+    \]
+    Consider the case where \( \hat{r}_{out}(j)-\hat{r_{in}}(j)> \Gamma/(16m^2) \) (the other case is similar). We have:
+    \[
+    \sum_{j:(j,k)\in E^{-ab}}y^*_{jk} \le \sum_{j:(j,k)\in E}y^*_{jk} = \sum_{j:(i,j)\in E}y^*_{ij},
+    \]
+    due to flow conservation. Furthermore, 
+    \[
+    \sum_{j:(i,j)\in E}y^*_{ij} < \sum_{j:(i,j)\in E^{-ab}}y^*_{ij} + \sum_{j:(i,j)\in E^{ab}}y^*_{ij}+ m\Gamma/64m^3.
+    \]
+    But since we have assumed that no abundant edge has flow greater than \( \Gamma/64m^3 \),
+    \[
+    \begin{array}{rl}
         < & \hat{r}_{in}(j) + 2m\Gamma/64m^3\\
         < & (\hat{r}_{out}(j) - \Gamma/16m^2) + \Gamma/32m^2\\
         < & \hat{r}_{out}(j) - \Gamma/32m^2\\
-        = & \sum_{j:(j,k)\in E^{-ab}}r_{jk} - \Gamma/32m^2
-    \end{array}\]
+        = & \sum_{j:(j,k)\in E^{-ab}}r_{jk} - \Gamma/32m^2.
+    \end{array}
+    \]
 
-    Deve esistere dunque qualche arco per cui 
-    \[y^*_{jk}<r_{jk}-\Gamma/32m^3\implies r^*_{jk}\ge r_{jk}-y^*_{jk}>\Gamma/32m^3>16\Delta^*\]
-    Dunque esiste qualche $(j,k)$ arco antiabbondante nella fase \dlt che diventa abbondante nella 
-    fase $\Delta^*$ e dunque, dato che anche $(k,j)$ è abbondante il ciclo viene contratto.\QED
+    Thus, there must exist some edge for which 
+    \[
+    y^*_{jk}<r_{jk}-\Gamma/32m^3 \implies r^*_{jk}\ge r_{jk}-y^*_{jk}>\Gamma/32m^3>16\Delta^*.
+    \]
+    Therefore, there exists some \( (j,k) \) non-abundant edge in the \dlt phase that becomes abundant in the phase \( \Delta^* \), and since \( (k,j) \) is also abundant, the cycle will be contracted. \QED
 
+    We have shown through the two claims that all \gmm-critical nodes in a phase cannot remain \gmm-critical for more than a constant number of consecutive phases. The fact that they have a "limited duration" and are at most \( O(m) \) proves the statement.
+\end{proof}
 
-Conoscendo il numero di nodi da analizzare il passo successivo sarebbe stimare il numero di \textbf{improvement phase} per calcolare il max flow. 
-Prima però è necessario comprendere il modo in cui viene scelto il parametro \gmm.
+Knowing the number of nodes to analyze, the next step is to estimate the number of \textbf{improvement phases} required to calculate the maximum flow. However, it is necessary first to understand how the \gmm parameter is chosen.
 
-\begin{lemma}[label = gammchose]{Il parametro \gmm}{}
-    Il parametro \gmm\ può essere scelto in tempo $O(m+n\log n)$
+\begin{lemma}[\gmm\ Parameter]
+    \label{gammchose}
+    The \gmm\ parameter can be chosen in \( O(m+n\log n) \) time.
 \end{lemma}
-\textit{proof:}\\
+
+\begin{proof}
     \begin{enumerate}
-        \item Per ogni nodo $j$ calcoliamo il più grande valore \gmm'\ per cui j è \gmm'-critical (\textit{tempo richiesto} $O(m)$)
-        \item Ordiniamo i nodi $j$ per il loro valore \gmm' (\textit{tempo richiesto }$O(n\log n)$)
-        \item scegliamo il valore \gmm\ tale che esistano al massimo $m^{1/3}$ nodi j con $\Gamma'(j)\ge \Gamma$ (\textit{tempo richiesto }$O(1)$)
+        \item For each node \( j \), calculate the largest \gmm' value for which \( j \) is \gmm'-critical (\textit{time required} \( O(m) \)).
+        \item Order the nodes \( j \) by their \gmm' value (\textit{time required} \( O(n\log n) \)).
+        \item Choose the \gmm\ value such that there are at most \( m^{1/3} \) nodes \( j \) with \( \Gamma'(j) \ge \Gamma \) (\textit{time required} \( O(1) \)).
     \end{enumerate}
-    \QED
+\end{proof}
 
+We now have all the tools to calculate the number of improvement phases:
 
-
-Abbiamo ora tutti gli strumenti per calcolare il numero di improvement phase:
-\begin{lemma}{}{}
-    Il numero di improvement phase in $O(m^{2/3})$
+\begin{lemma}
+    The number of improvement phases is \( O(m^{2/3}) \).
 \end{lemma}
-\textit{proof:}\\
-    Sappiamo dal teorema \ref{maxM} che il numero di nodi \gmm-critici analizzati è $O(m)$ e sappiamo dal lemma \ref{gammchose} che in ogni improvement phase almeno $m^{1/3}$ vengono analizzati.
+
+\begin{proof}
+    From theorem \ref{maxM}, we know that the number of \gmm-critical nodes analyzed is \( O(m) \), and from lemma \ref{gammchose}, we know that in each improvement phase at least \( m^{1/3} \) nodes are analyzed.
+
+    When we demonstrated that the number of nodes was \( O(m) \), the proof relied on the fact that the nodes had a "deadline" and would be contracted in at most 3 or 4 consecutive phases. Thus, all at least \( m^{1/3} \) nodes analyzed in one phase will be "consumed" in \( O(1) \) phases.
+
+    Consequently, the number of phases required to "consume" them all is \( O(m^{2/3}) \).
+\end{proof}
+
+From the following lemmas, we can derive the total time required to create all the \( G^c \).
+
+\begin{lemma}
+    The total time to create all the compact networks is \( O(nm + m^{43/24}) \).
+\end{lemma}
+\begin{proof}
+    We know that the \gmm\ parameter requires time \( O(m + n \log n) \).\\
+    We know that creating a compact network takes \( O(m^{9/8}) \) time.\\
+    Since the number of phases is \( O(m^{2/3}) \),\\
+    putting everything together, we obtain:
+    \[ O(mn + m^{43/24}) \]
+\end{proof}
+
+Finding a flow that is \(\alpha\)-optimal means finding a flow that is at most \(\alpha\) less than the maximum capacity flow. We have seen that if we search for the maximum flow in the \gmm-compact network \( G^c \) and then transfer it to the original network \( G \), this is already \(\Gamma/16m\)-optimal.
+
+However, during the algorithm, we aim to obtain this approximation directly in \( G \). If we recall the functioning of the Goldberg-Rao algorithm, we can see that the algorithm terminates when its estimate of the maximum flow is less than 1. By intervening on this maximum flow estimate, it is possible to terminate the algorithm before reaching the optimal flow, resulting in a gap of at most a value of \(\alpha\) of our choosing.
+
+Now let’s reason about the cost \( T \) of a phase of the Goldberg-Rao algorithm, knowing that we are executing it on a graph with \( C \) nodes and \( O(C^2) \) edges.
+\[ \Lambda = O(C^{2/3}), \quad T = \tilde{O}(C^{2/3} \cdot C^2) = \tilde{O}(C^{8/3}) \]
+
+We can now evaluate the cost of the \nameref{imp2} procedure.
+
+Moreover, we can note that if we execute the Goldberg-Rao algorithm on a total of \( O(m) \) nodes while performing a maximum of \( \log U \) phases, the average number of nodes in each improvement phase is
+\[ C = O\left( \frac{m}{\log{U}} \right) \]
+This is the reason why we construct the compact graph only if \( C \le m^{9/16} \). In fact, if the Goldberg algorithm is polynomial, then if \( \log U \le m^{7/16} \):
+\[ C \ge m^{9/16} \implies \frac{m}{\log U} \ge m^{9/16} \implies \log U \le \frac{m}{m^{9/16}} = m^{7/16} \]
+
+
+\begin{lemma}[Time of improve-max]
+    The time to compute the optimal flow using the \textit{improve-approx-2} procedure is 
+    \[ O(m^{31/16} \log^2 m) \]
+\end{lemma}
+\begin{proof}
+    Given that a total of \( O(m) \) \gmm-critical nodes are computed, I will calculate the cost of the procedure for a single node rather than for the number of phases:
     
-    Quando abbiamo dimostrato che il numero di nodi era $O(m)$ la dimostrazione verteva sul fatto che i nodi avessero una "scadenza" e che in massimo 3 o 4 fasi consecutive sarebbero stati contratti.
-    Quindi tutti gli almeno $m^{1/3}$ nodi analizzati in una fase verranno consumati in $O(1)$ fasi.
-    Di conseguenza il numero di fasi necessarie per "consumarli" tutti è proprio $O(m^{2/3})$.\QED
+    Let \( T \) be the time required to find an \(\alpha\)-optimal flow.\\
+    We know that if \( C \ge m^{9/16} \), we can find an optimal flow with \( T = O(m^{3/2} \log^2 n) \) by executing \( \log n \) phases of the Goldberg-Rao algorithm on the original graph. When scaled to the number of \gmm-critical nodes, we have \( T/C = m^{15/16} \log^2 n \).
+    
+    If instead \( m^{1/3} \le C < m^{9/16} \), we work in the compact graph and seek the maximum flow, executing \( \log n \) phases of the Goldberg-Rao algorithm, thus \( T = O(C^{8/3} \log n) \). Therefore, 
+    \[ T/C = O(m^{5/3} \log n = m^{15/16}) \].
+    
+    Finally, if \( C < m^{1/3} \), the small number of edges leads the cost to be \( T = O(C^3) \), resulting in \( T/C = O(C^2) = O(m^{2/3}) \).
 
-
-Dai seguenti lemmi possiamo giungere dunque al tempo totale richiesto per creare tutti i $G^c$.
-\begin{lemma}{}{}
-    Il tempo totale per creare tutti i compact network è $O(nm+m^{43/24})$
-\end{lemma} 
-\begin{proof}
-    Sappiamo che il parametro \gmm\ richiede tempo $O(m+n\log n)$\\
-    Sappiamo che per creare un compact network serve tempo $O(m^{9/8})$.\\
-    Dato che il numero di fasi sono $m^{2/3}$,\\
-    mettendo tutto insieme otteniamo:
-    \[O(mn+m^{43/24} )\]
-    \QED
+    We can assert that in every case, the cost of the procedure for each node is \( O(m^{15/16} \log^2 n) \). Multiplying this result by the number of \gmm-critical nodes across all increments yields 
+    \[ O(m \cdot m^{15/16} \log^2 n) = O(m^{31/16} \log^2 n) \]. 
 \end{proof}
 
-Trovare un flusso che che sia $\alpha$-ottimale significa trovare un flusso che sia inferiore a quello di capacità massima di al più $\alpha$.
-abbiamo visto che se cerchiamo il flusso massimo sul \gmm-compact network $G^c$ e poi lo trasponiamo sul network originale $G$ questo è già $\Gamma/16m$-ottimale. 
-
-Tuttavia durante l'algoritmo noi cerchiamo di ottenere questa approssimazione direttamente in $G$. 
-Se ricordiamo però il funzionamento del Goldberg-Rao possiamo vedere che l'algoritmo termina quando la stima che fa del flusso massimo è minore di 1.
-Intervenendo su questa stima del flusso massimo è possibile far terminare l'algoritmo prima che si arrivi al flusso ottimale ottenendo un distacco di massimo un valore $\alpha$ a nostra scelta.
-
-Ragioniamo ora sul costo $T$ di una fase del Goldberg-Rao sapendo di eseguirlo su un grafo con $C$ nodi e $O(C^2)$ archi.
-\[ \Lambda = O(C^{2/3}),\quad T = \tilde O(C^{2/3}\cdot C^2) =\tilde O(C^{8/3})\]
-Possiamo ora valutare il costo della procedura \hyperref[imp2]{Improve-approx-2} 
-
-In oltre possiamo notare che se eseguiamo il Goldberg rao su un totale di O(m) nodi eseguendo un massimo di $\log U$ fasi il numero medio di nodi in ogni improvement phase è
-\[C = O\left (\frac{m}{\log{U}}\right )\]
-da qui il motivo per cui nella procedura costruiamo il grafo compatto solo se $C \le m^{9/16}$ infatti se il Goldberg è polinomiale se $\log U \le m^{7/16}$ allora 
-\[C\ge m^9/16 \implies \frac{m}{\log U}\ge m^{9/16} \implies \log U \le \frac{m}{m^{9/16}} = m^{7/3}\]
-
-\begin{lemma}{Time of improve-max}{}
-    Il tempo per calcolare il flusso ottimale utilizzando sempre la procedura improve-approx 2 è 
-    \[O(m^{31/16}\log^2m)\]
+\begin{lemma}
+    The total time to transform all the flows computed on \( G^c \) into flows on the residual graph is 
+    \[ O(nm + m^{5/3} \log n) \].
 \end{lemma}
 \begin{proof}
-Dato che in tutto vengono calcolati $O(m)$ nodi \gmm-critici, calcolo il costo della procedura sul singolo nodo invece che per il numero di fasi:
-Sia T il tempo necessario per trovare un $\alpha$-optimal flow\\
-Sappiamo che se $C \ge m^{9/16}$ possiamo trovare un optimal flow con $T = O(m^{3/2}\log^2 n)$ eseguendo $\log n$ fasi del goldberg rao sul grafo originale. Rapportato al numero di nodi \gmm-critici otteniamo che $T/C = m^{15/16}\log^2n$. 
-se invece $ m^{1/3} \le C < m^{9/16}$ lavoriamo nel grafo compattato e cerchiamo il max flow eseguendo $\log n$ fasi del goldberg avendo $T = O(C^{8/3} \log n)$ dunque \[T/C = O(m^{5/3}\log n = m^{15/16})\]
-In fine se $C < m^{1/3}$ otteniamo che l'esiguo numero di archi porta il costo ad essere $ T= O(C^3)$ di conseguenza $T/C = O(C^2) = O(m^{2/3})$.
+    Let \( G^c \) be the compact graph derived from \( G[r] \) (the residual graph), and let \( y^c \) be the flow in \( G^c \) while \( y \) is the flow induced on the residual graph.
 
-Possiamo affermare che in ogni caso il costo del della procedura per ogni nodo è $O(m^{15/16}\log^2n)$. Moltiplicando il risultato per il numero di nodi \gmm-critici su tutti gli incrementi otteniamo \[O(m\cdot m^{15/16}\log^2n) = O(m^{31/16}\log^2n)\] 
-\QED
-\end{proof}
+    The edges of \( G^c \) are divided into three categories: \( E^c = E^1 \cup E^2 \cup E^3 \), corresponding to original edges, abundant pseudo-edges, and anti-abundant pseudo-edges.
 
-\begin{lemma}{}{}
-    Il tempo totale per trasformare tutti i flussi calcolati su $G^c$ in flussi sul grafo residuo è 
-    \[O(nm+ m^{5/3}\log n)\]
-
-\end{lemma}
-\begin{proof}
-    Sia $G^c$ il grafo compatto determinato da $G[r]$ il grafo residuo e sia $y^c$ il flusso in  $G^c$ mentre $y$ è quello indotto sul grafo residuo.
-
-    Gli archi di $G^c$ sono divisi in tre categorie $E^c = E^1\cup E^2\cup E^3$ rispettivamente gli archi originali, gli pseudoarchi abbondanti e gli pseudoarchi antiabbondanti.
-
-    preso un qualsiasi arco $(i,j)$ tale che $y^c_{ij}> 0$ distinguiamo i tre casi:
+    For any edge \( (i,j) \) such that \( y^c_{ij} > 0 \), we distinguish the three cases:
     \begin{enumerate}
-        \item se $(i,j) \in E^1 \implies y_{ij} = y^c_{ij}$
-        \item se $(i,j) \in E^2$ sappiamo che per ricostruire l'abundant path abbiamo bisogno di $O(|P|) = O(n)$, in oltre sfruttando gli alberi dinamici possiamo tenere il numero di archi con flow positivo in $E^2$ sotto il valore $C$ al costo $O(m\log n)$, che ripetuto per $O(m^{2/3})$ fasi fa $O(m^{5/3}\log n)$. In questo modo, tutti gli abundant path vengono ripristinati in $O(nm)$.
-        Per ricotruire gli abundant path ricordiamo sempre che il costo di mantenere dinamicamente la chiusura transitiva è di $O(nm)$
-        \item Per quanto riguarda gli archi in $E^3$ ancora una volta dobbiamo ricorrere agli alberi dinamici per ricostruire i percorsi anti abundant che abbiamo contratto. In particolare non è possibile tenere traccia di tutti i percorsi in maniera efficiente, tuttavia possiamo tenere un record con tutte le operazioni fatte sul grafo per poterle ripercorrere a ritroso e restaurare i vecchi path. Anche questa procedura ha costo complessivo di $O(m\log n\cdot m^{2/3})$ 
+        \item If \( (i,j) \in E^1 \implies y_{ij} = y^c_{ij} \).
+        \item If \( (i,j) \in E^2 \), we know that to reconstruct the abundant path we need \( O(|P|) = O(n) \). Furthermore, by utilizing dynamic trees, we can keep the number of edges with positive flow in \( E^2 \) below the value \( C \) at a cost of \( O(m \log n) \), repeated for \( O(m^{2/3}) \) phases, resulting in \( O(m^{5/3} \log n) \). In this way, all abundant paths are restored in \( O(nm) \). We always remember that the cost of dynamically maintaining the transitive closure is \( O(nm) \).
+        \item Regarding the edges in \( E^3 \), we again have to resort to dynamic trees to reconstruct the anti-abundant paths that we contracted. Specifically, it is not possible to keep track of all paths efficiently; however, we can maintain a record of all operations performed on the graph to retrace and restore the old paths. This procedure also has a total cost of \( O(m \log n \cdot m^{2/3}) \). 
     \end{enumerate}
-    Concludiamo che il tempo totale per indurre il flow su $G^c$ in $G[r]$ per tutte le $m^{2/3}$ fasi è 
-    \[O(nm+m^{5/3\log n})\]\QED
+    
+    We conclude that the total time to induce the flow in \( G^c \) to \( G[r] \) for all \( m^{2/3} \) phases is 
+    \[ O(nm + m^{5/3} \log n) \].
 \end{proof}
 
-Dai precedenti Lemmi possiamo dedurre il seguente teorema
-\begin{theorem}{max flow in $O(nm)$}{}
-    Se il flow in ogni improvement phase è calcolato utilizzando la procedura \textit{improve-approx-2} allora il tempo per trovare il flow di valore massimo è 
-    \[O(nm+M^{31/16}\log^2n)\]
-    se $m= 1^{1.06}$ il running time è
-    \[O(nm)\]
+From the previous lemmas, we can deduce the following theorem:
+
+\begin{theorem}[max flow in \( O(nm) \)]
+    If the flow in each improvement phase is computed using the \textit{improve-approx-2} procedure, then the time to find the maximum flow is 
+    \[ O(nm + m^{31/16} \log^2 n) \].
+    If \( m = O(n^{1.06}) \), the running time is
+    \[ O(nm) \].
 \end{theorem}
 
 

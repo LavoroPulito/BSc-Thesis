@@ -23,6 +23,6 @@
 \contentsline {section}{\numberline {4.4}Contractions of abundant graph}{24}{section.4.4}%
 \contentsline {section}{\numberline {4.5}How to compact network}{25}{section.4.5}%
 \contentsline {section}{\numberline {4.6}From sc-compact to $\Gamma $-compact}{26}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Max flow in $O(nm)$ time}{31}{section.4.7}%
-\contentsline {chapter}{Conclusions}{37}{chapter*.5}%
-\contentsline {chapter}{Acknowledgements}{38}{chapter*.6}%
+\contentsline {section}{\numberline {4.7}Max flow in $O(nm)$ time}{32}{section.4.7}%
+\contentsline {chapter}{Conclusions}{38}{chapter*.5}%
+\contentsline {chapter}{Acknowledgements}{39}{chapter*.6}%
