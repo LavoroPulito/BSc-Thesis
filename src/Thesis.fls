@@ -639,12 +639,17 @@ INPUT ./chapter/2.tex
 INPUT ./chapter/2.tex
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmr17.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmbx12.tfm
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ts1-lmr10.tfm
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc
+INPUT ./resources/images/Konigsberg_bridges.png
+INPUT ./resources/images/Konigsberg_bridges.png
+INPUT ./resources/images/Konigsberg_bridges.png
+INPUT ./resources/images/Konigsberg_bridges.png
+INPUT ./resources/images/Konigsberg_bridges.png
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmr12.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmbx12.tfm
-INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ts1-lmr10.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmr8.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmr6.tfm
-INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc
 INPUT ./chapter/3.tex
 INPUT ./chapter/3.tex
@@ -686,6 +691,7 @@ INPUT ./chapter/acknowledgements.tex
 INPUT ./chapter/acknowledgements.tex
 INPUT ./chapter/acknowledgements.tex
 INPUT ./chapter/acknowledgements.tex
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/lm/ec-lmcsc10.tfm
 INPUT Thesis.aux
 INPUT ./Thesis.out
 INPUT ./Thesis.out
@@ -693,6 +699,7 @@ INPUT Thesis.run.xml
 OUTPUT Thesis.run.xml
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmex10.pfb
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi10.pfb
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi12.pfb

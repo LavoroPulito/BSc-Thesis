@@ -2,7 +2,7 @@
 \chapter{Goldberg-Rao Algorithm}
 
 \label{chap:gbr}
-After understanding how Dinic's algorithm works, we can move to the next step and focus on the algorithm published by Andrew V. Goldberg and Satish Rao in 1998.
+After understanding how Dinic's algorithm works, we can move to the next step and focus on the algorithm published by Andrew V. Goldberg and Satish Rao in 1998 \cite{Goldberg_Rao}.
 
 \noindent By optimizing the \nameref{chap:dnc}, the Goldberg-Rao algorithm achieves a \textbf{computational cost} of 
 \[
@@ -441,5 +441,5 @@ on a network with integer capacities, which, when considering logarithmic factor
     Goldberg and Rao published their algorithm in a 1998 paper. About four years earlier, V. King, S. Rao, and R. Tarjan had published a paper in which they presented an algorithm capable of finding the maximum flow in \( O(nm) \) time, provided the algorithm had enough edges relative to the number of nodes.  
     The stated cost is \( O(nm(\log_{m/n \log n} n)) \), but if \( m/n = \Omega(n^\varepsilon) \) for some \( \varepsilon > 0 \), the cost becomes \( O(nm) \).  
     However, the problem of finding the maximum flow in polynomial time remains unresolved, as it is still unclear how to calculate it for sparser graphs than those covered by the King-Rao-Tarjan algorithm.  
-    The next chapter analyzes the solution proposed in 2013 by James B. Orlin, which leverages a specific condition of the Goldberg-Rao algorithm and develops a strategy for compacting and contracting the graph, along with approximations in a series of optimal flows, to make the algorithm strictly polynomial where King-Rao-Tarjan fails.
+    The next chapter analyzes the solution proposed in 2013 by James B. Orlin\cite{Orlin}, which leverages a specific condition of the Goldberg-Rao algorithm and develops a strategy for compacting and contracting the graph, along with approximations in a series of optimal flows, to make the algorithm strictly polynomial where King-Rao-Tarjan fails.
 \cleardoublepage

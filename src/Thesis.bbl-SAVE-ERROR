@@ -16,5 +16,225 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{anyt/global//global/global/global}
+    \entry{Dinitz2006}{inbook}{}{}
+      \name{author}{1}{}{%
+        {{hash=55a69041bb4348d49ae6e30382b546c5}{%
+           family={Dinitz},
+           familyi={D\bibinitperiod},
+           given={Yefim},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=66aba379c7d3adb8af5b662a65c4c140}{%
+           family={Goldreich},
+           familyi={G\bibinitperiod},
+           given={Oded},
+           giveni={O\bibinitperiod}}}%
+        {{hash=6159fcab9589251171a0ecf6d1e250da}{%
+           family={Rosenberg},
+           familyi={R\bibinitperiod},
+           given={Arnold\bibnamedelima L.},
+           giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=c644ee539447762a8de0bd75154c0cab}{%
+           family={Selman},
+           familyi={S\bibinitperiod},
+           given={Alan\bibnamedelima L.},
+           giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Berlin, Heidelberg}%
+      }
+      \list{publisher}{1}{%
+        {Springer Berlin Heidelberg}%
+      }
+      \strng{namehash}{55a69041bb4348d49ae6e30382b546c5}
+      \strng{fullhash}{55a69041bb4348d49ae6e30382b546c5}
+      \strng{fullhashraw}{55a69041bb4348d49ae6e30382b546c5}
+      \strng{bibnamehash}{55a69041bb4348d49ae6e30382b546c5}
+      \strng{authorbibnamehash}{55a69041bb4348d49ae6e30382b546c5}
+      \strng{authornamehash}{55a69041bb4348d49ae6e30382b546c5}
+      \strng{authorfullhash}{55a69041bb4348d49ae6e30382b546c5}
+      \strng{authorfullhashraw}{55a69041bb4348d49ae6e30382b546c5}
+      \strng{editorbibnamehash}{8f0d59a07cfb01e47d5559516d46f19d}
+      \strng{editornamehash}{8f0d59a07cfb01e47d5559516d46f19d}
+      \strng{editorfullhash}{8f0d59a07cfb01e47d5559516d46f19d}
+      \strng{editorfullhashraw}{8f0d59a07cfb01e47d5559516d46f19d}
+      \field{labelalpha}{Din06}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper is devoted to the max-flow algorithm of the author: to its original version, which turned out to be unknown to non-Russian readers, and to its modification created by Shimon Even and Alon Itai; the latter became known worldwide as ``Dinic's algorithm''. It also presents the origins of the Soviet school of algorithms, which remain unknown to the Western Computer Science community, and the substantial influence of Shimon Even on the fortune of this algorithm.}
+      \field{booktitle}{Theoretical Computer Science: Essays in Memory of Shimon Even}
+      \field{isbn}{978-3-540-32881-0}
+      \field{title}{Dinitz' Algorithm: The Original Version and Even's Version}
+      \field{year}{2006}
+      \field{pages}{218\bibrangedash 240}
+      \range{pages}{23}
+      \verb{doi}
+      \verb 10.1007/11685654_10
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/11685654_10
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/11685654_10
+      \endverb
+    \endentry
+    \entry{Edmonds_Karp}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=4512d981a2fac684e867257fcb2c5419}{%
+           family={Edmonds},
+           familyi={E\bibinitperiod},
+           given={Jack},
+           giveni={J\bibinitperiod}}}%
+        {{hash=5290385c419686f6312edeb3578dc9cf}{%
+           family={Karp},
+           familyi={K\bibinitperiod},
+           given={Richard\bibnamedelima M.},
+           giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Association for Computing Machinery}%
+      }
+      \strng{namehash}{807ad16e721b4ded426da0566a9e8600}
+      \strng{fullhash}{807ad16e721b4ded426da0566a9e8600}
+      \strng{fullhashraw}{807ad16e721b4ded426da0566a9e8600}
+      \strng{bibnamehash}{807ad16e721b4ded426da0566a9e8600}
+      \strng{authorbibnamehash}{807ad16e721b4ded426da0566a9e8600}
+      \strng{authornamehash}{807ad16e721b4ded426da0566a9e8600}
+      \strng{authorfullhash}{807ad16e721b4ded426da0566a9e8600}
+      \strng{authorfullhashraw}{807ad16e721b4ded426da0566a9e8600}
+      \field{labelalpha}{EK72}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0004-5411}
+      \field{journaltitle}{J. ACM}
+      \field{month}{4}
+      \field{number}{2}
+      \field{title}{Theoretical Improvements in Algorithmic Efficiency for Network Flow Problems}
+      \field{volume}{19}
+      \field{year}{1972}
+      \field{pages}{248\bibrangedash 264}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.1145/321694.321699
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/321694.321699
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/321694.321699
+      \endverb
+    \endentry
+    \entry{Goldberg_Rao}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=575546439bd6e9b2cbc49d9c92ced13f}{%
+           family={Goldberg},
+           familyi={G\bibinitperiod},
+           given={Andrew\bibnamedelima V.},
+           giveni={A\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+        {{hash=d135881549e27a35c7f1f9399c78f12e}{%
+           family={Rao},
+           familyi={R\bibinitperiod},
+           given={Satish},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Association for Computing Machinery}%
+      }
+      \strng{namehash}{d638c9a9a3341f0329dac5f2a7748305}
+      \strng{fullhash}{d638c9a9a3341f0329dac5f2a7748305}
+      \strng{fullhashraw}{d638c9a9a3341f0329dac5f2a7748305}
+      \strng{bibnamehash}{d638c9a9a3341f0329dac5f2a7748305}
+      \strng{authorbibnamehash}{d638c9a9a3341f0329dac5f2a7748305}
+      \strng{authornamehash}{d638c9a9a3341f0329dac5f2a7748305}
+      \strng{authorfullhash}{d638c9a9a3341f0329dac5f2a7748305}
+      \strng{authorfullhashraw}{d638c9a9a3341f0329dac5f2a7748305}
+      \field{labelalpha}{GR98}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{We introduce a new approach to the maximum flow problem. This approach is based on assigning arc lengths based on the residual flow value and the residual arc capacities. Our approach leads to an O(min(n2/3, m1/2)m log(n2/m) log U) time bound for a network with n vertices, m arcs, and integral arc capacities in the range [1, …, U]. This is a fundamental improvement over the previous time bounds. We also improve bounds for the Gomory-Hu tree problem, the parametric flow problem, and the approximate s-t cut problem.}
+      \field{issn}{0004-5411}
+      \field{journaltitle}{J. ACM}
+      \field{month}{9}
+      \field{number}{5}
+      \field{title}{Beyond the flow decomposition barrier}
+      \field{volume}{45}
+      \field{year}{1998}
+      \field{pages}{783\bibrangedash 797}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1145/290179.290181
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/290179.290181
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/290179.290181
+      \endverb
+      \keyw{maximum flows,combinatorial optimization}
+    \endentry
+    \entry{Orlin}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{hash=f03514998efd882b5252b592b58f7dc1}{%
+           family={Orlin},
+           familyi={O\bibinitperiod},
+           given={James\bibnamedelima B.},
+           giveni={J\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Palo Alto, California, USA}%
+      }
+      \list{publisher}{1}{%
+        {Association for Computing Machinery}%
+      }
+      \strng{namehash}{f03514998efd882b5252b592b58f7dc1}
+      \strng{fullhash}{f03514998efd882b5252b592b58f7dc1}
+      \strng{fullhashraw}{f03514998efd882b5252b592b58f7dc1}
+      \strng{bibnamehash}{f03514998efd882b5252b592b58f7dc1}
+      \strng{authorbibnamehash}{f03514998efd882b5252b592b58f7dc1}
+      \strng{authornamehash}{f03514998efd882b5252b592b58f7dc1}
+      \strng{authorfullhash}{f03514998efd882b5252b592b58f7dc1}
+      \strng{authorfullhashraw}{f03514998efd882b5252b592b58f7dc1}
+      \field{labelalpha}{Orl13}
+      \field{sortinit}{O}
+      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{In this paper, we present improved polynomial time algorithms for the max flow problem defined on sparse networks with n nodes and m arcs. We show how to solve the max flow problem in O(nm + m31/16 log2 n) time. In the case that m = O(n1.06), this improves upon the best previous algorithm due to King, Rao, and Tarjan, who solved the max flow problem in O(nm logm/(n log n)n) time. This establishes that the max flow problem is solvable in O(nm) time for all values of n and m. In the case that m = O(n), we improve the running time to O(n2/ log n).}
+      \field{booktitle}{Proceedings of the Forty-Fifth Annual ACM Symposium on Theory of Computing}
+      \field{isbn}{9781450320290}
+      \field{series}{STOC '13}
+      \field{title}{Max flows in O(nm) time, or better}
+      \field{year}{2013}
+      \field{pages}{765\bibrangedash 774}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/2488608.2488705
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/2488608.2488705
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/2488608.2488705
+      \endverb
+      \keyw{maximum flow problem,max flows}
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 

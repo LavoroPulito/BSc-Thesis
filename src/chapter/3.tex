@@ -1,10 +1,11 @@
 
 \chapter{Dinic's Algorithm} \label{chap:dnc}
-
+\section{Introduction}
+Yefim Dinitz designed this algorithm in 1969 and published\cite{Dinitz2006} in 1970. 
 The algorithm builds upon the Edmonds-Karp algorithm, but instead of increasing the flow on just one shortest path $P_{s\rightarrow t}$, it increases the flow on all $s\rightarrow t$ paths of the same length as the shortest one.
 This significantly reduces the number of BFS executions required.
 To simplify the process, the BFS returns a distance label function $d$, which is used to compute the \nameref{AdmissibleGraph}, in which all paths from $s$ to $t$ have the same length $=d(s)$. It is within this graph that the flow is calculated.
-
+\section{Blocking flow}
 Since on each path $P_{s\rightarrow t} \in A(f,d)$, a flow of value $\delta$ is routed
 \[\delta = \min_{(i,j)\in A(f,d)} r(i,j)\]
 all $P_{s\rightarrow t} \in A(f,d)$ will have at least one saturated edge at the end of the increment, and thus, by the end of the increment, there will no longer be a path from $s$ to $t$.
@@ -16,7 +17,7 @@ Such a flow is defined as a \textbf{blocking flow}.
 \begin{obs}{Max flow $\implies$ blocking flow}{}
     The max flow is a blocking flow, but the reverse implication is not true.
 \end{obs}
-
+\section{Algorithm}
 We can now define an algorithm, but first, some useful notes are necessary for its understanding:
 \begin{itemize}
     \item The algorithm takes as input the network and the function that assigns a capacity to each edge.
@@ -122,14 +123,11 @@ Here we have an example of an admissible graph extracted from a network.
 The nodes are divided by distance labels from $t$.
 Note that all edges have a reverse; a dashed edge means that it is not admissible. It is also important to remember that an edge can have zero capacity even if it is present in the representation (obviously, since it is not admissible, it is represented as dashed).
 
+\section{Time complexity}
+
 So, since you need $O(m + n)$ time to perform a BFS and another $O(nm)$ time to find all the paths from $s$ to $t$, the time required to find a blocking flow in each phase is $O(nm)$.
 Since every time we find a blocking flow, the distance from $s$ increases by at least one and can be at most $n$, the maximum number of blocking flows found in the algorithm is $O(n)$.
 Based on these two observations, we can conclude that Dinic's algorithm reduces the time complexity of the max flow problem from the $O(nm^2)$ required by the Edmonds-Karp algorithm to $O(n^2m)$.
-
-\paragraph{Altri link utili}\begin{enumerate}
-    \item \href{http://courses.csail.mit.edu/6.854/16/Notes/n10-blocking_flows.html}{Lecture from MIT}
-    \item \href{https://en.wikipedia.org/wiki/Dinic%27s_algorithm}{Wikipedia}
-\end{enumerate}
 
 \cleardoublepage
 
