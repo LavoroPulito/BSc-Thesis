@@ -23,3 +23,4 @@ An algorithm with $O(nm)$ complexity has existed since 1992 the King-Goldberg-Ta
 In conclusion, we will show that it is possible to find the maximum flow for any type of graph. By reconstructing all intermediate algorithms, from Edmonds-Karp to the most recent ones, even a less experienced reader will be able to understand the final solution while learning all the necessary concepts.
 
 The algorithms are presented in chronological order, starting with Dinic's algorithm, continuing with Goldberg-Rao, and culminating with Orlin’s most recent and effective solution. However, before delving into these algorithms, a chapter is dedicated to explaining some preliminary graph theory concepts that are essential for understanding how the solutions work.
+
