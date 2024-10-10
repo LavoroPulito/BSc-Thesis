@@ -1,7 +1,7 @@
 # :mortar_board: Bachelor's Thesis in Computer Science
 
 [My Bachelor's Degree Thesis](src/Thesis.pdf) in Computer Science at Sapienza Università di Roma, entitled:
-"Achieving Max Flow in Strongly Polynomial Time for Sparse Networks: Beyond the Edmonds-Karp Algorithm".
+"**Achieving Max Flow in Strongly Polynomial Time for Sparse Networks: Beyond the Edmonds-Karp Algorithm**".
 
 ## Abstract
 The following report is aimed at analyzing the evolution of solutions to the max-flow problem in networks. It will clearly and thoroughly demonstrate how improvements can be made upon the Edmonds-Karp algorithm.
