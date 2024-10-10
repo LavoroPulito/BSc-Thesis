@@ -469,6 +469,7 @@ Based on these parameters, in each improvement phase, nodes that can be compacte
         
     \end{lemma}
     \begin{proof}
+        Let's divide the proof by points:
         \begin{enumerate}
             \item The first point is intuitive because, for each node in $P$ that is different from $i$ and $j$, I am subtracting the same residual capacity for both incoming and outgoing edges, while for nodes $i$ and $j$, the summations of $\Phi$ remain unchanged.
             \item The second point is trivial if $|P|= 1$, so let's consider the case where $|P|\ge 2$. Define $P = p_1, ..., p_k$,where $p_1 \in S$ and at least one $p_q\in T$.\\
@@ -731,15 +732,15 @@ To demonstrate that the overall complexity of the algorithm is indeed as stated 
     For a node \( j \) to be \gmm-critical, it must be adjacent to a \gmm medium edge, or it must not have adjacent \gmm medium edges but have \( |\Phi (j, r, E^{-ab})| > \Gamma/(16m^2) \), i.e., it must be \gmm-special.
 
     First, consider the nodes adjacent to a \gmm-medium edge:\\
-    \textbf{Claim:}\\
+    \textbf{Claim:}
     An edge can have medium \gmm-capacity for at most 3 consecutive phases.
 
-    \textit{Proof:}\\
+    \textit{Proof:}
     Let \( (i,j) \) be an edge with \gmm-medium capacity, then \( u_{ij} + u_{ji} \ge \Gamma/64m^3 \). Given that in each phase \( \Delta' = \frac{\Delta}{8m} \), in the immediate next phase, we have 
     \[
-    u_{ij} + u_{ji} \ge \Gamma/64m^3 \ge \Delta'/8m^2 = \Delta''/m = 8\Delta'''.
+    u_{ij} + u_{ji} \ge \Gamma/64m^3 \ge \Delta'/8m^2 = \Delta''/m = 8\Delta'''
     \]
-    Thus, after 3 phases, \( u_{ij} + u_{ji} \ge 8\Delta \), implying that either \( (i,j) \) or \( (j,i) \) has become abundant, and the edge is no longer \gmm-medium.
+    Thus, after 3 phases, \( u_{ij} + u_{ji} \ge 8\Delta \), implying that either \( (i,j) \) or \( (j,i) \) has become abundant, and the edge is no longer \gmm-medium. \QED
 
     For the other \gmm-special edges:\\
     \textbf{Claim:}
@@ -752,27 +753,27 @@ To demonstrate that the overall complexity of the algorithm is indeed as stated 
     \textit{Proof:}\\
     First, define \( v^* \) as the flow in phase \( \Delta^* \) such that \( r^* = r_{ij}-v_{ij}+v_{ji} \). From lemma \ref{ab4ever}, we know that every \dlt-abundant edge will also be \( \Delta^* \)-abundant. Furthermore,
     \[
-    r_{ij}^* > \Gamma/64m^3 \implies r_{ij}^* > 8\Delta^*.
+    r_{ij}^* > \Gamma/64m^3 \implies r_{ij}^* > 8\Delta^*
     \]
 
     Suppose there exists an abundant edge \( (j,k) \) with \( v_{jk}^* > \Gamma/64m^3 \); then for the opposite edge \( (k,j) \), we have:
     \[
-    r^*_{k,j}= r_{kj}-v^*_{kj}+r^*_{jk}> 8\Delta^*.
+    r^*_{k,j}= r_{kj}-v^*_{kj}+r^*_{jk}> 8\Delta^*
     \]
     Thus, the opposite is also \( \Delta^* \)-abundant, and the nodes \( j \) and \( k \) will be contracted.
 
     It remains to check the case where a node \( j \) is \gmm-special without having abundant edges with flow greater than \( \Gamma/64m^3 \).\\
     We know that:
     \[
-    |\Phi (j, r, E^{-ab})| = |\hat{r}_{out}(j)-\hat{r_{in}}(j)|> \Gamma/(16m^2).
+    |\Phi (j, r, E^{-ab})| = |\hat{r}_{out}(j)-\hat{r_{in}}(j)|> \Gamma/(16m^2)
     \]
     Consider the case where \( \hat{r}_{out}(j)-\hat{r_{in}}(j)> \Gamma/(16m^2) \) (the other case is similar). We have:
     \[
-    \sum_{j:(j,k)\in E^{-ab}}y^*_{jk} \le \sum_{j:(j,k)\in E}y^*_{jk} = \sum_{j:(i,j)\in E}y^*_{ij},
+    \sum_{j:(j,k)\in E^{-ab}}y^*_{jk} \le \sum_{j:(j,k)\in E}y^*_{jk} = \sum_{j:(i,j)\in E}y^*_{ij}
     \]
     due to flow conservation. Furthermore, 
     \[
-    \sum_{j:(i,j)\in E}y^*_{ij} < \sum_{j:(i,j)\in E^{-ab}}y^*_{ij} + \sum_{j:(i,j)\in E^{ab}}y^*_{ij}+ m\Gamma/64m^3.
+    \sum_{j:(i,j)\in E}y^*_{ij} < \sum_{j:(i,j)\in E^{-ab}}y^*_{ij} + \sum_{j:(i,j)\in E^{ab}}y^*_{ij}+ m\Gamma/64m^3
     \]
     But since we have assumed that no abundant edge has flow greater than \( \Gamma/64m^3 \),
     \[
@@ -780,27 +781,28 @@ To demonstrate that the overall complexity of the algorithm is indeed as stated 
         < & \hat{r}_{in}(j) + 2m\Gamma/64m^3\\
         < & (\hat{r}_{out}(j) - \Gamma/16m^2) + \Gamma/32m^2\\
         < & \hat{r}_{out}(j) - \Gamma/32m^2\\
-        = & \sum_{j:(j,k)\in E^{-ab}}r_{jk} - \Gamma/32m^2.
+        = & \sum_{j:(j,k)\in E^{-ab}}r_{jk} - \Gamma/32m^2
     \end{array}
     \]
 
     Thus, there must exist some edge for which 
     \[
-    y^*_{jk}<r_{jk}-\Gamma/32m^3 \implies r^*_{jk}\ge r_{jk}-y^*_{jk}>\Gamma/32m^3>16\Delta^*.
+    y^*_{jk}<r_{jk}-\Gamma/32m^3 \implies r^*_{jk}\ge r_{jk}-y^*_{jk}>\Gamma/32m^3>16\Delta^*
     \]
     Therefore, there exists some \( (j,k) \) non-abundant edge in the \dlt phase that becomes abundant in the phase \( \Delta^* \), and since \( (k,j) \) is also abundant, the cycle will be contracted. \QED
 
     We have shown through the two claims that all \gmm-critical nodes in a phase cannot remain \gmm-critical for more than a constant number of consecutive phases. The fact that they have a "limited duration" and are at most \( O(m) \) proves the statement.
 \end{proof}
 
-Knowing the number of nodes to analyze, the next step is to estimate the number of \textbf{improvement phases} required to calculate the maximum flow. However, it is necessary first to understand how the \gmm parameter is chosen.
-
+Knowing the number of nodes to analyze, the next step is to estimate the number of \textbf{improvement phases} required to calculate the maximum flow. However, it is necessary first to understand how the \gmm\ parameter is chosen.
+\newpage
 \begin{lemma}[\gmm\ Parameter]
     \label{gammchose}
     The \gmm\ parameter can be chosen in \( O(m+n\log n) \) time.
 \end{lemma}
 
 \begin{proof}
+    We give a procedure that does this: 
     \begin{enumerate}
         \item For each node \( j \), calculate the largest \gmm' value for which \( j \) is \gmm'-critical (\textit{time required} \( O(m) \)).
         \item Order the nodes \( j \) by their \gmm' value (\textit{time required} \( O(n\log n) \)).
@@ -886,16 +888,15 @@ This is the reason why we construct the compact graph only if \( C \le m^{9/16} 
     \end{enumerate}
     
     We conclude that the total time to induce the flow in \( G^c \) to \( G[r] \) for all \( m^{2/3} \) phases is 
-    \[ O(nm + m^{5/3} \log n) \].
+    \[ O(nm + m^{5/3} \log n) \]
 \end{proof}
 
 From the previous lemmas, we can deduce the following theorem:
 
-\begin{theorem}[max flow in \( O(nm) \)]
+\begin{theorem}[Max flow in \( O(nm) \)]
     If the flow in each improvement phase is computed using the \textit{improve-approx-2} procedure, then the time to find the maximum flow is 
     \[ O(nm + m^{31/16} \log^2 n) \]
-    If \( m = O(n^{1.06}) \), the running time is
-    \[ O(nm) \]
+    If \( m = O(n^{1.06}) \), the running time is $O(nm)$.
 \end{theorem}
 
 

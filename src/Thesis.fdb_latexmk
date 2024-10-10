@@ -1,13 +1,13 @@
 # Fdb version 4
-["biber Thesis"] 1728549840.84997 "Thesis.bcf" "Thesis.bbl" "Thesis" 1728554453.82682 0
+["biber Thesis"] 1728549840.84997 "Thesis.bcf" "Thesis.bbl" "Thesis" 1728593312.70115 0
   "./references.bib" 1728549824.5099 6427 6b956d5eb8710080aa73747529e2dd85 ""
-  "Thesis.bcf" 1728554453.62445 109209 76eec7da8c59eb6c107e753ce5500615 "pdflatex"
+  "Thesis.bcf" 1728593312.47834 109209 76eec7da8c59eb6c107e753ce5500615 "pdflatex"
   (generated)
   "Thesis.bbl"
   "Thesis.blg"
   (rewritten before read)
-["pdflatex"] 1728554449.96474 "/Users/armandocoppola/Documents/MaxFlow_Algorithms/src/Thesis.tex" "Thesis.pdf" "Thesis" 1728554453.8271 0
-  "/Users/armandocoppola/Documents/MaxFlow_Algorithms/src/Thesis.tex" 1728492869.90359 7216 c53a90098316585deecddcd5b5f95c13 ""
+["pdflatex"] 1728593307.66368 "/Users/armandocoppola/Documents/MaxFlow_Algorithms/src/Thesis.tex" "Thesis.pdf" "Thesis" 1728593312.70159 0
+  "/Users/armandocoppola/Documents/MaxFlow_Algorithms/src/Thesis.tex" 1728585671.13533 7323 cd5b8ece441e6bded18df2fbbcfef855 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1254269338 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc" 1202520719 3486 c7eadf5dcc57b3b2d11736679f6636ba ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1202520719 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
@@ -380,18 +380,18 @@
   "/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1719312286 5483212 5ca4a6f711768cda56ff4b2d946fe634 ""
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1719312335 8238406 1e5a10c85567a8395e3e952f4b43c48d ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
-  "Thesis.aux" 1728554453.6198 9776 b01d16b0bad7a281a10726c5c95128e1 "pdflatex"
+  "Thesis.aux" 1728593312.47281 9603 7dfbad5d9adbe533d3c4662089d6a252 "pdflatex"
   "Thesis.bbl" 1728549842.59003 19617 d6cd93a22870f9d8e5d150fe81225632 "biber Thesis"
-  "Thesis.out" 1728554453.6218 4431 fdb6b2d3be0ceb4ae764f6e86c75b32a "pdflatex"
-  "Thesis.run.xml" 1728554453.62511 2327 ab30363762baa8ded8624c9b253330f4 "pdflatex"
-  "Thesis.tex" 1728492869.90359 7216 c53a90098316585deecddcd5b5f95c13 ""
-  "Thesis.toc" 1728554453.62517 2375 ec0c419683c8f57ea5073435fe3ed0c1 "pdflatex"
+  "Thesis.out" 1728593312.47526 4431 e17f2c8d375d4a10c4dc54fe45ac8933 "pdflatex"
+  "Thesis.run.xml" 1728593312.47941 2327 ab30363762baa8ded8624c9b253330f4 "pdflatex"
+  "Thesis.tex" 1728585671.13533 7323 cd5b8ece441e6bded18df2fbbcfef855 ""
+  "Thesis.toc" 1728593312.47955 2375 ac28a2e19a15586863ac0dad88d6bd0a "pdflatex"
   "chapter/1.tex" 1728494900.44475 27224 9c95bea68ddc7d75ff37859d32777118 ""
   "chapter/2.tex" 1728307920.35608 6472 d7e722d728071368c88168f5de377982 ""
-  "chapter/3.tex" 1728495566.93608 27465 b989492448b1977138880c079dfc5a88 ""
-  "chapter/4.tex" 1728495695.65865 47126 84f1debbf78591a95170c7c13e4f5c08 ""
-  "chapter/abstract.tex" 1728493338.43145 2868 65a7b0e9361714adb5a1f32e52d8fe93 ""
-  "chapter/acknowledgements.tex" 1728554449.68194 1634 5ebabbe96b2c09952b57bdda0bb4406b ""
+  "chapter/3.tex" 1728591852.99276 24008 701cb5724d17289d79fef5cc6138cb66 ""
+  "chapter/4.tex" 1728592124.24107 47203 2e7ccc48973279518d480d134e911c8f ""
+  "chapter/abstract.tex" 1728593307.2933 2868 71004732158878f10b982ebd998e0c6d ""
+  "chapter/acknowledgements.tex" 1728592634.5496 106 129a53694c8c95ef45134a63f887fcce ""
   "chapter/conclusions.tex" 1728549836.16705 1618 0e50b50b18425931a602d463f32317e5 ""
   "resources/images/Konigsberg_bridges.png" 1728309660.39833 32956 ce5850607662850c38bc2d95965a6e0a ""
   "sapienzalogo.pdf" 1726852310 16467 d37335f7ce529baff3eb592202135649 ""

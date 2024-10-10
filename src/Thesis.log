@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.25)  10 OCT 2024 12:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.25)  10 OCT 2024 22:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1588,7 +1588,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 
 Package hyperref Warning: Option `colorlinks' has already been used,
-(hyperref)                setting the option has no effect on input line 232.
+(hyperref)                setting the option has no effect on input line 233.
 
 
 
@@ -1749,7 +1749,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 [30]
 
 [31]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 563.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 564.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1766,11 +1766,11 @@ Package microtype Info: Loading generic protrusion settings for font family
 [34]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 673.
+(hyperref)                removing `math shift' on input line 674.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 673.
+(hyperref)                removing `math shift' on input line 674.
 
 
 
@@ -1798,7 +1798,7 @@ Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/lmr/m/sc/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
 
-Overfull \hbox (2.14424pt too wide) in paragraph at lines 261--261
+Overfull \hbox (2.14424pt too wide) in paragraph at lines 262--262
 []\T1/lmr/m/n/10.95 (-20) Lester Ran-dolph Ford and Del-bert Ray Fulk-er-son. ``Max-i-mal Flow Through
  []
 
@@ -1815,24 +1815,24 @@ LaTeX2e <2024-06-01> patch level 1
 L3 programming layer <2024-05-27>
  ***********
 Package rerunfilecheck Info: File `Thesis.out' has not changed.
-(rerunfilecheck)             Checksum: FDB6B2D3BE0CEB4AE764F6E86C75B32A;4431.
+(rerunfilecheck)             Checksum: E17F2C8D375D4A10C4DC54FE45AC8933;4431.
 Package logreq Info: Writing requests to 'Thesis.run.xml'.
 \openout1 = `Thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 65913 strings out of 473600
- 1538557 string characters out of 5728702
+ 65884 strings out of 473600
+ 1538052 string characters out of 5728702
  2609743 words of memory out of 5000000
- 87289 multiletter control sequences out of 15000+600000
- 677811 words of font info for 280 fonts, out of 8000000 for 9000
+ 87259 multiletter control sequences out of 15000+600000
+ 677894 words of font info for 281 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  98i,15n,131p,1660b,2238s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss17.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on Thesis.pdf (51 pages, 638472 bytes).
+Output written on Thesis.pdf (51 pages, 634486 bytes).
 PDF statistics:
- 774 PDF objects out of 1000 (max. 8388607)
- 636 compressed objects within 7 object streams
- 211 named destinations out of 1000 (max. 500000)
+ 772 PDF objects out of 1000 (max. 8388607)
+ 634 compressed objects within 7 object streams
+ 210 named destinations out of 1000 (max. 500000)
  66455 words of extra memory for PDF output out of 74296 (max. 10000000)
 

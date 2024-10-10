@@ -26,6 +26,6 @@
 \contentsline {section}{\numberline {4.5}How to compact network}{28}{section.4.5}%
 \contentsline {section}{\numberline {4.6}From sc-compact to $\Gamma $-compact}{29}{section.4.6}%
 \contentsline {section}{\numberline {4.7}Max flow in $O(nm)$ time}{35}{section.4.7}%
-\contentsline {chapter}{Conclusions}{41}{chapter*.4}%
-\contentsline {chapter}{Acknowledgements}{42}{chapter*.5}%
-\contentsline {chapter}{Bibliography}{43}{section*.6}%
+\contentsline {chapter}{Conclusions}{41}{chapter*.3}%
+\contentsline {chapter}{Acknowledgements}{42}{chapter*.4}%
+\contentsline {chapter}{Bibliography}{43}{section*.5}%

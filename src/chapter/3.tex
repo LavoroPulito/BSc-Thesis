@@ -195,7 +195,7 @@ on a network with integer capacities, which, when considering logarithmic factor
 
             To summarize, we know that:
             \begin{enumerate}
-                \item \( d(w) > d'(w) \iff d(x) + l(w,x) > d'(y) + l'(w,y) \).While we don't know the exact distance \( d(y) \), we know that:
+                \item \( d(w) > d'(w) \iff d(x) + l(w,x) > d'(y) + l'(w,y) \). \\While we don't know the exact distance \( d(y) \), we know that:
             \[
             d'(y) = \sum_{(a,b) \in y-t \subseteq \Gamma'} l'(a,b) \ge \sum_{(a,b) \in y-t \subseteq \Gamma'} l(a,b)
             \]
@@ -236,83 +236,9 @@ on a network with integer capacities, which, when considering logarithmic factor
             \forall \text{ shortest } s-t \text{ path } \Gamma \in G_{f'} \implies \exists (v,w) \in \Gamma \, \text{where} \, c(v,w) > 0
             \]
 
-            We now have a tool to demonstrate that the blocking flow increases the distance of \( s \).
-
-            \begin{table}[H]
-                \centering
-                \caption{graphic example to better visualize what was declared}
-            \begin{tabular}{c|c}
-
-                \\
-                \begin{tikzpicture}[node distance={14mm}, thick , main/.style = {draw, circle}] 
-                \node[main] (1) at (0,0) {$s$}; 
-                \node[main] (2) [above right of=1] {$2$};
-                \node[main] (3) [right of=2] {$3$};
-                \node[main] (4) [right of=3] {$4$};
-                \node[main] (5) [below right of=1] {$5$};
-                \node[main] (6) [right of=5] {$6$};
-                \node[main] (7) [right of=6] {$7$};
-                \node[main] (9) [below right of=4] {$t$};
-                \node[main] (8) at ($(1)!0.5!(9)$) {$8$};
-                %Admissible
-                \draw[->] (1) to (2);
-                \draw[-] (2) to [red, midway] node {X} (3);
-                \draw[-] (3) to (4);
-                \draw[-] (4) to (9);
-                \draw[-] (3) to (8);
-                \draw[-] (2) to (8);
-                \draw[-] (8) to (7);
-                \draw[->] (1) to (5);
-                \draw[-] (5) to (6);
-                \draw[-] (6) to (7);
-                \draw[-] (7) to [red, midway] node {X} (9);
-                
-                %paths
-                \draw[->,line width=1 pt] (1)[babyblue, bend left] to (2);
-                \draw[->,line width=1 pt] (2)[babyblue, bend left] to (3);
-                \draw[->,line width=1 pt] (3)[babyblue, bend left] to (4);
-                \draw[->,line width=1 pt] (4)[babyblue, bend left] to (9);
-            
-                \draw[->,line width=1 pt] (1)[blue, bend right] to (5);
-                \draw[->,line width=1 pt] (5)[blue, bend right] to (6);
-                \draw[->,line width=1 pt] (6)[blue, bend right] to (7);
-                \draw[->,line width=1 pt] (7)[blue, bend right] to (9);
+            We now have a tool to demonstrate that the blocking flow increases the distance of $s$.
 
             
-            \end{tikzpicture} 
-            &
-            \begin{tikzpicture}[node distance={14mm}, thick , main/.style = {draw, circle}] 
-                \node[main] (1) at (0,0) {$s$}; 
-                \node[main] (2) [above right of=1] {$2$};
-                \node[main] (3) [right of=2] {$3$};
-                \node[main] (4) [right of=3] {$4$};
-                \node[main] (5) [below right of=1] {$5$};
-                \node[main] (6) [right of=5] {$6$};
-                \node[main] (7) [right of=6] {$7$};
-                \node[main] (9) [below right of=4] {$t$};
-                \node[main] (8) at ($(1)!0.5!(9)$) {$8$};
-                %Admissible
-                \draw[->] (1) to (2);
-                \draw[-] (3) to (4);
-                \draw[-] (4) to (9);
-                \draw[-] (3) to (8);
-                \draw[-] (2) to (8);
-                \draw[-] (8) to (7);
-                \draw[->] (1) to (5);
-                \draw[-] (5) to (6);
-                \draw[-] (6) to (7);
-                
-                \draw[->,line width=1 pt] (1)[brightgreen, bend left] to (2);
-                \draw[->,line width=1 pt] (2)[brightgreen, bend left] to (8);
-                \draw[->,line width=1 pt] (8)[brightgreen, bend right] to (3);
-                \draw[->,line width=1 pt] (3)[brightgreen, bend left] to (4);
-                \draw[->,line width=1 pt] (4)[brightgreen, bend left] to (9);
-
-            \end{tikzpicture}\\
-
-            \textbf{\color{blue}{blu}} $\bar{f}$ in $A(f,\bar{l}, d_l)$ &
-            \end{tabular}
-            \end{table}
 
             Since \( \bar{f} \) is blocking in \( A(f,\bar{l}, d_l) \), \( \Gamma \) must contain an edge \( (v,w) \) that is not present in \( A(f,\bar{l}, d_l) \).
             
