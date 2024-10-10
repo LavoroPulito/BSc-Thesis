@@ -1,0 +1,132 @@
+
+
+@article{Edmonds_Karp,
+author = {Edmonds, Jack and Karp, Richard M.},
+title = {Theoretical Improvements in Algorithmic Efficiency for Network Flow Problems},
+year = {1972},
+issue_date = {April 1972},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {19},
+number = {2},
+issn = {0004-5411},
+url = {https://doi.org/10.1145/321694.321699},
+doi = {10.1145/321694.321699},
+journal = {J. ACM},
+month = apr,
+pages = {248-264},
+numpages = {17}
+}
+
+@inproceedings{Orlin,
+author = {Orlin, James B.},
+title = {Max flows in O(nm) time, or better},
+year = {2013},
+isbn = {9781450320290},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/2488608.2488705},
+doi = {10.1145/2488608.2488705},
+abstract = {In this paper, we present improved polynomial time algorithms for the max flow problem defined on sparse networks with n nodes and m arcs. We show how to solve the max flow problem in O(nm + m31/16 log2 n) time. In the case that m = O(n1.06), this improves upon the best previous algorithm due to King, Rao, and Tarjan, who solved the max flow problem in O(nm logm/(n log n)n) time. This establishes that the max flow problem is solvable in O(nm) time for all values of n and m. In the case that m = O(n), we improve the running time to O(n2/ log n).},
+booktitle = {Proceedings of the Forty-Fifth Annual ACM Symposium on Theory of Computing},
+pages = {765–774},
+numpages = {10},
+keywords = {maximum flow problem, max flows},
+location = {Palo Alto, California, USA},
+series = {STOC '13}
+}
+
+@article{Goldberg_Rao,
+author = {Goldberg, Andrew V. and Rao, Satish},
+title = {Beyond the flow decomposition barrier},
+year = {1998},
+issue_date = {Sept. 1998},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {45},
+number = {5},
+issn = {0004-5411},
+url = {https://doi.org/10.1145/290179.290181},
+doi = {10.1145/290179.290181},
+abstract = {We introduce a new approach to the maximum flow problem. This approach is based on assigning arc lengths based on the residual flow value and the residual arc capacities. Our approach leads to an O(min(n2/3, m1/2)m log(n2/m) log U) time bound for a network with n vertices, m arcs, and integral arc capacities in the range [1, …, U]. This is a fundamental improvement over the previous time bounds. We also improve bounds for the Gomory-Hu tree problem, the parametric flow problem, and the approximate s-t  cut problem.},
+journal = {J. ACM},
+month = sep,
+pages = {783–797},
+numpages = {15},
+keywords = {maximum flows, combinatorial optimization}
+}
+
+@Inbook{Dinitz2006,
+author="Dinitz, Yefim",
+editor="Goldreich, Oded
+and Rosenberg, Arnold L.
+and Selman, Alan L.",
+title="Dinitz' Algorithm: The Original Version and Even's Version",
+bookTitle="Theoretical Computer Science: Essays in Memory of Shimon Even",
+year="2006",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="218--240",
+abstract="This paper is devoted to the max-flow algorithm of the author: to its original version, which turned out to be unknown to non-Russian readers, and to its modification created by Shimon Even and Alon Itai; the latter became known worldwide as ``Dinic's algorithm''. It also presents the origins of the Soviet school of algorithms, which remain unknown to the Western Computer Science community, and the substantial influence of Shimon Even on the fortune of this algorithm.",
+isbn="978-3-540-32881-0",
+doi="10.1007/11685654_10",
+url="https://doi.org/10.1007/11685654_10"
+}
+
+@inproceedings{kingRaoTarjan,
+author = {King, Valerie and Rao, Satish and Tarjan, Robert},
+year = {1992},
+month = {01},
+pages = {157-164},
+title = {A Faster Deterministic Maximum Flow Algorithm}
+}
+
+@article{FordFulkerson,
+  title={Maximal Flow Through a Network},
+  author={Lester Randolph Ford and Delbert Ray Fulkerson},
+  journal={Canadian Journal of Mathematics},
+  year={1956},
+  volume={8},
+  pages={399 - 404},
+  url={https://api.semanticscholar.org/CorpusID:16109790}
+}
+
+
+@article{dynamicTrees,
+title = "A data structure for dynamic trees",
+abstract = "A data structure is proposed to maintain a collection of vertex-disjoint trees under a sequence of two kinds of operations: a link operation that combines two trees into one by adding an edge, and a cut operation that divides one tree into two by deleting an edge. Each operation requires O(log n) time. Using this data structure, new fast algorithms are obtained for the following problems: 1. (1) Computing nearest common ancestors. 2. (2) Solving various network flow problems including finding maximum flows, blocking flows, and acyclic flows. 3. (3) Computing certain kinds of constrained minimum spanning trees. 4. (4) Implementing the network simplex algorithm for minimum-cost flows. The most significant application is (2); an O(mn log n)-time algorithm is obtained to find a maximum flow in a network of n vertices and m edges, beating by a factor of log n the fastest algorithm previously known for sparse graphs.",
+author = "Sleator, {Daniel D.} and {Endre Tarjan}, Robert",
+year = "1983",
+month = jun,
+doi = "10.1016/0022-0000(83)90006-5",
+language = "English (US)",
+volume = "26",
+pages = "362--391",
+journal = "Journal of Computer and System Sciences",
+issn = "0022-0000",
+publisher = "Academic Press Inc.",
+number = "3",
+}
+
+@article{ITALIANO1986273,
+title = {Amortized efficiency of a path retrieval data structure},
+journal = {Theoretical Computer Science},
+volume = {48},
+pages = {273-281},
+year = {1986},
+issn = {0304-3975},
+doi = {https://doi.org/10.1016/0304-3975(86)90098-8},
+url = {https://www.sciencedirect.com/science/article/pii/0304397586900988},
+author = {G.F. Italiano},
+abstract = {A data structure is presented for the problem of maintaining a digraph under an arbitrary sequence of two kinds of operations: an Add operation that inserts an arc in the digraph, and a Searchpath operation that checks the presence of a path between a pair of nodes. Our data structure supports both operations in O(n) amortized time and requires O(n2) space, where n is the number of nodes in the digraph.}
+}
+
+@misc{orlin2019fastmaxflowalgorithm,
+      title={A Fast Max Flow Algorithm}, 
+      author={James B. Orlin and Xiao-Yue Gong},
+      year={2019},
+      eprint={1910.04848},
+      archivePrefix={arXiv},
+      primaryClass={cs.DS},
+      url={https://arxiv.org/abs/1910.04848}, 
+}
