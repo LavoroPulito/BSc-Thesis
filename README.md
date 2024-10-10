@@ -1,9 +1,8 @@
-# Max flow in un network in O(nm)
+# :mortar_board: Max flow in un network in O(nm)
 [My Bachelor's Degree Thesis](src\Thesis.pdf) in Computer Science at Sapienza Università di Roma, entitled:
 "Achieving Max Flow in Strongly Polynomial Time for Sparse Networks: Beyond the Edmonds-Karp Algorithm".
-## Abstract
----
 
+## Abstract
 The following report is aimed at analyzing the evolution of solutions to the max-flow problem in networks. It will clearly and thoroughly demonstrate how improvements can be made upon the Edmonds-Karp algorithm.
 
 Finding the maximum flow that can be routed through a network posed a significant challenge for decades, since the first solution was introduced by L. R. Ford Jr. and D. R. Fulkerson in 1956. Their algorithm runs in $O(mf)$ time were $f$ represents the maximum flow in the network.
