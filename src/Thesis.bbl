@@ -135,6 +135,45 @@
       \verb https://doi.org/10.1145/321694.321699
       \endverb
     \endentry
+    \entry{FordFulkerson}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=ca79895a6fc8d33807d25f23680bc4fb}{%
+           family={Ford},
+           familyi={F\bibinitperiod},
+           given={Lester\bibnamedelima Randolph},
+           giveni={L\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=b654c7aead6bed98a529471489bfe6e2}{%
+           family={Fulkerson},
+           familyi={F\bibinitperiod},
+           given={Delbert\bibnamedelima Ray},
+           giveni={D\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \strng{namehash}{9dfeec7b8612792e1c3b9682c51c7bff}
+      \strng{fullhash}{9dfeec7b8612792e1c3b9682c51c7bff}
+      \strng{fullhashraw}{9dfeec7b8612792e1c3b9682c51c7bff}
+      \strng{bibnamehash}{9dfeec7b8612792e1c3b9682c51c7bff}
+      \strng{authorbibnamehash}{9dfeec7b8612792e1c3b9682c51c7bff}
+      \strng{authornamehash}{9dfeec7b8612792e1c3b9682c51c7bff}
+      \strng{authorfullhash}{9dfeec7b8612792e1c3b9682c51c7bff}
+      \strng{authorfullhashraw}{9dfeec7b8612792e1c3b9682c51c7bff}
+      \field{labelalpha}{FF56}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Canadian Journal of Mathematics}
+      \field{title}{Maximal Flow Through a Network}
+      \field{volume}{8}
+      \field{year}{1956}
+      \field{pages}{399\bibrangedash 404}
+      \range{pages}{6}
+      \verb{urlraw}
+      \verb https://api.semanticscholar.org/CorpusID:16109790
+      \endverb
+      \verb{url}
+      \verb https://api.semanticscholar.org/CorpusID:16109790
+      \endverb
+    \endentry
     \entry{Goldberg_Rao}{article}{}{}
       \name{author}{2}{}{%
         {{hash=575546439bd6e9b2cbc49d9c92ced13f}{%
@@ -188,6 +227,122 @@
       \endverb
       \keyw{maximum flows,combinatorial optimization}
     \endentry
+    \entry{ITALIANO1986273}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=3b6987380e9ed21b590ee5242cda6a84}{%
+           family={Italiano},
+           familyi={I\bibinitperiod},
+           given={G.F.},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{3b6987380e9ed21b590ee5242cda6a84}
+      \strng{fullhash}{3b6987380e9ed21b590ee5242cda6a84}
+      \strng{fullhashraw}{3b6987380e9ed21b590ee5242cda6a84}
+      \strng{bibnamehash}{3b6987380e9ed21b590ee5242cda6a84}
+      \strng{authorbibnamehash}{3b6987380e9ed21b590ee5242cda6a84}
+      \strng{authornamehash}{3b6987380e9ed21b590ee5242cda6a84}
+      \strng{authorfullhash}{3b6987380e9ed21b590ee5242cda6a84}
+      \strng{authorfullhashraw}{3b6987380e9ed21b590ee5242cda6a84}
+      \field{labelalpha}{Ita86}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{A data structure is presented for the problem of maintaining a digraph under an arbitrary sequence of two kinds of operations: an Add operation that inserts an arc in the digraph, and a Searchpath operation that checks the presence of a path between a pair of nodes. Our data structure supports both operations in O(n) amortized time and requires O(n2) space, where n is the number of nodes in the digraph.}
+      \field{issn}{0304-3975}
+      \field{journaltitle}{Theoretical Computer Science}
+      \field{title}{Amortized efficiency of a path retrieval data structure}
+      \field{volume}{48}
+      \field{year}{1986}
+      \field{pages}{273\bibrangedash 281}
+      \range{pages}{9}
+      \verb{doi}
+      \verb https://doi.org/10.1016/0304-3975(86)90098-8
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/0304397586900988
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/0304397586900988
+      \endverb
+    \endentry
+    \entry{kingRaoTarjan}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=523d42c006c014c1ea6e02836f89825e}{%
+           family={King},
+           familyi={K\bibinitperiod},
+           given={Valerie},
+           giveni={V\bibinitperiod}}}%
+        {{hash=d135881549e27a35c7f1f9399c78f12e}{%
+           family={Rao},
+           familyi={R\bibinitperiod},
+           given={Satish},
+           giveni={S\bibinitperiod}}}%
+        {{hash=554d334d2af10fcbf6d59d1194d9191b}{%
+           family={Tarjan},
+           familyi={T\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{883792c1885f26957537dba5133797cb}
+      \strng{fullhash}{883792c1885f26957537dba5133797cb}
+      \strng{fullhashraw}{883792c1885f26957537dba5133797cb}
+      \strng{bibnamehash}{883792c1885f26957537dba5133797cb}
+      \strng{authorbibnamehash}{883792c1885f26957537dba5133797cb}
+      \strng{authornamehash}{883792c1885f26957537dba5133797cb}
+      \strng{authorfullhash}{883792c1885f26957537dba5133797cb}
+      \strng{authorfullhashraw}{883792c1885f26957537dba5133797cb}
+      \field{labelalpha}{KRT92}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{01}
+      \field{title}{A Faster Deterministic Maximum Flow Algorithm}
+      \field{year}{1992}
+      \field{pages}{157\bibrangedash 164}
+      \range{pages}{8}
+    \endentry
+    \entry{orlin2019fastmaxflowalgorithm}{misc}{}{}
+      \name{author}{2}{}{%
+        {{hash=f03514998efd882b5252b592b58f7dc1}{%
+           family={Orlin},
+           familyi={O\bibinitperiod},
+           given={James\bibnamedelima B.},
+           giveni={J\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=33d97465f64f81858312b3e63826b579}{%
+           family={Gong},
+           familyi={G\bibinitperiod},
+           given={Xiao-Yue},
+           giveni={X\bibinithyphendelim Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{0c7a39e7d8769764b8210103f4a7c532}
+      \strng{fullhash}{0c7a39e7d8769764b8210103f4a7c532}
+      \strng{fullhashraw}{0c7a39e7d8769764b8210103f4a7c532}
+      \strng{bibnamehash}{0c7a39e7d8769764b8210103f4a7c532}
+      \strng{authorbibnamehash}{0c7a39e7d8769764b8210103f4a7c532}
+      \strng{authornamehash}{0c7a39e7d8769764b8210103f4a7c532}
+      \strng{authorfullhash}{0c7a39e7d8769764b8210103f4a7c532}
+      \strng{authorfullhashraw}{0c7a39e7d8769764b8210103f4a7c532}
+      \field{labelalpha}{OG19}
+      \field{sortinit}{O}
+      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.DS}
+      \field{eprinttype}{arXiv}
+      \field{title}{A Fast Max Flow Algorithm}
+      \field{year}{2019}
+      \verb{eprint}
+      \verb 1910.04848
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1910.04848
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1910.04848
+      \endverb
+    \endentry
     \entry{Orlin}{inproceedings}{}{}
       \name{author}{1}{}{%
         {{hash=f03514998efd882b5252b592b58f7dc1}{%
@@ -233,6 +388,52 @@
       \verb https://doi.org/10.1145/2488608.2488705
       \endverb
       \keyw{maximum flow problem,max flows}
+    \endentry
+    \entry{dynamicTrees}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=3292cba23d6ef12bbb1990d5303b9e60}{%
+           family={Sleator},
+           familyi={S\bibinitperiod},
+           given={{Daniel D.}},
+           giveni={D\bibinitperiod}}}%
+        {{hash=797581fe29c65604aceaecc696d07ffa}{%
+           family={{Endre Tarjan}},
+           familyi={E\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {English (US)}%
+      }
+      \list{publisher}{1}{%
+        {Academic Press Inc.}%
+      }
+      \strng{namehash}{45dc59991c52cf4bdf575a6797c9735a}
+      \strng{fullhash}{45dc59991c52cf4bdf575a6797c9735a}
+      \strng{fullhashraw}{45dc59991c52cf4bdf575a6797c9735a}
+      \strng{bibnamehash}{45dc59991c52cf4bdf575a6797c9735a}
+      \strng{authorbibnamehash}{45dc59991c52cf4bdf575a6797c9735a}
+      \strng{authornamehash}{45dc59991c52cf4bdf575a6797c9735a}
+      \strng{authorfullhash}{45dc59991c52cf4bdf575a6797c9735a}
+      \strng{authorfullhashraw}{45dc59991c52cf4bdf575a6797c9735a}
+      \field{labelalpha}{SE83}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{A data structure is proposed to maintain a collection of vertex-disjoint trees under a sequence of two kinds of operations: a link operation that combines two trees into one by adding an edge, and a cut operation that divides one tree into two by deleting an edge. Each operation requires O(log n) time. Using this data structure, new fast algorithms are obtained for the following problems: 1. (1) Computing nearest common ancestors. 2. (2) Solving various network flow problems including finding maximum flows, blocking flows, and acyclic flows. 3. (3) Computing certain kinds of constrained minimum spanning trees. 4. (4) Implementing the network simplex algorithm for minimum-cost flows. The most significant application is (2); an O(mn log n)-time algorithm is obtained to find a maximum flow in a network of n vertices and m edges, beating by a factor of log n the fastest algorithm previously known for sparse graphs.}
+      \field{issn}{0022-0000}
+      \field{journaltitle}{Journal of Computer and System Sciences}
+      \field{month}{6}
+      \field{number}{3}
+      \field{title}{A data structure for dynamic trees}
+      \field{volume}{26}
+      \field{year}{1983}
+      \field{pages}{362\bibrangedash 391}
+      \range{pages}{30}
+      \verb{doi}
+      \verb 10.1016/0022-0000(83)90006-5
+      \endverb
     \endentry
   \enddatalist
 \endrefsection
