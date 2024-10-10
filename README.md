@@ -1,4 +1,5 @@
-# :mortar_board: Max flow in un network in O(nm)
+# :mortar_board: Bachelor's Thesis in Computer Science
+
 [My Bachelor's Degree Thesis](src\Thesis.pdf) in Computer Science at Sapienza Università di Roma, entitled:
 "Achieving Max Flow in Strongly Polynomial Time for Sparse Networks: Beyond the Edmonds-Karp Algorithm".
 
