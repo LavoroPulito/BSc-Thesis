@@ -12,7 +12,7 @@ on a network with integer capacities, which, when considering logarithmic factor
 
 \textbf{Note:} From here on, we will abbreviate the expression \( \min\{n^{2/3}, m^{1/2}\} \) using \( \Lambda \).
 
-\section{Idea}
+\section{Overview}
 
     At the core of the optimization is the idea of \textbf{contracting} the network according to certain specific parameters.  
     The speed-up lies in computing the flow in a contracted graph, which is more efficient than computing it in the original one.
@@ -35,14 +35,14 @@ on a network with integer capacities, which, when considering logarithmic factor
     By increasing the flow by at most \dlt, we ensure that the capacity constraints are respected, but we can no longer guarantee that the flow is blocking.  
     Therefore, we must choose a value for \dlt\ that is both small enough to contract the graph as much as possible, but also adequately selected to keep the number of flow increments as low as possible, thus ensuring the desired computational cost.
 
-\section{Stop condition}
+\section{The stop condition}
     To terminate its execution, the algorithm estimates the difference between the maximum achievable flow (which from now on will be called $F$) and the flow it has computed.
     When this difference becomes less than 1, the algorithm terminates.
     Since the capacities of the network are all integers, this ensures that the maximum possible flow has been reached.
     An initial useful value for $F$ is $F=n\cdot U_{max}$, and later, the residual capacity of the canonical cut will be used (further details will be provided later).
 
 
-\section{Estimate the residual flow}
+\section{Estimating the residual flow}
     We already know that the residual capacity of each cut $r(S,T)$ represents an upper bound on the max flow (\nameref{maxFlowMinCut}).
     To estimate the residual flow quickly and efficiently, we can analyze the \nameref{cancut}.
 

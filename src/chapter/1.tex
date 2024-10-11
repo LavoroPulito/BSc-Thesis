@@ -1,6 +1,6 @@
 \chapter{Introduction and preliminaries} \label{chap:preliminaries}
 
-Graph theory is the branch of computer science that focuses on the study of graphs. More broadly, it can be seen as the study of connections, since a graph represents the most general form of 'objects' and how they can be linked together.
+Graph theory is the branch of computer science which focuses on the study of graphs. More broadly, it can be seen as the study of connections, since a graph represents the most general form of 'objects' and how they can be linked together.
 
 The objects are referred to as nodes and are represented by points. These points are connected by edges, which are depicted as lines.   
 \begin{center}
@@ -64,11 +64,11 @@ The objects are referred to as nodes and are represented by points. These points
 
 \end{minipage}
 \end{center}
-\begin{definition}[Grafo]
+\begin{definition}[Graph]
     A graph $G = (N,E)$ is a structure composed of a set of nodes $N$
     and a set of edges $E$ that connect two nodes in  $N$
     \[(i,j) \in E \implies i,j\in N\]
-    The set of nodes in a graph $G$ is denoted by $N(G)$, and similarly, the set of edges is denoted by $E(G)$. Often, the labels will be used to indicate the cardinality of these sets:
+    The set of nodes in a graph $G$ is denoted by $N(G)$, and similarly, the set of edges is denoted by $E(G)$. Often, the following labels will be used to indicate the cardinality of these sets:
         \[\begin{array}{rcl}
             n &=& |N(G)|\\
             m &=& |E(G)| 
@@ -76,13 +76,13 @@ The objects are referred to as nodes and are represented by points. These points
 \end{definition}Various types of graphs exist in theory, just as various types of connections exist in the real world.
 An edge can be:
 \begin{itemize} 
-    \item \textbf{directed}, to assign a direction to the connection
-    \item \textbf{undirected}, indicating that the connection can be traversed in both directions.
+    \item \textbf{directed}, with an assigned direction to each connection
+    \item \textbf{undirected}, indicating that each connection can be traversed in both directions.
 \end{itemize} 
 
-There are also \textbf{simple graphs}, where no more than one edge connects the same two nodes and no edges start and end at the same node, and \textbf{multigraphs}, where such edges are allowed.
+There are also \textbf{simple graphs}, where no more than one edge connects the same two nodes and no edges start and end at the same node, and \textbf{multigraphs}, where such parallel edges are allowed.
 
-Sometimes it is easy to see how something can be represented as a graph, other times the connection is more abstract.
+Sometimes it is easy to see how something can be represented as a graph, other times the representation is more abstract.
 
 Graph theory originated in 1736 with the Swiss mathematician Leonhard Euler. Euler wanted to know if it was possible to cross all the bridges of the city of Königsberg in a single walk, without crossing the same bridge twice.
 \begin{center}
@@ -138,12 +138,12 @@ Graph theory originated in 1736 with the Swiss mathematician Leonhard Euler. Eul
     In directed graphs, we can also distinguish between the out-degree and in-degree of a node, depending on the direction of the edges adjacent to it.
 \end{definition}
 
-In the end, Euler concluded that, for a graph to have an Eulerian path, it must have zero or two nodes with an odd degree, while for an Eulerian circuit, all nodes must have an even degree. With this, he demonstrated that the bridges of Königsberg do not have an Eulerian path, paving the way for the study of the potential of graphs.
+In the end, Euler concluded that, for a graph to have an Eulerian path, it must have zero or two nodes with an odd degree, while for an Eulerian circuit, all nodes must have an even degree. With this, he demonstrated that the bridges of Königsberg do not have an Eulerian path, paving the way for a deeper study of graphs.
 \newpage
-\section{Network and flow}
+\section{Networks and flows}
 Nowadays, connections are expanding at an ever-increasing pace, forming networks that are becoming larger and more complex, whether physical or virtual. For this reason, from this point forward, we will focus on a specific type of graph: the network. We will analyze its properties and challenges in order to address various problems as efficiently as possible.
 \begin{definition}[Network]
-    In graph theory a network is a structure composed of a graph $G = (N,E)$ and a function $u: E \rightarrow \mathbb{N}^+\cup \{+\infty\}$ which denotes the capacity of each edge.
+    In graph theory a network is a structure composed of a graph $G = (N,E)$ and a function $u: E \rightarrow \mathbb{R}^+\cup \{+\infty\}$ which denotes the capacity of each edge.
     \[u(i,j) = \text{capacity of the edge } (i,j)\]
     \begin{center}
         \textit{we will denote the capacity $u(i,j)$ below with the abbreviation $u_{ij}$}
@@ -154,7 +154,7 @@ When we refer to the capacity of an edge, we are talking about the maximum amoun
 
 In real-world applications, \textit{flow} can represent different things, such as the transfer of data in a network, the flow of water through a pipe, or even traffic flow on a road. The concept is versatile and applies to a wide range of scenarios depending on the context.
 
-In each network exists two special nodes, s \textit{the source} and t \textit{the sink}. The network aims to send a certain \textbf{flow} from the source to the sink.
+In each network there exists two special nodes, s \textit{the source} and t \textit{the sink}. The network aims to send a certain \textbf{flow} from the source to the sink.
 The edges in a network are directed, and except for $s$ and $t$, for all $(i,j)$ in a network $G$, $(j,i) \in E(G)$. We assume that the source $s$ has no incoming edges, just as the sink $t$ has no outgoing edges.
 When representing two nodes in a network where the flow can only be routed in one direction, we can set the capacity of the flow in the opposite direction to zero.
 Note that $u(i,j)$ refers specifically to the capacity of the edge from $i$ to $j$, and the capacity from $j$ to $i$ may be different.
@@ -337,7 +337,7 @@ The lemma states that the problem of finding the maximum flow on a network is \t
 \end{tikzpicture} 
 \end{tabular}
 \end{center}
-\begin{lemma}[Anti-symmetriy lemma]
+\begin{lemma}[Anti-symmetry lemma]
 
     Given $E'(j)$ an anti-symmetric subset of $E(j)$ and a flow $f$ on $G$ with $r = r[f]$ then is true that:
     \[\sum_{(i,j)\in E'(j)}r_{ij} - \sum_{(j,i)\in E'(j)}r_{ji} = \sum_{(i,j)\in E'(j)}u_{ij} - \sum_{(j,i)\in E'(j)}u_{ji} \]
@@ -350,7 +350,7 @@ The lemma states that the problem of finding the maximum flow on a network is \t
     so we deduce the conservation flow constraint. 
 
 \end{proof}
-\section{Decomposition e transferring del flow}
+\section{Flow decomposition and transfer}
 
 \begin{definition}[Flow decompositon]
     Given $f$ an $s$-$t$ flow on a Network $\mc{N}$, we define a \textit{flow-decomposition}, as a collection of $s$-$t$ directed path 
@@ -476,7 +476,7 @@ Once we establish what decomposing a flow means, we can talk about capacity tran
 
 At the end of this consideration, we can deduce that transferring capacity from a path to an edge doesn't increase the maximum routable flow in a network
 \newpage
-\section{Distance based}
+\section{Admissible Graphs}
 We usually think about graphs composed of nodes linked by edges and measure the distance between two nodes $i$ and $j$ as the sum of the edges on the shortest path that brings from $i$ to $j$. That is true just because we don't specify the length of an edge then we assume that it is one. Instead, we can specify the length of each edge and still divide the nodes by labels, i.e. by the distance from a specific node. But in doing this we have to pay attention to some rules that allow us to achieve our goal.
 First of all we need to establish what a valid distance labeling is:
 \begin{definition}[Valid distance labeling]
@@ -573,7 +573,7 @@ This means that can not exist a node $i$ that is more distant from $t$ than any 
     \draw[->] (2) to (4);
     \draw[->] (4) to (6);
 \end{tikzpicture} \\
-\text{grafo originale}&\text{arborescenza} & \text{Admissible graph}
+\text{Original graph}&\text{Arborescence} & \text{Admissible graph}
 \end{array} 
 \]
 Given the distance label definition, we can recall the notions about s-t cut to define the \textbf{canonical cut}
@@ -583,7 +583,7 @@ Given the distance label definition, we can recall the notions about s-t cut to 
     \[(S_k, T_k) =  (S_k:=\{v\in V(\mc{N}) | d(v) \ge k\},\ T_k := V(\mc{N})\setminus S_k)\]
 \end{definition}
 
-\section{Find the max flow}
+\section{Finding the max flow}
 To find the maximum flow in a network in polynomial, we can use the \textbf{Edmonds-Karp algorithm}\cite{Edmonds_Karp}.
 
 This algorithm is an improvement of the Ford-Fulkerson\cite{FordFulkerson} method since it's identical to that algorithm this finds the shortest path from the source to the sink $P$ and augments the flow on the edges of the path by the value $x$ s.t.

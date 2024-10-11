@@ -5,7 +5,7 @@ Yefim Dinitz designed this algorithm in 1969 and published\cite{Dinitz2006} in 1
 The algorithm builds upon the Edmonds-Karp algorithm, but instead of increasing the flow on just one shortest path $P_{s\rightarrow t}$, it increases the flow on all $s\rightarrow t$ paths of the same length as the shortest one.
 This significantly reduces the number of BFS executions required.
 To simplify the process, the BFS returns a distance label function $d$, which is used to compute the \nameref{AdmissibleGraph}, in which all paths from $s$ to $t$ have the same length $=d(s)$. It is within this graph that the flow is calculated.
-\section{Blocking flow}
+\section{Blocking flows}
 Since on each path $P_{s\rightarrow t} \in A(f,d)$, a flow of value $\delta$ is routed
 \[\delta = \min_{(i,j)\in A(f,d)} r(i,j)\]
 all $P_{s\rightarrow t} \in A(f,d)$ will have at least one saturated edge at the end of the increment, and thus, by the end of the increment, there will no longer be a path from $s$ to $t$.
@@ -15,10 +15,9 @@ Such a flow is defined as a \textbf{blocking flow}.
 \end{definition}
 
 \begin{obs}[Max flow $\implies$ blocking flow]
-
     \underline{In the admissible graph}, the max flow is a blocking flow, but the reverse implication is not true.
 \end{obs}
-\section{Algorithm}
+\section{The algorithm}
 We can now define an algorithm, but first, some useful notes are necessary for its understanding:
 \begin{itemize}
     \item The algorithm takes as input the network and the function that assigns a capacity to each edge.

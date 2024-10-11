@@ -9,7 +9,7 @@
     In the following algorithm, James B. Orlin proposes a solution that, by leveraging the Goldberg-Rao algorithm, manages to solve the maximum flow problem in \( O(nm) \) when \( m = O(n^{1+\varepsilon}) \). This makes it possible to solve the problem in strictly polynomial time for any values of \( n \) and \( m \), without being limited by edge capacities.
 
 
-\section{Idea}
+\section{Overview}
 
     The idea arises from several observations:\\
     The Goldberg-Rao algorithm operates through \textbf{increment phases} that take a \(\Delta\)-optimal flow and make it \(\Delta/2\)-optimal.  
@@ -35,7 +35,7 @@
         \item Transitioning from the compacted flow to the extended flow.
     \end{enumerate}
 
-\section{Improvement phase}
+\section{The improvement phase}
 If the Goldberg-Rao algorithm, in a sense, 'wraps' Dinic's Algorithm into a higher level of abstraction where the original graph is modified, Orlin does the same with Goldberg-Rao.
 
 A higher level of increment phase is introduced, within which a slightly modified version of the Goldberg-Rao algorithm is executed.
@@ -64,7 +64,7 @@ This phase is called the \(\Delta\text{-improvement phase}\), where \(\Delta = r
 Depending on the conditions, the \(\Delta\)-improvement will be executed either on the original network \(G\) or on the \(\Gamma\)-compact network \(G^c\), which we will introduce later.
 \newpage
 
-\section{$\Delta$-abundant e abundance graph}
+\section{$\Delta$-abundant the abundance graph}
 In questa sezione viene presentato il concetto di \textbf{Abbondanza}.
 
 \begin{definition}[$\Delta$-abundant arc]
@@ -103,7 +103,7 @@ The abundant graph has two purposes:
     In this way, it is always possible to reconstruct an abundant path \( P \) in \( O(|P|) \) (we will see later that contracting the graph does not prevent this nor does it alter its cost).
 
 \newpage
-\section{Contractions of abundant graph}
+\section{Contractions in the abundance graph}
 Let's now see how to exploit the abundant graph to contract the graph on which we calculate the max-flow and make the algorithm more efficient.
 
 We analyze three different examples of contractions:
@@ -293,7 +293,7 @@ And so all the abundant cycles
 \end{obs}
     However, this violation is minor, at most \(2\Delta\) units; thus, as shown by Goldberg and Rao, the contraction, expansion, and adjustment for flow conservation can be performed in \(O(m)\) time.
 
-\section{How to compact network}
+\section{How to compactify network}
 
 In addition to the contraction of the graph, another transformation is necessary: the \textit{compaction}. To obtain a compact graph, we first demonstrate how to achieve an intermediate version, namely the \textbf{strongly compact network}.
 
