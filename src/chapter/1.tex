@@ -140,10 +140,10 @@ Graph theory originated in 1736 with the Swiss mathematician Leonhard Euler. Eul
 
 In the end, Euler concluded that, for a graph to have an Eulerian path, it must have zero or two nodes with an odd degree, while for an Eulerian circuit, all nodes must have an even degree. With this, he demonstrated that the bridges of Königsberg do not have an Eulerian path, paving the way for a deeper study of graphs.
 \newpage
-\section{Networks and flows}
+\section{Networks and flows}  
 Nowadays, connections are expanding at an ever-increasing pace, forming networks that are becoming larger and more complex, whether physical or virtual. For this reason, from this point forward, we will focus on a specific type of graph: the network. We will analyze its properties and challenges in order to address various problems as efficiently as possible.
 \begin{definition}[Network]
-    In graph theory a network is a structure composed of a graph $G = (N,E)$ and a function $u: E \rightarrow \mathbb{R}^+\cup \{+\infty\}$ which denotes the capacity of each edge.
+    In graph theory a network is a structure composed of a graph $G = (N,E)$ and a function $u: E \rightarrow \mathbb{N}^+\cup \{+\infty\}$ which denotes the capacity of each edge.
     \[u(i,j) = \text{capacity of the edge } (i,j)\]
     \begin{center}
         \textit{we will denote the capacity $u(i,j)$ below with the abbreviation $u_{ij}$}
@@ -151,6 +151,14 @@ Nowadays, connections are expanding at an ever-increasing pace, forming networks
 \end{definition}
 
 When we refer to the capacity of an edge, we are talking about the maximum amount of flow that can pass through it.
+
+\begin{obs}[Integer capacities]
+    The condition that the capacities are integers doesn't restrict the problem since we can always scale.
+
+    If the capacities $U:= \{u_1, u_2, ..., u_k\} + U \subseteq \mathbb{Q}$ then we can multiply all the capacities by $ \gcd (u_1, u_2, ..., u_k)$ so all the values are now integers.
+
+    For real numbers, we can use a rational approximation so the solution is the same.
+\end{obs}
 
 In real-world applications, \textit{flow} can represent different things, such as the transfer of data in a network, the flow of water through a pipe, or even traffic flow on a road. The concept is versatile and applies to a wide range of scenarios depending on the context.
 
@@ -209,7 +217,7 @@ Note that $u(i,j)$ refers specifically to the capacity of the edge from $i$ to $
 
 
 \begin{definition}[$U_{min},\ U_{max}$]
-    In each Network we define:
+    In each network we define:
     \begin{itemize}
         \item $U_{min}$: the smallest non zero capacity associated to an edge:
         \[U_{min} = u_{ij} | (i,j) \in E\ \land\ u_{ij} > 0\ \land\ \nexists (k,l) \in E : 0<u_{kl}<u_{ij}\]
@@ -218,19 +226,19 @@ Note that $u(i,j)$ refers specifically to the capacity of the edge from $i$ to $
         \[\nexists (k,l) \in E : u_{ij}< u_{jl} < +\infty \]
     \end{itemize}
 \end{definition}
-Moreover, we divide the edge into two categories:\\
+Moreover, we divide the edges into two categories:\\
 \textbf{External Arcs} := $\{(x,y) | (x,y)\in E \land (x = s \lor y = t)\}$\\
 \textbf{Internal Arcs} := $\{(x,y) | (x,y)\in E \land x \not = s \land y \not = t\}$ i.e. $E \setminus External\ edges$\\
 \\
-For our simplicity, we assume that for each internal edge $(i,j)\in E$ exists the edge $(j,i) \in E$.\\ The same thing is true for any internal node for which there always exists an edge that link it with $s$ and $t$, even if it has zero capacity.
+For simplicity, we assume that for each internal edge $(i,j)\in E$ there exists the edge $(j,i) \in E$.\\ The same is true for any internal node for which there always exists an edge that links it with $s$ and $t$, even if it has zero capacity.
 \[\forall i \in N \implies \{(s,i),(i,t)\} \subseteq E\]
 
-We can now give a formal definition of flow and the properties that it has to respect.
+We can now give a formal definition of flow and the properties which it must respect.
 \begin{definition}[Flow]
-    We define the flow as the function $f: E \rightarrow\mathbb{R}_+ \cup \{0\}$ which associates to each edge the amount of flow that is routed through.
-    A flow function must satisfy the \textbf{flow conservation role}:
+    We define the flow as the function $f: E \rightarrow\mathbb{R}_+ \cup \{0\}$ which associates to each edge the amount of flow that is routed through ti.
+    A flow function must satisfy the \textbf{flow conservation rule}:
     \[\sum_{j:(i,j) \in E} f_{ij} - \sum_{j:(j,i) \in E}f_{ji} = 0 \quad \forall i \in N\setminus\{s,t\}\]
-    that ensures us that there is no loss of flow as there are no unexpected entries.
+    that ensures that there is no loss of flow as there are no unexpected entries.
 \end{definition}
 
 We call a flow \textit{feasible} if it respects the \textbf{capacity constraint}: \[\forall (i,j) \in E,\ f_{ij} \le u_{ij}\]
@@ -242,7 +250,7 @@ The \textbf{value of a flow} is given by the sum of all the outgoing edges of $s
 
 \[val(f) = \sum_{\forall (s,x) \in E(G)} f_{sx} = \sum_{\forall (y,t) \in E(G)} f_{yt}\]
 \begin{definition}[Residual capacity]
-    The residual capacity of an edge $(i,j)$ means the amount of flow we can route in this edge before we saturate it.
+    The residual capacity of an edge $(i,j)$ means the amount of flow which can be routed through this edge before we saturate it.
     \[r_{ij} = u_{ij} + f_{ji} - f_{ij}\]    
     When we talk about residual capacity according to different flows we could also use the notation:    \[u_f(i,j)\]
     that means the residual capacity of the edge $(i,j)$ which has routed the flow $f$.
@@ -339,7 +347,7 @@ The lemma states that the problem of finding the maximum flow on a network is \t
 \end{center}
 \begin{lemma}[Anti-symmetry lemma]
 
-    Given $E'(j)$ an anti-symmetric subset of $E(j)$ and a flow $f$ on $G$ with $r = r[f]$ then is true that:
+    Given $E'(j)$ an anti-symmetric subset of $E(j)$ and a flow $f$ on $G$ with $r = r[f]$ then it holds that:
     \[\sum_{(i,j)\in E'(j)}r_{ij} - \sum_{(j,i)\in E'(j)}r_{ji} = \sum_{(i,j)\in E'(j)}u_{ij} - \sum_{(j,i)\in E'(j)}u_{ji} \]
 \end{lemma}
 \begin{proof}
@@ -353,10 +361,10 @@ The lemma states that the problem of finding the maximum flow on a network is \t
 \section{Flow decomposition and transfer}
 
 \begin{definition}[Flow decompositon]
-    Given $f$ an $s$-$t$ flow on a Network $\mc{N}$, we define a \textit{flow-decomposition}, as a collection of $s$-$t$ directed path 
+    Given $f$ an $s$-$t$ flow on a network $\mc{N}$, we define a \textit{flow-decomposition} as a collection of $s$-$t$ directed path 
 
     \[P_1, ..., P_k\quad where\ k < m\]
-    To each path $P_i $ corresponds a value $\phi_i \in \mb{N^+} | \phi_i > 0$ that is the value of the path flow.
+    To each path $P_i $ there is a corresponding  value $\phi_i \in \mb{N^+} | \phi_i > 0$ which is the value of the path flow.
 
     In a flow decomposition the following rules must be respected: 
     \begin{enumerate}
@@ -367,7 +375,7 @@ The lemma states that the problem of finding the maximum flow on a network is \t
 
 
 \end{definition}
-An intuitive observation is that the maximum number of decompositions of any flow is $m$.\\
+Note that the maximum number of path in our decomposition for any flow is $m$ sonce the capacities are integer.\\
 \begin{center}
     \begin{tikzpicture}[node distance={20mm}, thick , main/.style = {draw, circle}] 
     \node[main] (1) {$s$}; 
@@ -402,18 +410,18 @@ An intuitive observation is that the maximum number of decompositions of any flo
 Example of a decomposed flow 
 \end{center}
 
-Once we establish what decomposing a flow means, we can talk about capacity transfer
+Now that we have established what it means to decompose a flow, we can talk about capacity transfer
 \begin{definition}[Tranfer]
     Given an edge $(i,j) \in E$ and a $path\ P\ i\rightarrow j$ with $|P|\ge 2$, \textbf{to transfer} $\delta$ unity of capacity from $P$ to $(i,j)$ means subtracting $\delta$ unity of residual capacity from each edge in $P$ and incrementing the $(i,j)$ residual capacity of the same $\delta$ unity
 \end{definition}
 \begin{lemma}[Capacity tranfer lemma]
     Let $P$ be $path$ in $G$ from node $i$ to node $j$ and let $(S,T)$ be an $s$-$t$ cut. 
-    If we transfer delta capacity from the path $P$ to de edge $(i, j)$ and $r$ and $r'$ are respectively the residual capacity of the network before and after the transfer then is true that:
+    If we transfer $\delta$ capacity from the path $P$ to the edge $(i, j)$ and $r$ and $r'$ are respectively the residual capacity of the network before and after the transfer then is true that:
     \[r'(S,T) \le r(S,T)\] 
 \end{lemma}
 \begin{proof}
     The proof is trivial if $i,j \in S \lor i,j \in T$ since $u'(P) \le u(P) \implies u'(S,T)\le u(S,T)$.\\
-    Otherwise if $i\in S \land j \in T$, if we consider $(l,k)\in P$ such that $l \in S\land k\in T$ we estimate
+    Otherwise if $i\in S \land j \in T$, if we consider $(l,k)\in P$ such that $l \in S\land k\in T$ it holds that:
     \[u'(S,T)-u(S,T)\le (u'_{kl}+u'_{ij})- (u_{kl}+u_{ij}) = -\delta + \delta = 0\]
 \end{proof}
 
@@ -470,19 +478,19 @@ Once we establish what decomposing a flow means, we can talk about capacity tran
     \node at (1.7,2.2) {s-t\ cut};
 
 \end{tikzpicture}\\
-    \multicolumn{2}{c}{in {\color{red}{red}} the path P, in {\color{green!80!black}{green}} the edge (i,j)}
+    \multicolumn{2}{c}{The path P in {\color{red}{red}}, the edge (i,j) in {\color{green!80!black}{green}} }
 
 \end{tabular}\]
 
-At the end of this consideration, we can deduce that transferring capacity from a path to an edge doesn't increase the maximum routable flow in a network
+We conclude that transferring capacity from a path to an edge doesn't increase the maximum routable flow in a network
 \newpage
 \section{Admissible Graphs}
-We usually think about graphs composed of nodes linked by edges and measure the distance between two nodes $i$ and $j$ as the sum of the edges on the shortest path that brings from $i$ to $j$. That is true just because we don't specify the length of an edge then we assume that it is one. Instead, we can specify the length of each edge and still divide the nodes by labels, i.e. by the distance from a specific node. But in doing this we have to pay attention to some rules that allow us to achieve our goal.
-First of all we need to establish what a valid distance labeling is:
+We usually think about graphs composed of nodes linked by edges and measure the distance between two nodes $i$ and $j$ as the minimum number of edges on any path from $i$ to $j$. This is true just because we don't specify the length of an edge and assume that it is one. Instead, we can specify the length of each edge and still define the distance from a specified node. To do this, we have to define some additional properties which will allow us to achieve our goal.
+First of all we establish what a valid distance labeling is:
 \begin{definition}[Valid distance labeling]
     \label{VDL}
-    Let $N$ be a Network, $f$ a feasible flow on $N$ and $l$ a function that takes as input an edge in $G$ and returns its \textit{length}.\\
-    The \textbf{distance function} $d: N(G) \rightarrow \mathbb{N}$ is said \textbf{valid} with respect to the residual graph $G[r]$ if it satisfies the following properties 
+    Let $N$ be a network, $f$ a feasible flow on $N$ and $l$ a function that takes as input an edge in $G$ and returns its \textit{length}.\\
+    The \textbf{distance function} $d: N(G) \rightarrow \mathbb{N}$ is \textbf{valid} with respect to the residual graph $G[r]$ if it satisfies the following properties 
     \begin{enumerate}
         \item $d(t) = 0$
         \item $d(i) \le d(j) + l((i,j))$
@@ -490,33 +498,33 @@ First of all we need to establish what a valid distance labeling is:
 \end{definition}
 
 \begin{obs}[Valid distance label property]
-    A valid distance label, $d$, preserves the following properties:
+    A valid distance label $d$ preserves the following properties:
     \begin{enumerate}
-        \item $d(i)$ represents the \textit{lower bound} of the length of the shortest path from $i \rightarrow t$
+        \item $d(i)$ is a \textit{lower bound} of the length of the shortest path from $i \rightarrow t$
         in the residual graph
-        \item $d(s) \ge n \implies \nexists\ p\ path \in G[r]\ |\ p = s \rightarrow t $ 
+        \item $d(s) \ge n \implies \nexists$ a path $P$ in $G[r]$ from $s$ to $t$ 
     \end{enumerate}
     
 \end{obs}
-Another point of view of the second property that a valid distance label has to respect ($d(i) \le d(j) + l((i,j))$) is that:
+Another way to phrase the second property that a valid distance label mast respect ($d(i) \le d(j) + l((i,j))$) is that:
 \[\neg (d(v) > d(w) + l(v,w))\]
-This means that can not exist a node $i$ that is more distant from $t$ than any node $j$ adjacent to $i$, plus the length of the edge $(i,j)$.
+This means that there cannot exist a node $i$ which is more distant from $t$ than any node $j$ adjacent to $i$, plus the length of the edge $(i,j)$.
 
 \begin{definition}[Admissible graph]
     \label{AdmissibleGraph}
-    Let $G$ be a Network with a feasible flow $f$, a valid distance label $d: N(G_f) \rightarrow \mathbb{N}$ 
+    Let $G$ be a network with a feasible flow $f$, a valid distance label $d: N(G_f) \rightarrow \mathbb{N}$ 
     and a length function $l$.
-    A \textit{residual arc} is called \textbf{Admissible arc} if it satisfies:
+    A \textit{residual arc} is a \textbf{admissible arc} if it satisfies:
     \[d(v) = d(w) + l(v,w) \quad \forall (v,w) \in E(G(f))\]
     i.e.
     \[d(v) > d(w) \lor (d(v) = d(w) \land l(v,w) = 0)\]
-    The \textbf{Admissible graph} is the graph formed by all admissible arcs.
+    The \textbf{admissible graph} is the graph formed by all admissible arcs.
     We will represent the admissible graph with the notation $A(f,l,d)$ or just $A(f,d)$ if the length function is trivial.
 \end{definition}
 
 
 \begin{obs}{}{}
-    Let $G_f$ be a residual graph, let $B_s$ be an arborescence given by a BFS on the graph $G_f$ from node $s$ and let $A$ l'\textit{admissible graph} of $G_f$ then
+    Let $G_f$ be a residual graph, let $B_s$ be an arborescence given by a BFS on the graph $G_f$ from node $s$ and let $A$ be the \textit{admissible graph} of $G_f$ then
     \[E(B_s)\subsetneq E(A)\]
 \end{obs}
 
@@ -586,10 +594,10 @@ Given the distance label definition, we can recall the notions about s-t cut to 
 \section{Finding the max flow}
 To find the maximum flow in a network in polynomial, we can use the \textbf{Edmonds-Karp algorithm}\cite{Edmonds_Karp}.
 
-This algorithm is an improvement of the Ford-Fulkerson\cite{FordFulkerson} method since it's identical to that algorithm this finds the shortest path from the source to the sink $P$ and augments the flow on the edges of the path by the value $x$ s.t.
+This algorithm is an improvement of the Ford-Fulkerson\cite{FordFulkerson} method since it's identical to that algorithm except that the Edmonds-Karp algorithm finds a shortest path from the source to the sink $P$ and augments the flow on the edges of the path by the value $x$ s.t.
 \[x = \min_{\forall (i,j)\in P} r_{ij}\]
 In this way at each increment at least one edge is deleted from the residual graph and in at most $O(nm)$ increments the algorithm terminates.
-Since we need $O(n+m)$ time to use the BFS to find the shortest s-t path and other $O(n)$ time tu augments flow in this path, Edmonds-Karp algorithm take $O(nm^2)$ time to find a maximum flow in any network.
+Since we need $O(n+m)$ time to use the BFS to find the shortest s-t path and another $O(n)$ time to augment the flow in this path, Edmonds-Karp algorithm take $O(nm^2)$ time to find a maximum flow in any network.
 
 Up to here, all notations that we need to recognize a network and its properties were given. The Edmonds-Karp algorithm represents the first step in a series of improvements that will lead us to find the max flow in $O(nm)$. From here on, each algorithm will bring a modification of the previous one while preserving the original intuition. The last algorithm shows how to reach the desired cost even for sparse graphs.
 

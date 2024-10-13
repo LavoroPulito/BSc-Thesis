@@ -4,7 +4,7 @@
 Yefim Dinitz designed this algorithm in 1969 and published\cite{Dinitz2006} in 1970. 
 The algorithm builds upon the Edmonds-Karp algorithm, but instead of increasing the flow on just one shortest path $P_{s\rightarrow t}$, it increases the flow on all $s\rightarrow t$ paths of the same length as the shortest one.
 This significantly reduces the number of BFS executions required.
-To simplify the process, the BFS returns a distance label function $d$, which is used to compute the \nameref{AdmissibleGraph}, in which all paths from $s$ to $t$ have the same length $=d(s)$. It is within this graph that the flow is calculated.
+To simplify the process, the BFS returns a distance label function $d$, which is used to compute the \hyperref[AdmissibleGraph]{admissible graph}, in which all paths from $s$ to $t$ have the same length $=d(s)$. It is within this graph that the flow is calculated.
 \section{Blocking flows}
 Since on each path $P_{s\rightarrow t} \in A(f,d)$, a flow of value $\delta$ is routed
 \[\delta = \min_{(i,j)\in A(f,d)} r(i,j)\]
@@ -18,11 +18,11 @@ Such a flow is defined as a \textbf{blocking flow}.
     \underline{In the admissible graph}, the max flow is a blocking flow, but the reverse implication is not true.
 \end{obs}
 \section{The algorithm}
-We can now define an algorithm, but first, some useful notes are necessary for its understanding:
+We can now define an algorithm, but first, some useful observation are helpful in understanding the algorithm:
 \begin{itemize}
     \item The algorithm takes as input the network and the function that assigns a capacity to each edge.
     \item A function is created that associates a flow with each edge.
-    \item For brevity and readability, the residual graph is denoted as \( G_f \), which represents the residual graph where the flow \( f \) is routed, updated to the moment it is referenced.
+    \item For brevity and readability, the residual graph is denoted as \( G_f \), which represents the residual graph where the flow \( f \) is routed, for the current flow $f$.
     \item The BFS takes the residual graph as input and thus does not consider saturated edges.
 \end{itemize}
 
@@ -31,7 +31,7 @@ We can now define an algorithm, but first, some useful notes are necessary for i
     \caption{\textit{Dinics-Algorithm(G, c)}}
     \label{dinicsAlgo}
     \begin{algorithmic}[1]
-        \State $f_{ij} = 0 \forall (i,j)\in E(G)$ 
+        \State $f_{ij} = 0\quad \forall (i,j)\in E(G)$ 
         \State $d =  BFS(G_f)$
         \State $A = A(d, f)$
         \While{$d(s) \not = \infty$}
@@ -121,7 +121,7 @@ We can now define an algorithm, but first, some useful notes are necessary for i
 \end{center}
 Here we have an example of an admissible graph extracted from a network.
 The nodes are divided by distance labels from $t$.
-Note that all edges have a reverse; a dashed edge means that it is not admissible. It is also important to remember that an edge can have zero capacity even if it is present in the representation (obviously, since it is not admissible, it is represented as dashed).
+Note that all edges have a reverse; a dashed edge means that it is not admissible. It is also important to remember that an edge can have zero capacity even if it is present in the representation (obviously, since it is not admissible, it is represented as a dashed edge).
 
 \section{Time complexity}
 

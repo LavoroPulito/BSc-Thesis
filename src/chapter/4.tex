@@ -25,7 +25,7 @@
     \]
     since we are looking for an algorithm when \(m = O(n^{1+\varepsilon})\). If \(1+\varepsilon < 16/15\) and \(\log U < m^{7/16}\), we can achieve an optimal solution with a polynomial cost of \(O(nm)\) by using only the Goldberg-Rao algorithm.
 
-    However, this is only true if the number of edges is sufficiently larger compared to the edge with the maximum capacity.  
+    However, this is only true if the number of edges is sufficiently large compared to the edge with the maximum capacity.  
     
     Hence, the idea of contracting and compacting the network arises to ensure the calculation of the maximum flow under optimal conditions.
 
@@ -87,7 +87,7 @@ In questa sezione viene presentato il concetto di \textbf{Abbondanza}.
 \end{definition}
 
 \begin{obs}
-    By lemma \ref{ab4ever}, as iterations proceed, the abundant graph can only acquire new edges, never lose them.
+    By lemma \ref{ab4ever}, as iterations proceed, the abundant graph can only acquire new edges, and never lose them.
 \end{obs}
 
 The abundant graph has two purposes: 
@@ -103,6 +103,7 @@ The abundant graph has two purposes:
     In this way, it is always possible to reconstruct an abundant path \( P \) in \( O(|P|) \) (we will see later that contracting the graph does not prevent this nor does it alter its cost).
 
 \newpage
+
 \section{Contractions in the abundance graph}
 Let's now see how to exploit the abundant graph to contract the graph on which we calculate the max-flow and make the algorithm more efficient.
 
@@ -293,113 +294,111 @@ And so all the abundant cycles
 \end{obs}
     However, this violation is minor, at most \(2\Delta\) units; thus, as shown by Goldberg and Rao, the contraction, expansion, and adjustment for flow conservation can be performed in \(O(m)\) time.
 
-\section{How to compactify network}
+\section{How to compactify a network}
 
-In addition to the contraction of the graph, another transformation is necessary: the \textit{compaction}. To obtain a compact graph, we first demonstrate how to achieve an intermediate version, namely the \textbf{strongly compact network}.
+    In addition to the contraction of the graph, another transformation is necessary: the \textit{compaction}. To obtain a compact graph, we first demonstrate how to achieve an intermediate version, namely the \textbf{strongly compact network}.
 
-It is important to understand the difference between contracting and compacting:
+    It is important to understand the difference between contracting and compacting:
 
-In contraction, a single node is created that represents the abundant cycle, and the original edges not belonging to the cycle are preserved. However, when compacting a graph, a node that has all adjacent edges abundant is \underline{eliminated}, and the outgoing edges are consequently replaced by pseudo-edges.
-\[\begin{tabular}{ccc}
-    \begin{tikzpicture}[node distance={18mm}, thick , main/.style = {draw, circle}] 
-    % Disegna i nodi del grafo
-    
-    \node[main] (0) {$s$};
-    \node[main] (1) at (1, 1.6) {1};
-    \node[main] (2) at (1, -1.6) {2};
-    \node[main] (3) at (3.5, 1.6) {3};
-    \node[main] (4) at (3.5, -1.6) {4};
-    \node[main] (6) at (2.25,0) {5};
-    \node[main] (5) at (4.5, 0) {$t$};
+    In contraction, a single node is created that represents the abundant cycle, and the original edges not belonging to the cycle are preserved. However, when compacting a graph, a node that has all adjacent edges abundant is \underline{eliminated}, and the outgoing edges are consequently replaced by pseudo-edges.
+    \[\begin{tabular}{ccc}
+        \begin{tikzpicture}[node distance={18mm}, thick , main/.style = {draw, circle}] 
+        % Disegna i nodi del grafo
+        
+        \node[main] (0) {$s$};
+        \node[main] (1) at (1, 1.6) {1};
+        \node[main] (2) at (1, -1.6) {2};
+        \node[main] (3) at (3.5, 1.6) {3};
+        \node[main] (4) at (3.5, -1.6) {4};
+        \node[main] (6) at (2.25,0) {5};
+        \node[main] (5) at (4.5, 0) {$t$};
 
-    \draw[->] (0)[bend left] to (1);
-    \draw[->] (0)[bend right] to (2);
-    \draw[->] (1)[bend left] to (3);
-    \draw[->] (2)[bend right] to (4);
-    \draw[->] (4)[bend right] to (5);
-    \draw[->] (3)[bend left] to (5);
+        \draw[->] (0)[bend left] to (1);
+        \draw[->] (0)[bend right] to (2);
+        \draw[->] (1)[bend left] to (3);
+        \draw[->] (2)[bend right] to (4);
+        \draw[->] (4)[bend right] to (5);
+        \draw[->] (3)[bend left] to (5);
 
-    \draw[->] (1)[red, bend right] to (6);
-    \draw[->] (6)[red, bend right] to (4);
-    \draw[->] (6)[red, bend left] to (3);
-    \draw[->] (2)[red, bend left] to (6);
-    \draw[->] (6) [red] to (5);
+        \draw[->] (1)[red, bend right] to (6);
+        \draw[->] (6)[red, bend right] to (4);
+        \draw[->] (6)[red, bend left] to (3);
+        \draw[->] (2)[red, bend left] to (6);
+        \draw[->] (6) [red] to (5);
 
-    \node at (3.3,0.2) {$2\Delta$};
-    \node at (2.3,1.2) {$2\Delta$};
-    \node at (2.3,-1.2) {$2\Delta$};
+        \node at (3.3,0.2) {$2\Delta$};
+        \node at (2.3,1.2) {$2\Delta$};
+        \node at (2.3,-1.2) {$2\Delta$};
 
-    \node at (1,.7) {$2\Delta$};
-    \node at (1,-.7) {$2\Delta$};
-    
+        \node at (1,.7) {$2\Delta$};
+        \node at (1,-.7) {$2\Delta$};
+        
 
-\end{tikzpicture}&\begin{tikzpicture}
-    \node {$\implies$};% Freccia verso destra
-    \node at (0,1.4) {};
-    \node at (0,-1.95) {};
-\end{tikzpicture}  &
-\begin{tikzpicture}[node distance={19mm}, thick , main/.style = {draw, circle}] 
-    % Disegna i nodi del grafo
-    \node[main] (0) {$s$};
-    \node[main] (1) at (1, 1.6) {1};
-    \node[main] (2) at (1, -1.6) {2};
-    \node[main] (3) at (3.5, 1.6) {3};
-    \node[main] (4) at (3.5, -1.6) {4};
-    \node[main] (5) at (4.5, 0) {$t$};
+    \end{tikzpicture}&\begin{tikzpicture}
+        \node {$\implies$};% Freccia verso destra
+        \node at (0,1.4) {};
+        \node at (0,-1.95) {};
+    \end{tikzpicture}  &
+    \begin{tikzpicture}[node distance={19mm}, thick , main/.style = {draw, circle}] 
+        % Disegna i nodi del grafo
+        \node[main] (0) {$s$};
+        \node[main] (1) at (1, 1.6) {1};
+        \node[main] (2) at (1, -1.6) {2};
+        \node[main] (3) at (3.5, 1.6) {3};
+        \node[main] (4) at (3.5, -1.6) {4};
+        \node[main] (5) at (4.5, 0) {$t$};
 
-    \draw[->] (0)[bend left] to (1);
-    \draw[->] (0)[bend right] to (2);
-    \draw[->] (1)[bend left] to (3);
-    \draw[->] (2)[bend right] to (4);
-    \draw[->] (4)[bend right] to (5);
-    \draw[->] (3)[bend left] to (5);
+        \draw[->] (0)[bend left] to (1);
+        \draw[->] (0)[bend right] to (2);
+        \draw[->] (1)[bend left] to (3);
+        \draw[->] (2)[bend right] to (4);
+        \draw[->] (4)[bend right] to (5);
+        \draw[->] (3)[bend left] to (5);
 
-    \draw[->] (1)[red, bend right] to (3);
-    \draw[->] (2)[red, bend left] to (4);
-    \draw[->] (2)[red, bend left = 23] to (5);
-    \draw[->] (1)[red, bend right = 23] to (5);
-
-
-\end{tikzpicture}
-\end{tabular}\]
-
-The following algorithm has a time complexity of \(O(m + |E^{sc}|)\) since pseudo-edges can be constructed in \(O(1)\) time, given that the transitive closure is dynamically preserved.
-
-\begin{definition}[Strongly compact network]
-
-    We define the \textbf{Strongly compact} as \(G^{sc} =(N^{sc}, E^{sc})\) originated from the network \(G\):
-    \begin{enumerate}
-        \item Contract the graph of all abundant cycles and the external abundant edges.\\
-        Let \((r,S,T)\) be the input after contraction.
-        \item Let \(N^{sc}\subseteq N(G)\) be the set of nodes that are adjacent to at least one non-abundant edge.\\
-        We will refer to \(N(G)\setminus N^{sc}\) as the set of \textit{strongly compactible} nodes.
-        \item We define the edges as \(E^{sc} = E^1 \cup E^2\) where:\\
-        \(E^1 = \{(i,j): i\in N^{sc}\land j\in N^{sc}\land (i,j)\in E(G)\}\)\\
-        \(E^2 = \{(i,j): i\in N^{sc}\land j\in N^{sc}\land i\implies j\}\)\\
-        Thus, we have original edges in \(E^1\) and pseudo-edges that derive from the abundant paths.
-    \end{enumerate}
-\end{definition}
-
-When we contract the graph, we are sure that if the flow routed in the contracted graph is less than a certain parameter \(\Delta\) with which we contracted the graph, then that flow is also adaptable on the original one. The following theorem shows us that the same is true for strongly compact graphs.
-\newpage
-
-\begin{theorem}[$f_{max} = f_{max}^{sc}$]
-
-    \label{fmaxfsc}
-    Let \(f_{max}\) be the maximum flow in the network \(G\) and let \(f_{max}^{sc}\) be the maximum flow in \(G^{sc}\). Then 
-    \[f_{max} = f_{max}^{sc}\]
-\end{theorem}
-
-\begin{proof}
-    We have already shown that any flow in \(G^{sc}\) can be rerouted in \(G\).
-    If we take a flow in \(G\), it can be routed in \(G^{sc}\) using the \textbf{flow decomposition} to obtain from \(f\) a set of paths that differ by at least one edge,
-    \[f := \{P^0, P^1, ..., P^k\}\]
-    We can further subdivide each \(P^a\in f\) into subpaths \[P^{a}_{i\rightarrow j}| i\in N^{sc}\land j\in N^{sc}\land \forall q \in P^a_{i\rightarrow j}, q\not = i \land q\not = j \implies q\in N\setminus N^{sc}\] 
-    At this point, we replace each \(P^{a}_{i\rightarrow j}\) in \(G\) that is not entirely contained in \(G^{sc}\) with the corresponding pseudo-edge \((i,j)\).
-
-\end{proof}
+        \draw[->] (1)[red, bend right] to (3);
+        \draw[->] (2)[red, bend left] to (4);
+        \draw[->] (2)[red, bend left = 23] to (5);
+        \draw[->] (1)[red, bend right = 23] to (5);
 
 
+    \end{tikzpicture}
+    \end{tabular}\]
+
+    The following algorithm has a time complexity of \(O(m + |E^{sc}|)\) since pseudo-edges can be constructed in \(O(1)\) time, given that the transitive closure is dynamically preserved.
+
+    \begin{definition}[Strongly compact network]
+
+        We define the \textbf{Strongly compact} as \(G^{sc} =(N^{sc}, E^{sc})\) originated from the network \(G\):
+        \begin{enumerate}
+            \item Contract the graph of all abundant cycles and the external abundant edges.\\
+            Let \((r,S,T)\) be the input after contraction.
+            \item Let \(N^{sc}\subseteq N(G)\) be the set of nodes that are adjacent to at least one non-abundant edge.\\
+            We will refer to \(N(G)\setminus N^{sc}\) as the set of \textit{strongly compactible} nodes.
+            \item We define the edges as \(E^{sc} = E^1 \cup E^2\) where:\\
+            \(E^1 = \{(i,j): i\in N^{sc}\land j\in N^{sc}\land (i,j)\in E(G)\}\)\\
+            \(E^2 = \{(i,j): i\in N^{sc}\land j\in N^{sc}\land i\implies j\}\)\\
+            Thus, we have original edges in \(E^1\) and pseudo-edges that derive from the abundant paths.
+        \end{enumerate}
+    \end{definition}
+
+    When we contract the graph, we are sure that if the flow routed in the contracted graph is less than a certain parameter \(\Delta\) with which we contracted the graph, then that flow is also adaptable to the original one. The following theorem shows us that the same is true for strongly compact graphs.
+    \newpage
+
+    \begin{theorem}[$f_{max} = f_{max}^{sc}$]
+
+        \label{fmaxfsc}
+        Let \(f_{max}\) be the maximum flow in the network \(G\) and let \(f_{max}^{sc}\) be the maximum flow in \(G^{sc}\). Then 
+        \[f_{max} = f_{max}^{sc}\]
+    \end{theorem}
+
+    \begin{proof}
+        We have already shown that any flow in \(G^{sc}\) can be rerouted in \(G\).
+        If we take a flow in \(G\), it can be routed in \(G^{sc}\) using the \textbf{flow decomposition} to obtain from \(f\) a set of paths that differ by at least one edge,
+        \[f := \{P^0, P^1, ..., P^k\}\]
+        We can further subdivide each \(P^a\in f\) into subpaths \[P^{a}_{i\rightarrow j}| i\in N^{sc}\land j\in N^{sc}\land \forall q \in P^a_{i\rightarrow j}, q\not = i \land q\not = j \implies q\in N\setminus N^{sc}\] 
+        At this point, we replace each \(P^{a}_{i\rightarrow j}\) in \(G\) that is not entirely contained in \(G^{sc}\) with the corresponding pseudo-edge \((i,j)\).
+
+    \end{proof}
 
 \section{From sc-compact to $\Gamma$-compact}
 An sc-compact graph is not sufficiently compacted for our purpose, so it will be further compacted. To avoid confusion, we will use another parameter for this additional compaction.
@@ -509,7 +508,7 @@ Based on these parameters, in each improvement phase, nodes that can be compacte
                     \draw[dashed] (1.8,-1.7) -- (1.8,1.7);
                     \node at (2.4, -.4) {\text{\color{darktangerine}{$2\Delta$}}};
                 \end{tikzpicture}\]
-                So the $(S,T)$ would have certainly a residual capaciti $\ge \Delta$.
+                So the $(S,T)$ would have certainly a residual capacity $\ge \Delta$.
                 Once this has been established, it becomes clear that the transfer of residual capacity does not affect the residual capacity of the cut.
         \end{enumerate}
     \end{proof}
