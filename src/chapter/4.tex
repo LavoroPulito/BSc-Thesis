@@ -690,7 +690,7 @@ In this section, we will demonstrate how it is possible to compute the max flow 
     \State $y' = induced(y, G[r])$
     \State $update(r)$
 \ElsIf{$c<m^{1/3}$}
-    $\Gamma = choseGamma(c, \Delta)$
+    \State $\Gamma = choseGamma(c, \Delta)$
     \State $G^c:= \Gamma$-compact network
     \State $y=$ optimal flow in $G^c$
     \State $y' = induced(y, G[r])$
