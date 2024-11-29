@@ -558,8 +558,7 @@ Based on these parameters, in each improvement phase, nodes that can be compacte
             \State pick $l\ |\ l\in N^c \lor \nexists (l,k)\in H$
             \State P = $DFS(i, l)$ \Comment{use DFS to find a path from $i$ to $l$}
             \State \(\delta = \min_{(a,b)\in P}q_{ab}\)
-            \If{$i,l \in N^c$} 
-                \State $A^3 = A^3 \cup {(i,l)}$
+            \If{$i,l \in N^c$}                 \State $A^3 = A^3 \cup {(i,l)}$
                 \State $r^c_{il} $\verb|+=|$ \delta$
             \EndIf
             \For{$(a,b) \in P$}
